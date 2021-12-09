@@ -8,14 +8,20 @@
 ### Documentation
 - [Documentation of the ApplicationPattern](https://github.com/openBackhaul/ApplicationPattern/tree/tsi)
 
-### Open API specification (Swagger)
-- [AdministratorAdministration_0.0.1_tsi.210902.1800a](./AdministratorAdministration_0.0.1_tsi.210902.1800a.yaml)
+### Services
+- [AdministratorAdministration_0.0.2_tsi.211209.1200+services.1](./AdministratorAdministration_0.0.2_tsi.211209.1200+services.1.xlsx)
 
-### Test Cases (Postman Export) and Data File
--
+### Forwardings
+- [AdministratorAdministration_0.0.2_tsi.211209.1200+forwardings.1](./AdministratorAdministration_0.0.2_tsi.211209.1200+forwardings.1.xlsx)
+
+### Open API specification (Swagger)
+- [AdministratorAdministration_0.0.2_tsi.211209.1200](AdministratorAdministration_0.0.2_tsi.211209.1200.yaml)
 
 ### Load File (JSON)
-- [AdministratorAdministration_0.0.1_tsi.210902.1800+data.1](./AdministratorAdministration_0.0.1_tsi.210902.1800+data.1.json)
+- [AdministratorAdministration_0.0.2_tsi.211209.1200+data.1](AdministratorAdministration_0.0.2_tsi.211209.1200+data.1.json)
+
+### Test Cases (Postman Export) and Data File
+- 
 
 ### Publication
 - No official publication planned
