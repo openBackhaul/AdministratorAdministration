@@ -6,16 +6,16 @@
 - 1.0.0-tsi.d.t : Defintion to be used within the Transport SDN Introduction at Telefonica Germany
 
 ### Services
-- [AdministratorAdministration_0.0.2_tsi.211209.1200+services.1](./AdministratorAdministration_0.0.2_tsi.211209.1200+services.1.xlsx)
+- [AdministratorAdministration_0.0.2_tsi.211217.1845+services.1](./AdministratorAdministration_0.0.2_tsi.211217.1845+services.1.xlsx)
 
 ### Forwardings
-- [AdministratorAdministration_0.0.2_tsi.211209.1200+forwardings.1](./AdministratorAdministration_0.0.2_tsi.211209.1200+forwardings.1.xlsx)
+- [AdministratorAdministration_0.0.2_tsi.211217.1845+forwardings.1](./AdministratorAdministration_0.0.2_tsi.211217.1845+forwardings.1.xlsx)
 
 ### Open API specification (Swagger)
-- [AdministratorAdministration_0.0.2_tsi.211209.1200](AdministratorAdministration_0.0.2_tsi.211209.1200.yaml)
+- [AdministratorAdministration_0.0.2_tsi.211217.1845](AdministratorAdministration_0.0.2_tsi.211217.1845.yaml)
 
 ### Load File (JSON)
-- [AdministratorAdministration_0.0.2_tsi.211209.1200+data.1](AdministratorAdministration_0.0.2_tsi.211209.1200+data.1.json)
+- [AdministratorAdministration_0.0.2_tsi.211217.1845+data.1](AdministratorAdministration_0.0.2_tsi.211217.1845+data.1.json)
 
 ### Test Cases (Postman Export) and Data File
 - 
