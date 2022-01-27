@@ -26,7 +26,7 @@ const protocol = "http";
  * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
  * traceIndicator String Sequence of request numbers along the flow
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
- * returns inline_response_200_2
+ * returns inline_response_200_2  
  **/
 exports.approveOamRequest = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
