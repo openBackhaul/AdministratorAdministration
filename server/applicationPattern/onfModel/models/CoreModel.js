@@ -13,12 +13,31 @@ const fileOperation = require('../../databaseDriver/JSONDriver.js');
 const utility = require('../utility/OnfAttributeFormatter');
 const logicalTerminationPointPath = "/core-model-1-4:control-construct/logical-termination-point";
 const forwardingDomainPath = "/core-model-1-4:control-construct/forwarding-domain";
+const controlConstructUuidPath = "/core-model-1-4:control-construct/uuid";
 
 class CoreModel {
 
+  uuid;
   logicalTerminationPointList;
   forwardingDomainList;
   profileCollection;
+  
+  /**
+   * @description This function returns the uuid of core-model instance<br>
+   * @returns {promise} returns uuid<br>
+   * <b><u>Procedure :</u></b><br>
+   * <b>step 1 :</b> Get the uuid from the control construct using the controlConstructUuidPath<br>
+   **/
+   static async getUuid() {
+    return new Promise(async function (resolve, reject) {
+      try {
+        let uuid = await fileOperation.readFromDatabase(controlConstructUuidPath);
+        resolve(uuid);
+      } catch (error) {
+        reject(undefined);
+      }
+    });
+  }
 
   /**
    * @description This function adds a new logical-termination-point instance to the logical-termination-point list<br>

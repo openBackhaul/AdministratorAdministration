@@ -204,6 +204,39 @@ class HttpClientInterface extends layerProtocol {
     }
 
     /**
+     * @description This function returns the uuid of the http-client-interface for the application-name and release-number.<br>
+     * @param {String} applicationName name of the application.<br>
+     * @param {String} releaseNumber release number of the application.<br>
+     * @returns {promise} returns http logical-termination-point uuid or undefined incase if there is no match found.<br>
+     * <b><u>Procedure :</u></b><br>
+     * <b>step 1 :</b> Get the logical-termination-point instance list for the layer protocol http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER<br>
+     * <b>step 2 :</b> Iterate through the list and filter the uuids for the required applicationName and releaseNumber<br>
+     **/
+     static getHttpClientUuidForTheApplicationName(applicationName) {
+        return new Promise(async function (resolve, reject) {
+            let httpClientUuid = undefined;
+            try {
+                let httpLogicalTerminationPointInstanceList = await coreModel.getLogicalTerminationPointListByProtocol(layerProtocol.layerProtocolNameEnum.HTTP_CLIENT);
+                if (httpLogicalTerminationPointInstanceList != undefined) {
+                    for (let i = 0; i < httpLogicalTerminationPointInstanceList.length; i++) {
+                        let httpLogicalTerminationPointInstance = httpLogicalTerminationPointInstanceList[i];
+                        let httpClientInterfacePac = httpLogicalTerminationPointInstance["layer-protocol"][0]["http-client-interface-1-0:http-client-interface-pac"];
+                        if (httpClientInterfacePac != undefined) {
+                            let httpClientApplicationName = httpClientInterfacePac["http-client-interface-capability"]["application-name"];
+                            if (httpClientApplicationName != undefined && httpClientApplicationName == applicationName ) {
+                                httpClientUuid = httpLogicalTerminationPointInstance["uuid"];
+                            }
+                        }
+                    }
+                }
+                resolve(httpClientUuid);
+            } catch (error) {
+                resolve(undefined);
+            }
+        });
+    }
+
+    /**
      * @description This function creates a new http-client-interface and update the created instance to the logical-termination-point list<br>
      * @param {String} httpClientUuid http client unique identifier for the new application.<br>
      * @param {String} operationClientUuidList associated services for the application.<br>

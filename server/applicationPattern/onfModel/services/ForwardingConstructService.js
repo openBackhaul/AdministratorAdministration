@@ -49,11 +49,11 @@ class ForwardingConstructInformation {
  * <b>step 2 :</b> automates the forwarding construct by using the method automateForwardingConstruct()<br>
  **/
 exports.configureAndAutomateForwardingConstruct = function (isCreate, serviceType, operationServerUuid, forwardingConstructConfigurationList,
-    attributeList, user, xCorrelator, traceIndicator, customerJourney) {
+    attributeList, user, xCorrelator, traceIndicator, customerJourney,context) {
     return new Promise(async function (resolve, reject) {
         try {
-            await ConfigureForwardingConstruct(operationServerUuid, forwardingConstructConfigurationList);
-            automateForwardingConstruct(serviceType, operationServerUuid, attributeList, user, xCorrelator, traceIndicator, customerJourney);
+            let result = await ConfigureForwardingConstruct(operationServerUuid, forwardingConstructConfigurationList);
+            automateForwardingConstruct(serviceType, operationServerUuid, attributeList, user, xCorrelator, traceIndicator, customerJourney,context);
             resolve();
         } catch (error) {
             reject();
@@ -76,11 +76,11 @@ exports.configureAndAutomateForwardingConstruct = function (isCreate, serviceTyp
  * <b>step 2 :</b> automates the forwarding construct by using the method automateForwardingConstruct()<br>
  **/
 exports.unConfigureAndAutomateForwardingConstruct = function (serviceType, operationServerUuid, operationClientUuidLists,
-    attributeList, user, xCorrelator, traceIndicator, customerJourney) {
+    attributeList, user, xCorrelator, traceIndicator, customerJourney,context) {
     return new Promise(async function (resolve, reject) {
         try {
             await unConfigureForwardingConstruct(operationServerUuid, operationClientUuidLists);
-            automateForwardingConstruct(serviceType, operationServerUuid, attributeList, user, xCorrelator, traceIndicator, customerJourney);
+            automateForwardingConstruct(serviceType, operationServerUuid, attributeList, user, xCorrelator, traceIndicator, customerJourney,context);
             resolve();
         } catch (error) {
             reject();
@@ -103,10 +103,10 @@ exports.unConfigureAndAutomateForwardingConstruct = function (serviceType, opera
  * <b>step 3 :</b> call the method dispatchEvent() to dispatch the rest requests <br>
  **/
 function automateForwardingConstruct(serviceType, operationServerUuid,
-    attributeList, user, xCorrelator, traceIndicator, customerJourney) {
+    attributeList, user, xCorrelator, traceIndicator, customerJourney,context) {
     return new Promise(async function (resolve, reject) {
         try {
-            let FcPortOutputDirectionLogicalTerminationPointList = await forwardingConstruct.getFcPortOutputDirectionLogicalTerminationPointListForTheFcPortInputDirection(operationServerUuid);
+            let FcPortOutputDirectionLogicalTerminationPointList = await forwardingConstruct.getFcPortOutputDirectionLogicalTerminationPointListForTheFcPortInputDirection(operationServerUuid,context);
             for (let i = 0; i < FcPortOutputDirectionLogicalTerminationPointList.length; i++) {
                 let operationClientUuid = FcPortOutputDirectionLogicalTerminationPointList[i];
                 let httpClientUuid = (await logicalTerminationPoint.getServerLtpList(operationClientUuid))[0];
@@ -118,6 +118,50 @@ function automateForwardingConstruct(serviceType, operationServerUuid,
                 await eventDispatcher.dispatchEvent(serviceType, remoteIpAndPort, clientApplicationName, operationName, operationKey,
                     attributeList, user, xCorrelator, newTraceIndicator, customerJourney);
             }
+        } catch (error) {
+            reject();
+        }
+    });
+}
+
+/**
+ * @description This function automates the forwarding construct by calling the appropriate call back operations based on the fcPort input and output directions.
+ * @param {String} forwardingName forwarding name of the function<br>
+ * @param {list}   attributeList list of attributes required during forwarding construct automation(to send in the request body)<br>
+ * @param {String} user user who initiates this request<br>
+ * @param {string} originator originator of the request<br>
+ * @param {string} xCorrelator flow id of this request<br>
+ * @param {string} traceIndicator trace indicator of the request<br>
+ * @param {string} customerJourney customer journey of the request<br>
+ * <b><u>Procedure :</u></b><br>
+ * <b>step 1 :</b> get the fcPort output list for the given operation server uuid<br>
+ * <b>step 2 :</b> gather information that needs to be dispatched as rest calls to appropriate rest servers<br>
+ * <b>step 3 :</b> call the method dispatchEvent() to dispatch the rest requests <br>
+ **/
+ exports.automateForwardingConstructForNIteration = function (serviceType, forwardingName,
+    attributeList, user, xCorrelator, traceIndicator, customerJourney) {
+    return new Promise(async function (resolve, reject) {
+        try {
+            let result = true;
+            let FcPortOutputDirectionLogicalTerminationPointList = await forwardingConstruct.getFcPortOutputDirectionLogicalTerminationPointListForTheForwardingName(forwardingName);
+            for (let i = 0; i < FcPortOutputDirectionLogicalTerminationPointList.length; i++) {
+                let operationClientUuid = FcPortOutputDirectionLogicalTerminationPointList[i];
+                for (let j = 0; j < attributeList.length; j++) {
+                    let attributeListForOperation = attributeList[j];
+                    let httpClientUuid = (await logicalTerminationPoint.getServerLtpList(operationClientUuid))[0];
+                    let clientApplicationName = await httpClientInterface.getApplicationName(httpClientUuid);
+                    let operationKey = await operationClientInterface.getOperationKey(operationClientUuid);
+                    let operationName = await operationClientInterface.getOperationName(operationClientUuid);
+                    let remoteIpAndPort = await operationClientInterface.getTcpIpAddressAndPortForTheOperationClient(operationClientUuid);
+                    let newTraceIndicator = traceIndicator + "." + (i + 1);
+                    result = await eventDispatcher.dispatchEvent(serviceType, remoteIpAndPort, clientApplicationName, operationName, operationKey,
+                        attributeListForOperation, user, xCorrelator, newTraceIndicator, customerJourney);
+                    if (result == false) {
+                        throw result;
+                    } 
+                }
+            }
+            resolve(result);
         } catch (error) {
             reject();
         }
@@ -163,7 +207,7 @@ function ConfigureForwardingConstruct(operationServerUuid, forwardingConstructCo
                     }
                 }
             }
-            resolve();
+            resolve(true);
         } catch (error) {
             reject();
         }

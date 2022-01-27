@@ -44,7 +44,8 @@ exports.dispatchEvent = function (serviceType,remoteIpAndPort, clientApplication
                 httpRequestBody = await individualServiceCallback.prepareRequestBody(clientApplicationName, operationName, attributeList);
             }
             let response = await RestRequestBuilder.BuildAndTriggerRestRequest(remoteIpAndPort, operationName, "POST", httpRequestHeader, httpRequestBody);
-            if (response !== undefined && response.status === 200) {
+            let responseCode = response.status.toString();
+            if (response !== undefined && responseCode.startsWith("2")) {
                 result = true;
             }
             resolve(result);
