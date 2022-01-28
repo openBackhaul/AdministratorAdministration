@@ -1,5 +1,5 @@
 /**
- * @file This class provides a stub to instantiate and generate a JSONObject for a AdminProfile<br>
+ * @file This class provides a stub to instantiate and generate a JSONObject for a AdminProfile <br>
  * This class is a sub class for profile <br>
  * @author      prathiba.jeevan.external@telefonica.com
  * @since       09.12.2021
