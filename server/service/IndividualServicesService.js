@@ -341,21 +341,52 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
  * returns inline_response_200
  **/
 exports.startApplicationInGenericRepresentation = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "consequent-action-list": [{
-        "label": "Inform about Application",
-        "request": "https://10.118.125.157:1004/v1/inform-about-application-in-generic-representation"
-      }],
-      "response-value-list": [{
-        "field-name": "applicationName",
-        "value": "OwnApplicationName",
-        "datatype": "String"
-      }]
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+  return new Promise(async function (resolve, reject) {
+    let response = {};
+    try {
+      /****************************************************************************************
+       * Preparing consequent-action-list for response body
+       ****************************************************************************************/
+      let consequentActionList = [];
+
+      let protocol = "https";
+      let applicationAddress = await tcpServerInterface.getLocalAddress();
+      let applicationPort = await tcpServerInterface.getLocalPort();
+      let baseUrl = protocol + "://" + applicationAddress + ":" + applicationPort;
+
+      let LabelForInformAboutApplication = "Inform about Application";
+      let requestForInformAboutApplication = baseUrl + await operationServerInterface.getOperationNameAsync("aa-0-0-1-op-s-2002");
+      let consequentActionForInformAboutApplication = new consequentAction(
+        LabelForInformAboutApplication,
+        requestForInformAboutApplication,
+        false
+      );
+      consequentActionList.push(consequentActionForInformAboutApplication);
+
+      /****************************************************************************************
+       * Preparing response-value-list for response body
+       ****************************************************************************************/
+      let responseValueList = [];
+      let applicationName = await httpServerInterface.getApplicationNameAsync();
+      let reponseValue = new responseValue(
+        "applicationName",
+        applicationName,
+        typeof applicationName
+      );
+      responseValueList.push(reponseValue);
+
+      /****************************************************************************************
+       * Setting 'application/json' response body
+       ****************************************************************************************/
+      response['application/json'] = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase({
+        consequentActionList,
+        responseValueList
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
