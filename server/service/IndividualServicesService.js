@@ -30,6 +30,7 @@ const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/on
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
+const AdminProfile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/AdminProfile');
 
 /**
  * Checks authentication of an OaM request
@@ -43,16 +44,70 @@ const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfMod
  * returns inline_response_200_2
  **/
 exports.approveOamRequest = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-      "reason-of-objection": "APPLICATION_NAME_UNKNOWN",
-      "oam-request-is-approved": true
-    };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+  return new Promise(async function (resolve, reject) {
+    try {
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let applicationName = body["application-name"];
+      let applicationReleaseNumber = body["release-number"];
+      let authorization = body["Authorization"];
+      let method = body["method"];
+
+      if (method == "GET") {
+        method = AdminProfile.AdminProfilePac.AdminProfileConfiguration.allowedMethodsEnum.GET;
+      } else {
+        method = AdminProfile.AdminProfilePac.AdminProfileConfiguration.allowedMethodsEnum.ALL;
+      }
+
+      /****************************************************************************************
+       * Prepare logicalTerminatinPointConfigurationInput object to 
+       * configure logical-termination-point
+       ****************************************************************************************/
+      let oamRequestIsApproved = false;
+      let reasonOfObjection = "UNKNOWN";
+      let isApplicationExists = await httpClientInterface.isApplicationExists(applicationName);
+      if (isApplicationExists) {
+        let isReleaseExists = await httpClientInterface.isApplicationExists(applicationName, applicationReleaseNumber);
+        if (isReleaseExists) {
+          let isAuthorizationExists = await AdminProfile.isAuthorizationExistAsync(authorization);
+          if (isAuthorizationExists) {
+            let isAuthorized = await AdminProfile.isAuthorizedAsync(authorization, method);
+            if (isAuthorized) {
+              oamRequestIsApproved = true;
+            } else {
+              reasonOfObjection = "METHOD_NOT_ALLOWED";
+            }
+          } else {
+            reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
+          }
+        } else {
+          reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
+        }
+      } else {
+        reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
+      }
+
+      var response = {};
+      if (oamRequestIsApproved) {
+        response['application/json'] = {
+          "oam-request-is-approved": oamRequestIsApproved
+        };
+      } else {
+        response['application/json'] = {
+          "reason-of-objection": reasonOfObjection,
+          "oam-request-is-approved": oamRequestIsApproved
+        };
+      }
+
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 }
@@ -318,7 +373,7 @@ exports.startApplicationInGenericRepresentation = function (user, originator, xC
  * <b>step 1 :</b> get all http client Interface and get the application name, release number and server-ltp<br>
  * <b>step 2 :</b> get the ipaddress and port name of each associated tcp-client <br>
  **/
- function getAllApplicationList() {
+function getAllApplicationList() {
   return new Promise(async function (resolve, reject) {
     let clientApplicationList = [];
     try {
