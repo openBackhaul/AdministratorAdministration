@@ -3,7 +3,7 @@ info:
   title: AdministratorAdministration
   version: 0.0.2
 servers:
-- url: https://10.118.125.157:1004
+- url: http://localhost:8080
   description: Initial deployment
 paths:
   /v1/bequeath-your-data-and-die:
