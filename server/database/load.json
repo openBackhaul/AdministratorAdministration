@@ -1,6 +1,6 @@
 {
     "core-model-1-4:control-construct": {
-        "uuid" : "aa-0-0-1",
+        "uuid": "aa-0-0-1",
         "profile-collection": {
             "profile": [
                 {
@@ -1863,11 +1863,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForRegisteringCausesRegistrationRequest"
+                                "value": "PromptForRegisteringCausesRegistrationRequest"
                             }
                         ],
                         "fc-port": [
@@ -1893,11 +1893,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForEmbeddingCausesRequestForBequeathingData"
+                                "value": "PromptForEmbeddingCausesRequestForBequeathingData"
                             }
                         ],
                         "fc-port": [
@@ -1918,11 +1918,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "ServiceRequestCausesLoggingRequest"
+                                "value": "ServiceRequestCausesLoggingRequest"
                             }
                         ],
                         "fc-port": [
@@ -2048,11 +2048,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesLoggingRequest"
+                                "value": "OamRequestCausesLoggingRequest"
                             }
                         ],
                         "fc-port": [
@@ -2073,11 +2073,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesInquiryForAuthentication"
+                                "value": "OamRequestCausesInquiryForAuthentication"
                             }
                         ],
                         "fc-port": [
@@ -2098,11 +2098,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForBequeathingDataCausesTransferOfListOfApplications"
+                                "value": "PromptForBequeathingDataCausesTransferOfListOfApplications"
                             }
                         ],
                         "fc-port": [
@@ -2123,11 +2123,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease"
+                                "value": "PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease"
                             }
                         ],
                         "fc-port": [
@@ -2148,11 +2148,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease"
+                                "value": "PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease"
                             }
                         ],
                         "fc-port": [
@@ -2173,11 +2173,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease"
+                                "value": "PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease"
                             }
                         ],
                         "fc-port": [
@@ -2198,11 +2198,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement"
+                                "value": "PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement"
                             }
                         ],
                         "fc-port": [
@@ -2228,11 +2228,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease"
+                                "value": "PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease"
                             }
                         ],
                         "fc-port": [
@@ -2258,11 +2258,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation"
+                                "value": "PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation"
                             }
                         ],
                         "fc-port": [
@@ -2288,11 +2288,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "PromptForRedirectingTopologyInformationCausesSendingAnInitialStateToALT"
+                                "value": "PromptForRedirectingTopologyInformationCausesSendingAnInitialStateToALT"
                             }
                         ],
                         "fc-port": [
@@ -2318,11 +2318,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "ServiceRequestCausesLtpUpdateRequest"
+                                "value": "ServiceRequestCausesLtpUpdateRequest"
                             }
                         ],
                         "fc-port": [
@@ -2398,11 +2398,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "ServiceRequestCausesLtpDeletionRequest"
+                                "value": "ServiceRequestCausesLtpDeletionRequest"
                             }
                         ],
                         "fc-port": [
@@ -2428,11 +2428,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "ServiceRequestCausesFcUpdateRequest"
+                                "value": "ServiceRequestCausesFcUpdateRequest"
                             }
                         ],
                         "fc-port": [
@@ -2458,11 +2458,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "ServiceRequestCausesFcPortUpdateRequest"
+                                "value": "ServiceRequestCausesFcPortUpdateRequest"
                             }
                         ],
                         "fc-port": [
@@ -2483,11 +2483,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "ServiceRequestCausesFcPortDeletionRequest"
+                                "value": "ServiceRequestCausesFcPortDeletionRequest"
                             }
                         ],
                         "fc-port": [
@@ -2513,11 +2513,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesLtpUpdateRequest"
+                                "value": "OamRequestCausesLtpUpdateRequest"
                             }
                         ],
                         "fc-port": [
@@ -2538,11 +2538,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesLtpDeletionRequest"
+                                "value": "OamRequestCausesLtpDeletionRequest"
                             }
                         ],
                         "fc-port": [
@@ -2563,11 +2563,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesFcUpdateRequest"
+                                "value": "OamRequestCausesFcUpdateRequest"
                             }
                         ],
                         "fc-port": [
@@ -2588,11 +2588,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesFcPortUpdateRequest"
+                                "value": "OamRequestCausesFcPortUpdateRequest"
                             }
                         ],
                         "fc-port": [
@@ -2613,11 +2613,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "OamRequestCausesFcPortDeletionRequest"
+                                "value": "OamRequestCausesFcPortDeletionRequest"
                             }
                         ],
                         "fc-port": [
@@ -2638,11 +2638,11 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
-                                "name": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "name": "NewApplicationCausesRequestForInquiringOamRequestApprovals"
+                                "value": "NewApplicationCausesRequestForInquiringOamRequestApprovals"
                             }
                         ],
                         "fc-port": [

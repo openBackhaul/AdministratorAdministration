@@ -1,5 +1,5 @@
 'use strict';
-var fileOperation = require('../applicationPattern/databaseDriver/JSONDriver');
+
 
 /**
  * Returns IPv4 address of the server
@@ -7,21 +7,16 @@ var fileOperation = require('../applicationPattern/databaseDriver/JSONDriver');
  * uuid String 
  * returns inline_response_200_19
  **/
-exports.getTcpServerLocalIpv4Address = function (url) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      var value = await fileOperation.readFromDatabase(url);
-      var response = {};
-      response['application/json'] = {
-        "tcp-server-interface-1-0:local-address": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
+exports.getTcpServerLocalIpv4Address = function(uuid) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "tcp-server-interface-1-0:ipv-4-address" : "10.118.125.157"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
     }
   });
 }
@@ -33,21 +28,16 @@ exports.getTcpServerLocalIpv4Address = function (url) {
  * uuid String 
  * returns inline_response_200_20
  **/
-exports.getTcpServerLocalPort = function (url) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      var value = await fileOperation.readFromDatabase(url);
-      var response = {};
-      response['application/json'] = {
-        "tcp-server-interface-1-0:local-port": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
+exports.getTcpServerLocalPort = function(uuid) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "tcp-server-interface-1-0:local-port" : 1000
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
     }
   });
 }
@@ -60,14 +50,9 @@ exports.getTcpServerLocalPort = function (url) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putTcpServerLocalIpv4Address = function (url, body) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      await fileOperation.writeToDatabase(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
+exports.putTcpServerLocalIpv4Address = function(body,uuid) {
+  return new Promise(function(resolve, reject) {
+    resolve();
   });
 }
 
@@ -79,13 +64,9 @@ exports.putTcpServerLocalIpv4Address = function (url, body) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putTcpServerLocalPort = function (url, body) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      await fileOperation.writeToDatabase(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
+exports.putTcpServerLocalPort = function(body,uuid) {
+  return new Promise(function(resolve, reject) {
+    resolve();
   });
 }
+
