@@ -31,6 +31,8 @@ const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfMode
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
 const AdminProfile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/AdminProfile');
+const TcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
+const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 
 /**
  * Checks authentication of an OaM request
@@ -124,9 +126,67 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
  * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * no response value expected for this operation
  **/
-exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(function (resolve, reject) {
-    resolve();
+exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
+  return new Promise(async function (resolve, reject) {
+    try {
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let applicationName = body["new-application-name"];
+      let releaseNumber = body["new-application-release"];
+      let applicationAddress = body["new-application-address"];
+      let applicationPort = body["new-application-port"];
+
+      /****************************************************************************************
+       * Prepare logicalTerminatinPointConfigurationInput object to 
+       * configure logical-termination-point
+       ****************************************************************************************/
+      let isdataTransferRequired = true;
+      let currentApplicationName = await httpServerInterface.getApplicationNameAsync();
+      if (currentApplicationName == applicationName) {
+        let isUpdated = await httpClientInterface.setReleaseNumberAsync("aa-0-0-1-http-c-0010", releaseNumber);
+        let currentApplicationRemoteAddress = await TcpServerInterface.getLocalAddress();
+        let currentApplicationRemotePort = await TcpServerInterface.getLocalPort();
+        if((applicationAddress == currentApplicationRemoteAddress) && 
+        (applicationPort == currentApplicationRemotePort)){
+          isdataTransferRequired = false;
+        }
+        if (isUpdated) {
+          applicationName = await httpClientInterface.getApplicationNameAsync("aa-0-0-1-http-c-0010");
+          let operationList = [];
+          let logicalTerminatinPointConfigurationInput = new LogicalTerminatinPointConfigurationInput(
+            applicationName,
+            releaseNumber,
+            applicationAddress,
+            applicationPort,
+            operationList
+          );
+          let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationInformationAsync(
+            logicalTerminatinPointConfigurationInput
+          );
+
+          /****************************************************************************************
+           * Prepare attributes to automate forwarding-construct
+           ****************************************************************************************/
+          let forwardingAutomationInputList = await prepareForwardingAutomation.bequeathYourDataAndDie(
+            logicalTerminationPointconfigurationStatus
+          );
+          ForwardingAutomationService.automateForwardingConstructAsync(
+            operationServerName,
+            forwardingAutomationInputList,
+            user,
+            xCorrelator,
+            traceIndicator,
+            customerJourney
+          );
+        }        
+      } 
+      softwareUpgrade.upgradeSoftwareVersion(isdataTransferRequired, user, xCorrelator, traceIndicator, customerJourney);   
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
