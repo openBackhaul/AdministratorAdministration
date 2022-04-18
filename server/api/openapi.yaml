@@ -2,9 +2,6 @@ openapi: 3.0.0
 info:
   title: AdministratorAdministration
   version: 0.0.2
-servers:
-- url: http://localhost:8080
-  description: Initial deployment
 paths:
   /v1/bequeath-your-data-and-die:
     post:
