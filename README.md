@@ -6,7 +6,7 @@
 - 1.0.0-tsi.d.t : Defintion to be used within the Transport SDN Introduction at Telefonica Germany
 
 ### Services
-- [AdministratorAdministration_0.0.2_tsi.211217.1845+services.1](./AdministratorAdministration_0.0.2_tsi.211217.1845+services.1.xlsx)
+- [AdministratorAdministration+services](./AdministratorAdministration+services.yaml)
 
 ### Forwardings
 - [AdministratorAdministration_0.0.2_tsi.211217.1845+forwardings.1](./AdministratorAdministration_0.0.2_tsi.211217.1845+forwardings.1.xlsx)
