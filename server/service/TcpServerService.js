@@ -13,7 +13,7 @@ exports.getTcpServerLocalIpv4Address = function (url) {
       var value = await fileOperation.readFromDatabaseAsync(url);
       var response = {};
       response['application/json'] = {
-        "tcp-server-interface-1-0:local-address": value
+        "tcp-server-interface-1-0:ipv-4-address": value
       };
       if (Object.keys(response).length > 0) {
         resolve(response[Object.keys(response)[0]]);
