@@ -505,8 +505,10 @@ function getAllApplicationList() {
         let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(tcpClientUuid);
         let applicationPort = await tcpClientInterface.getRemotePortAsync(tcpClientUuid);
         let clientApplication = new clientApplicationInformation(applicationName, applicationReleaseNumber, applicationAddress, applicationPort);
+        if(clientApplication.applicationName !== ("NewRelease") && clientApplication.applicationName !== ("OldRelease")){ 
         clientApplicationList.push(clientApplication);
       }
+    }
       resolve(clientApplicationList);
     } catch (error) {
       reject();
