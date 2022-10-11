@@ -23,7 +23,7 @@ const responseValue = require('onf-core-model-ap/applicationPattern/rest/server/
 
 const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-
+const FcPort = require("onf-core-model-ap/applicationPattern/onfModel/models/FcPort");
 
 const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
@@ -149,8 +149,8 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
         let isUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseUuid, releaseNumber);
         let currentApplicationRemoteAddress = await TcpServerInterface.getLocalAddress();
         let currentApplicationRemotePort = await TcpServerInterface.getLocalPort();
-        if((applicationAddress == currentApplicationRemoteAddress) && 
-        (applicationPort == currentApplicationRemotePort)){
+        if ((applicationAddress == currentApplicationRemoteAddress) &&
+          (applicationPort == currentApplicationRemotePort)) {
           isdataTransferRequired = false;
         }
         if (isUpdated) {
@@ -181,8 +181,8 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
             traceIndicator,
             customerJourney
           );
-        }        
-      } 
+        }
+      }
       softwareUpgrade.upgradeSoftwareVersion(isdataTransferRequired, user, xCorrelator, traceIndicator, customerJourney)
         .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
       resolve();
@@ -237,10 +237,10 @@ exports.disregardApplication = function (body, user, originator, xCorrelator, tr
           operationClientConfigurationStatusList
         );
         forwardingConstructConfigurationStatus = await ForwardingConfigurationService.
-        unConfigureForwardingConstructAsync(
-          operationServerName,
-          forwardingConfigurationInputList
-        );
+          unConfigureForwardingConstructAsync(
+            operationServerName,
+            forwardingConfigurationInputList
+          );
       }
 
       /****************************************************************************************
@@ -360,10 +360,10 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
           inquireOamRequestOperation
         );
         forwardingConstructConfigurationStatus = await ForwardingConfigurationService.
-        configureForwardingConstructAsync(
-          operationServerName,
-          forwardingConfigurationInputList
-        );
+          configureForwardingConstructAsync(
+            operationServerName,
+            forwardingConfigurationInputList
+          );
       }
 
       /****************************************************************************************
@@ -469,6 +469,9 @@ exports.startApplicationInGenericRepresentation = function (user, originator, xC
 function getAllApplicationList() {
   return new Promise(async function (resolve, reject) {
     let clientApplicationList = [];
+    let httpClientUuidList = [];
+    let LogicalTerminationPointlist;
+    const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
     try {
 
       /** 
@@ -495,9 +498,21 @@ function getAllApplicationList() {
           this.applicationPort = applicationPort;
         }
       };
-      let httpClientUuidList = await logicalTerminationPoint.getUuidListForTheProtocolAsync(layerProtocol.layerProtocolNameEnum.HTTP_CLIENT);
-      for (let i = 0; i < httpClientUuidList.length; i++) {
-        let httpClientUuid = httpClientUuidList[i];
+
+      let ForwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
+      let ForwardConstructUuid = ForwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
+      let ListofUuid = await ForwardingConstruct.getFcPortListAsync(ForwardConstructUuid)
+
+      for (let i = 0; i < ListofUuid.length; i++) {
+        let PortDirection = ListofUuid[i][[onfAttributes.FC_PORT.PORT_DIRECTION]]
+        if (PortDirection === FcPort.portDirectionEnum.OUTPUT) {
+          LogicalTerminationPointlist = ListofUuid[i][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT]
+          let httpClientUuid = await logicalTerminationPoint.getServerLtpListAsync(LogicalTerminationPointlist)
+          httpClientUuidList.push(httpClientUuid[0]);
+        }
+      }
+      for (let j = 0; j < httpClientUuidList.length; j++) {
+        let httpClientUuid = httpClientUuidList[j];
         let applicationName = await httpClientInterface.getApplicationNameAsync(httpClientUuid);
         let applicationReleaseNumber = await httpClientInterface.getReleaseNumberAsync(httpClientUuid);
         let serverLtp = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid);
