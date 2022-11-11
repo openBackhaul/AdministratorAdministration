@@ -106,6 +106,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      # [all oam requests]
     consequent-requests:
       - client-name: OamLog://v1/record-oam-request
         uuid: aa-1-0-0-op-c-bs-ol-1-0-0-000
@@ -123,6 +124,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
+      # [all oam requests]
     consequent-requests:
       - client-name: AdministratorAdministration://v1/approve-oam-request
         uuid: aa-1-0-0-op-c-bs-aa-1-0-0-000
@@ -155,7 +157,7 @@ forwardings:
         uuid: aa-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice:://v1/notify-approvals
-        uuid: aa-1-0-0-op-c-is-ro-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-ro-1-0-0-000
 
   - forwarding-name: PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease
     uuid: aa-1-0-0-op-fc-im-112
@@ -170,7 +172,7 @@ forwardings:
         uuid: aa-1-0-0-op-s-im-000
     consequent-requests:
       - client-name: RegistryOffice:://v1/notify-withdrawn-approvals
-        uuid: aa-1-0-0-op-c-is-ro-1-0-0-001
+        uuid: aa-1-0-0-op-c-im-ro-1-0-0-001
 
   - forwarding-name: PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease
     uuid: aa-1-0-0-op-fc-im-113
@@ -482,18 +484,18 @@ forwardings:
           uuid: aa-1-0-0-op-s-is-001
     consequent-requests:
       - client-name: RegistryOffice:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-ro-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-ro-1-0-0-000
       - client-name: TypeApprovalRegister:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-tar-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-tar-1-0-0-000
       - client-name: ExecutionAndTraceLog:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-eatl-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-eatl-1-0-0-000
       - client-name: OamLog:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-ol-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-ol-1-0-0-000
       - client-name: AdministratorAdministration:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-aa-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-aa-1-0-0-000
       - client-name: ApplicationLayerTopology:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-alt-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-alt-1-0-0-000
       - client-name: OperationKeyManagement:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-okm-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-okm-1-0-0-000
       - client-name: CurrentController:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-bs-cc-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-cc-1-0-0-000
