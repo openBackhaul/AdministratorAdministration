@@ -484,7 +484,7 @@ forwardings:
           uuid: aa-1-0-0-op-s-is-001
     consequent-requests:
       - client-name: RegistryOffice:://v1/inquire-oam-request-approvals
-        uuid: aa-1-0-0-op-c-im-ro-1-0-0-000
+        uuid: aa-1-0-0-op-c-im-ro-1-0-0-004
       - client-name: TypeApprovalRegister:://v1/inquire-oam-request-approvals
         uuid: aa-1-0-0-op-c-im-tar-1-0-0-000
       - client-name: ExecutionAndTraceLog:://v1/inquire-oam-request-approvals
