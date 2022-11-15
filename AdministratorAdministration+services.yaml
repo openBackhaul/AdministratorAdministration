@@ -54,9 +54,16 @@ servers:
     own-release-number: 1.0.0
     uuid: aa-1-0-0-http-s-0000
   tpc-server:
-    own-ip-address: 10.118.125.157
-    own-tcp-port: 1004
-    uuid: aa-1-0-0-tcp-s-0000
+    - description: Without TLS layer
+      local-protocol: http
+      own-ip-address: 1.1.3.12
+      own-tcp-port: 3012
+      uuid: aa-1-0-0-tcp-s-bm-000
+    - description: With TLS layer
+      local-protocol: https
+      own-ip-address: 1.2.3.12
+      own-tcp-port: 3212
+      uuid: aa-1-0-0-tcp-s-bm-001
 
 
 clients:
