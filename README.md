@@ -1,45 +1,38 @@
 # AdministratorAdministration
-
 - Administrates the list of administrators of the application layer.
 - Thorsten Heinze (Thorsten.Heinze@openBackhaul.com)
 
-### Branch
-
-- 1.0.0-tsi.d.t : Defintion to be used within the Transport SDN Introduction at Telefonica Germany
-
-### Services
-
+### ServiceList
 - [AdministratorAdministration+services](./AdministratorAdministration+services.yaml)
 
-### Forwardings
+### ProfileList and ProfileInstanceList
+- to be provided
+- to be provided
 
-- [AdministratorAdministration_0.0.2_tsi.211217.1845+forwardings.1](./AdministratorAdministration_0.0.2_tsi.211217.1845+forwardings.1.xlsx)
+### ForwardingList
+- [AdministratorAdministration+forwardings](./AdministratorAdministration+forwardings.yaml)
 
 ### Open API specification (Swagger)
+- [AdministratorAdministration](AdministratorAdministration.yaml)
 
-- [AdministratorAdministration_0.0.2_tsi.211217.1845](AdministratorAdministration_0.0.2_tsi.211217.1845.yaml)
-
-### Load File (JSON)
-
-- [AdministratorAdministration_0.0.2_tsi.211217.1845+data.2](AdministratorAdministration_0.0.2_tsi.211217.1845+data.2.json)
+### CONFIGfile (JSON)
+- to be provided
 
 ### Test Cases (Postman Export) and Data File
-
 - [AdministratorAdministration+testcases](./AdministratorAdministration%2Btestcases.json)
-- [AdministratorAdministration+data](./AdministratorAdministration_0.0.2_tsi.211217.1845%2Bdata.2.json)
+- [AdministratorAdministration+data](./AdministratorAdministration+data.json)
+
+### NodeJS Implementation
+- to be provided
 
 ### Publication
-
 - No official publication planned
 
-### Aspired Model Classification
-
+### Aspired Classification
 - Live Network
 
 ### Open Issue List
-
 - [AdministratorAdministration/issues](../../issues)
 
 ### Comments
-
 This application is part of the TinyApplicationController for managing the REST applications forming the MBH SDN application layer at Telefonica Germany.
