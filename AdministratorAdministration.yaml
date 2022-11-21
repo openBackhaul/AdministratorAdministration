@@ -98,7 +98,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                   'Life cycle state of the consumed service
-                  find in [/core-model-1-4:control-construct/logical-termination-point=aa-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                  find in [/core-model-1-4:control-construct/logical-termination-point=aa-1-0-0-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -347,7 +347,7 @@ paths:
                       example:
                         subscriber-application: 'AdministratorAdministration'
                         subscriber-release-number: '1.0.0'
-                        subscriber-operation: '/v1/regard-application'
+                        subscriber-operation: '/v1/disregard-application'
                         subscriber-address: '10.118.125.157'
                         subscriber-port: 7004
               responses:
