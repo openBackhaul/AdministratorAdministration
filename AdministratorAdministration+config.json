@@ -11,44 +11,258 @@
         "profile-collection": {
           "profile": [
             {
-              "uuid": "aa-1-0-0-admin-p-0000",
-              "profile-name": "admin-profile-1-0:PROFILE_NAME_TYPE_ADMIN_PROFILE",
-              "admin-profile-1-0:admin-profile-pac": {
-                "admin-profile-capability": {
-                  "administrator-name": "Thorsten Heinze"
+              "uuid": "aa-2-0-0-action-p-000",
+              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE",
+              "action-profile-1-0:action-profile-pac": {
+                "action-profile-capability": {
+                  "operation-name": "/v1/start-application-in-generic-representation",
+                  "label": "Inform about Application",
+                  "input-value-list": [
+                  ],
+                  "display-in-new-browser-window": false
                 },
-                "admin-profile-configuration": {
-                  "user-name": "thorsten.heinze",
-                  "Authorization": " *** Basic Ath Code *** ",
-                  "allowed-methods": "admin-profile-1-0:ALLOWED_METHODS_TYPE_ALL"
+                "action-profile-configuration": {
+                  "request": {
+                    "protocol-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol",
+                    "address": {
+                      "ipv-4-address-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address"
+                    },
+                    "port-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port",
+                    "operation-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
+                  }
                 }
               }
             },
             {
-              "uuid": "aa-1-0-0-admin-p-0001",
-              "profile-name": "admin-profile-1-0:PROFILE_NAME_TYPE_ADMIN_PROFILE",
-              "admin-profile-1-0:admin-profile-pac": {
-                "admin-profile-capability": {
-                  "administrator-name": "Prathiba Jeevan"
+              "uuid": "aa-2-0-0-action-p-001",
+              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE",
+              "action-profile-1-0:action-profile-pac": {
+                "action-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "label": "Release History",
+                  "input-value-list": [
+                  ],
+                  "display-in-new-browser-window": false
                 },
-                "admin-profile-configuration": {
-                  "user-name": "prathiba.jeevan",
-                  "Authorization": " *** Basic Ath Code *** ",
-                  "allowed-methods": "admin-profile-1-0:ALLOWED_METHODS_TYPE_ALL"
+                "action-profile-configuration": {
+                  "request": {
+                    "protocol-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol",
+                    "address": {
+                      "ipv-4-address-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address"
+                    },
+                    "port-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port",
+                    "operation-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
+                  }
                 }
               }
             },
             {
-              "uuid": "aa-1-0-0-admin-p-0002",
-              "profile-name": "admin-profile-1-0:PROFILE_NAME_TYPE_ADMIN_PROFILE",
-              "admin-profile-1-0:admin-profile-pac": {
-                "admin-profile-capability": {
-                  "administrator-name": "Iswaryaa Subashchandran"
+              "uuid": "aa-2-0-0-action-p-002",
+              "profile-name": "action-profile-1-0:PROFILE_NAME_TYPE_ACTION_PROFILE",
+              "action-profile-1-0:action-profile-pac": {
+                "action-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "label": "API Documentation",
+                  "input-value-list": [
+                  ],
+                  "display-in-new-browser-window": true
                 },
-                "admin-profile-configuration": {
-                  "user-name": "iswaryaa.subashchandran",
-                  "Authorization": " *** Basic Ath Code *** ",
-                  "allowed-methods": "admin-profile-1-0:ALLOWED_METHODS_TYPE_ALL"
+                "action-profile-configuration": {
+                  "request": {
+                    "protocol-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-protocol",
+                    "address": {
+                      "ipv-4-address-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address"
+                    },
+                    "port-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-s-bm-001/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port",
+                    "operation-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-op-s-bs-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-000",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/start-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "applicationName"
+                  },
+                  "description": "Own application name",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-001",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "applicationName"
+                  },
+                  "description": "Name of this application",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-name"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-002",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "releaseNumber"
+                  },
+                  "description": "Number of this release",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-number"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-003",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "applicationPurpose"
+                  },
+                  "description": "Purpose of this application",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/application-purpose"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-004",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "dataUpdatePeriod"
+                  },
+                  "description": "Period of updating the data inside this application",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/data-update-period"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-005",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "ownerName"
+                  },
+                  "description": "Name of the ApplicationOwner",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-name"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-006",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-application-in-generic-representation",
+                  "field-name": {
+                    "static-field-name": "ownerEmailAddress"
+                  },
+                  "description": "Email address of the ApplicationOwner",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/owner-email-address"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-007",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+                  "field-name": {
+                    "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/release-number"
+                  },
+                  "description": "Represents the first entry in the list of releases",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-response-p-008",
+              "profile-name": "response-profile-1-0:PROFILE_NAME_TYPE_GENERIC_RESPONSE_PROFILE",
+              "response-profile-1-0:response-profile-pac": {
+                "response-profile-capability": {
+                  "operation-name": "/v1/inform-about-release-history-in-generic-representation",
+                  "field-name": {
+                    "field-name-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/release-number"
+                  },
+                  "description": "List of release numbers and changes",
+                  "datatype": "string"
+                },
+                "response-profile-configuration": {
+                  "value": {
+                    "value-reference": "/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-http-s-bm-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=1/changes"
+                  }
+                }
+              }
+            },
+            {
+              "uuid": "aa-2-0-0-file-p-000",
+              "profile-name": "file-profile-1-0:PROFILE_NAME_TYPE_FILE_PROFILE",
+              "file-profile-1-0:file-profile-pac": {
+                "file-profile-capability": {
+                  "file-identifier": "LOADfile",
+                  "file-description": "Administrator name, user name, authorization and allowed methods"
+                },
+                "file-profile-configuration": {
+                  "file-path": "../application-data/application-data.json",
+                  "user-name": "AdministratorAdministration",
+                  "password": "Operations to add password",
+                  "operation": "file-profile-1-0:OPERATION_TYPE_READ_WRITE"
                 }
               }
             }
@@ -440,6 +654,30 @@
             ]
           },
           {
+            "uuid": "aa-2-0-0-op-s-bs-005",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+            "client-ltp": [
+            ],
+            "server-ltp": [
+              "aa-2-0-0-http-s-bm-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-server-interface-1-0:operation-server-interface-pac": {
+                  "operation-server-interface-capability": {
+                    "operation-name": "/docs"
+                  },
+                  "operation-server-interface-configuration": {
+                    "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                    "operation-key": "n.a."
+                  }
+                }
+              }
+            ]
+          },
+          {
             "uuid": "aa-1-0-0-op-s-bs-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
@@ -579,6 +817,7 @@
               "aa-1-0-0-op-s-bs-002",
               "aa-1-0-0-op-s-bs-003",
               "aa-1-0-0-op-s-bs-004",
+              "aa-2-0-0-op-s-bs-005",
               "aa-1-0-0-op-s-bs-000",
               "aa-1-0-0-op-s-is-001",
               "aa-1-0-0-op-s-is-002",
@@ -605,6 +844,11 @@
                         "release-number": "1.0.0",
                         "release-date": "17.12.2021",
                         "changes": "Initial version."
+                      },
+                      {
+                        "release-number": "2.0.0",
+                        "release-date": "17.12.2022",
+                        "changes": "Update on ApplicationPattern 2.0.0."
                       }
                     ]
                   }
