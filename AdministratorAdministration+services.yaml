@@ -39,7 +39,7 @@ servers:
       individual:
         - service-name: /v1/bequeath-your-data-and-die
           uuid: aa-1-0-0-op-s-1000
-                aa-1-0-0-op-s-is-000
+                aa-1-0-0-op-s-im-000
     service:
       basic:
         - service-name: /v1/start-application-in-generic-representation
@@ -173,7 +173,7 @@ clients:
       ip-address: 10.118.125.157
       tcp-port: 1001
       uuid: aa-1-0-0-tcp-c-2030
-            aa-1-0-0-http-c-im-tar-1-0-0-000
+            aa-1-0-0-tcp-c-im-tar-1-0-0-000
     operation-clients:
       own-oam:
         basic:

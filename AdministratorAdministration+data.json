@@ -320,7 +320,7 @@
             ]
           },
           {
-            "uuid": "aa-1-0-0-op-s-is-000",
+            "uuid": "aa-1-0-0-op-s-im-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
             "client-ltp": [
             ],
@@ -574,7 +574,7 @@
               "aa-1-0-0-op-s-bm-009",
               "aa-1-0-0-op-s-bm-010",
               "aa-1-0-0-op-s-bm-011",
-              "aa-1-0-0-op-s-is-000",
+              "aa-1-0-0-op-s-im-000",
               "aa-1-0-0-op-s-bs-001",
               "aa-1-0-0-op-s-bs-002",
               "aa-1-0-0-op-s-bs-003",
@@ -1089,7 +1089,7 @@
             ]
           },
           {
-            "uuid": "aa-1-0-0-http-c-im-tar-1-0-0-000",
+            "uuid": "aa-1-0-0-tcp-c-im-tar-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
               "aa-1-0-0-http-c-im-tar-1-0-0-000"
@@ -1929,7 +1929,7 @@
                   {
                     "local-id": "111",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "112",
@@ -2049,7 +2049,7 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "200",
@@ -2074,7 +2074,7 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "200",
@@ -2099,7 +2099,7 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "200",
@@ -2124,7 +2124,7 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "200",
@@ -2154,7 +2154,7 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "200",
@@ -2184,7 +2184,7 @@
                   {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "200",
@@ -2319,7 +2319,7 @@
                   {
                     "local-id": "109",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                    "logical-termination-point": "aa-1-0-0-op-s-is-000"
+                    "logical-termination-point": "aa-1-0-0-op-s-im-000"
                   },
                   {
                     "local-id": "110",
