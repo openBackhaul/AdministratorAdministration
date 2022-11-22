@@ -2040,7 +2040,7 @@
         ],
         "forwarding-domain": [
           {
-            "uuid": "aa-1-0-0-op-fd-0000",
+            "uuid": "aa-1-0-0-op-fd-000",
             "forwarding-construct": [
               {
                 "uuid": "aa-1-0-0-op-fc-bm-000",
