@@ -480,8 +480,8 @@ forwardings:
         - server-name: /v1/disregard-application
           uuid: aa-1-0-0-op-s-is-002
     initiating-requests:
-        - server-name: /v1/regard-application
-          uuid: aa-1-0-0-op-s-is-001
+      - server-name: /v1/regard-application
+        uuid: aa-1-0-0-op-s-is-001
     consequent-requests:
       - client-name: RegistryOffice:://v1/inquire-oam-request-approvals
         uuid: aa-1-0-0-op-c-im-ro-1-0-0-004
