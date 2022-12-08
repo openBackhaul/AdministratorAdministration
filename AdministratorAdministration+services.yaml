@@ -58,8 +58,8 @@ servers:
   tpc-server:
     - description: Without TLS layer
       local-protocol: http
-      own-ip-address: 10.118.125.157
-      own-tcp-port: 1004
+      own-ip-address: 1.1.3.12
+      own-tcp-port: 3012
       uuid: aa-2-0-0-tcp-s-bm-000
 
 
