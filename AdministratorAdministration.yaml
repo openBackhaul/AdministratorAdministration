@@ -1151,7 +1151,7 @@ paths:
                       address:
                         ip-address:
                           ipv-4-address: '1.2.3.2'
-                      port: 3002
+                      port: 3202
           headers:
             x-correlator:
               schema:
