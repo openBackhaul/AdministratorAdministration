@@ -1146,12 +1146,12 @@ paths:
                           ipv-4-address: '1.1.3.8'
                       port: 3008
                     - application-name: 'TypeApprovalRegister'
-                      release-number: '1.0.0'
+                      release-number: '2.0.0'
                       protocol: 'HTTPS'
                       address:
                         ip-address:
-                          ipv-4-address: '1.2.3.2'
-                      port: 3202
+                          ipv-4-address: '1.2.3.9'
+                      port: 3009
           headers:
             x-correlator:
               schema:
