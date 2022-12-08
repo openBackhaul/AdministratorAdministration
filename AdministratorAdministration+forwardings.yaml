@@ -273,8 +273,6 @@ forwardings:
         uuid: aa-2-0-0-op-s-bm-007
       - server-name: /v1/redirect-topology-change-information
         uuid: aa-2-0-0-op-s-bm-009
-      - server-name: /v1/update-operation-key
-        uuid: aa-2-0-0-op-s-bm-010
       - server-name: /v1/update-operation-client
         uuid: aa-2-0-0-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
