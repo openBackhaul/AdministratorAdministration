@@ -1296,7 +1296,7 @@
               "aa-2-0-0-op-c-im-tar-1-0-0-004"
             ],
             "server-ltp": [
-              "aa-2-0-0-http-c-tar-1-0-0-000"
+              "aa-2-0-0-tcp-c-tar-1-0-0-000"
             ],
             "layer-protocol": [
               {
