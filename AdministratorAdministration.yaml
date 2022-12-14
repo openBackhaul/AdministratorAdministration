@@ -75,7 +75,7 @@ paths:
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of application that shall be target of the handover process
-                        update or create [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-c-nr-2-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/remote-address/domain-name]'
+                        update or create [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-0-tcp-c-nr-2-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 new-application-port:
                   type: integer
                   minimum: 0
