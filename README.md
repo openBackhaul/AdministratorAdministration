@@ -1,38 +1,20 @@
 # AdministratorAdministration
-- Administrates the list of administrators of the application layer.
-- Thorsten Heinze (Thorsten.Heinze@openBackhaul.com)
 
-### ServiceList
-- [AdministratorAdministration+services](./AdministratorAdministration+services.yaml)
+### Location
+The AdministratorAdministration is part of the TinyApplicationController.  
+The TinyApplicationController is for managing the REST microservices of the application layer.  
 
-### ProfileList and ProfileInstanceList
-- to be provided
-- to be provided
+### Description
+Every OaM activity on any of the applications of the application layer must be approved by the AdministratorAdministration.  
+It is the central place for defining administrators and the individual administrator's access rights.  
 
-### ForwardingList
-- [AdministratorAdministration+forwardings](./AdministratorAdministration+forwardings.yaml)
+### Relevance
+The AdministratorAdministration is core element of the application layer running in the live network at Telefonica Germany.  
 
-### Open API specification (Swagger)
-- [AdministratorAdministration](AdministratorAdministration.yaml)
-
-### CONFIGfile (JSON)
-- to be provided
-
-### Test Cases (Postman Export) and Data File
-- [AdministratorAdministration+testcases](./AdministratorAdministration%2Btestcases.json)
-- [AdministratorAdministration+data](./AdministratorAdministration+data.json)
-
-### NodeJS Implementation
-- to be provided
-
-### Publication
-- No official publication planned
-
-### Aspired Classification
-- Live Network
-
-### Open Issue List
-- [AdministratorAdministration/issues](../../issues)
+### Resources
+- [Specification](./spec/)
+- [TestSuite](./testing/)
+- [Implementation](./server/)
 
 ### Comments
-This application is part of the TinyApplicationController for managing the REST applications forming the MBH SDN application layer at Telefonica Germany.
+./.
