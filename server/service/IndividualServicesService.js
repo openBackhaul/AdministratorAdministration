@@ -471,7 +471,7 @@ function getAllApplicationList() {
     let clientApplicationList = [];
     let httpClientUuidList = [];
     let LogicalTerminationPointlist;
-    let listInfoApplication;
+    let application = {};
     const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
     try {
 
@@ -495,17 +495,15 @@ function getAllApplicationList() {
         let tcpClientUuid = serverLtp[0];
         let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(tcpClientUuid);
         let applicationPort = await tcpClientInterface.getRemotePortAsync(tcpClientUuid);
-        let applicationProtocal = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid)
-        listInfoApplication = {
-          "application-name": applicationName,
-          "release-number": applicationReleaseNumber,
-          "protocol": applicationProtocal,
-          "address": applicationAddress,
-          "port": applicationPort,
-        };
-        //let clientApplication = new clientApplicationInformation(applicationName, applicationReleaseNumber, applicationAddress, applicationPort);
+        let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid)
         
-        clientApplicationList.push(listInfoApplication);
+        application.applicationName = applicationName,
+        application.releaseNumber = applicationReleaseNumber,
+        application.protocol = applicationProtocol,
+        application.address = applicationAddress,
+        application.port = applicationPort,
+        
+        clientApplicationList.push(application);
       }
       resolve(clientApplicationList);
     } catch (error) {
