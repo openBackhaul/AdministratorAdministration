@@ -1,0 +1,19 @@
+{
+    "administrator-credential-list":
+    [
+      {
+        "administrator-id" : "1",
+        "administrator-name" : "administrator",
+        "user-name" : "admin.user",
+        "authorization" : " *** Basic Ath Code *** ",
+        "allowed-methods" : "ALL"
+      },
+      {
+        "administrator-id" : "2",
+        "administrator-name" : "administrator",
+        "user-name" : "admin.user",
+        "authorization" : " *** Basic Ath Code *** ",
+        "allowed-methods" : "PUT"
+      }
+    ]
+  }
