@@ -335,12 +335,7 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
       let operationNamesByAttributes = new Map();
       operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
 
-      let tcpObjectList = [];
-
-      for (let i = 0; i < tcpServerList.length; i++) {
-        let tcpObject = formulateTcpObject(tcpServerList[i]);
-        tcpObjectList.push(tcpObject);
-      }
+      
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
@@ -349,7 +344,7 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
       let logicalTerminatinPointConfigurationInput = new LogicalTerminatinPointConfigurationInput(
         applicationName,
         releaseNumber,
-        tcpObjectList,
+        tcpServerList,
         operationServerName,
         operationNamesByAttributes,
         individualServicesOperationsMapping.individualServicesOperationsMapping
@@ -525,19 +520,3 @@ function getAllApplicationList() {
   });
 }
 
-function formulateTcpObject(tcpInfo) {
-  let tcpInfoObject;
-  try {
-    let protocol = tcpInfo.protocol;
-    let address = tcpInfo.address;
-    let port = tcpInfo.port;
-    tcpInfoObject = {
-      "protocol": protocol,
-      "address": address,
-      "port": port
-    };
-  } catch (error) {
-    console.log("error in formulating tcp object");
-  }
-  return tcpInfoObject;
-}
