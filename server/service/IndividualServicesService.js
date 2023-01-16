@@ -1,7 +1,7 @@
 'use strict';
 
-const LogicalTerminatinPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInput');
-const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointServices');
+const LogicalTerminatinPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInputWithMapping');
+const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointWithMappingServices');
 const LogicalTerminationPointConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationStatus');
 const layerProtocol = require('onf-core-model-ap/applicationPattern/onfModel/models/LayerProtocol');
 
@@ -10,6 +10,8 @@ const ForwardingAutomationService = require('onf-core-model-ap/applicationPatter
 const prepareForwardingConfiguration = require('./individualServices/PrepareForwardingConfiguration');
 const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
+const individualServicesOperationsMapping = require('./individualServices/IndividualServicesOperationsMapping');
+
 
 const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
@@ -321,25 +323,36 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
        * Setting up required local variables from the request body
        ****************************************************************************************/
       let applicationName = body["application-name"];
-      let releaseNumber = body["application-release-number"];
-      let applicationAddress = body["application-address"];
-      let applicationPort = body["application-port"];
+      let releaseNumber = body["release-number"];
+      let tcpServerList = [
+        {
+          protocol : body["protocol"],
+          address : body["address"],
+          port : body["port"]
+      }
+      ];
       let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
+      let operationNamesByAttributes = new Map();
+      operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
 
+      let tcpObjectList = [];
+
+      for (let i = 0; i < tcpServerList.length; i++) {
+        let tcpObject = formulateTcpObject(tcpServerList[i]);
+        tcpObjectList.push(tcpObject);
+      }
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
        ****************************************************************************************/
 
-      let operationList = [
-        inquireOamRequestOperation
-      ];
       let logicalTerminatinPointConfigurationInput = new LogicalTerminatinPointConfigurationInput(
         applicationName,
         releaseNumber,
-        applicationAddress,
-        applicationPort,
-        operationList
+        tcpObjectList,
+        operationServerName,
+        operationNamesByAttributes,
+        individualServicesOperationsMapping.individualServicesOperationsMapping
       );
       let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationInformationAsync(
         logicalTerminatinPointConfigurationInput
@@ -510,4 +523,21 @@ function getAllApplicationList() {
       reject();
     }
   });
+}
+
+function formulateTcpObject(tcpInfo) {
+  let tcpInfoObject;
+  try {
+    let protocol = tcpInfo.protocol;
+    let address = tcpInfo.address;
+    let port = tcpInfo.port;
+    tcpInfoObject = {
+      "protocol": protocol,
+      "address": address,
+      "port": port
+    };
+  } catch (error) {
+    console.log("error in formulating tcp object");
+  }
+  return tcpInfoObject;
 }
