@@ -1,7 +1,7 @@
 'use strict';
 
-const LogicalTerminatinPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInput');
-const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointServices');
+const LogicalTerminatinPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInputWithMapping');
+const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointWithMappingServices');
 const LogicalTerminationPointConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationStatus');
 const layerProtocol = require('onf-core-model-ap/applicationPattern/onfModel/models/LayerProtocol');
 
@@ -10,6 +10,8 @@ const ForwardingAutomationService = require('onf-core-model-ap/applicationPatter
 const prepareForwardingConfiguration = require('./individualServices/PrepareForwardingConfiguration');
 const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
+const individualServicesOperationsMapping = require('./individualServices/IndividualServicesOperationsMapping');
+
 
 const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
@@ -321,27 +323,33 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
        * Setting up required local variables from the request body
        ****************************************************************************************/
       let applicationName = body["application-name"];
-      let releaseNumber = body["application-release-number"];
-      let applicationAddress = body["application-address"];
-      let applicationPort = body["application-port"];
+      let releaseNumber = body["release-number"];
+      let tcpServerList = [
+        {
+          protocol : body["protocol"],
+          address : body["address"],
+          port : body["port"]
+      }
+      ];
       let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
+      let operationNamesByAttributes = new Map();
+      operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
 
+      
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
        ****************************************************************************************/
 
-      let operationList = [
-        inquireOamRequestOperation
-      ];
       let logicalTerminatinPointConfigurationInput = new LogicalTerminatinPointConfigurationInput(
         applicationName,
         releaseNumber,
-        applicationAddress,
-        applicationPort,
-        operationList
+        tcpServerList,
+        operationServerName,
+        operationNamesByAttributes,
+        individualServicesOperationsMapping.individualServicesOperationsMapping
       );
-      let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationInformationAsync(
+      let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.findOrCreateApplicationInformationAsync(
         logicalTerminatinPointConfigurationInput
       );
 
@@ -511,3 +519,4 @@ function getAllApplicationList() {
     }
   });
 }
+
