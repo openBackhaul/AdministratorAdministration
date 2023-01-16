@@ -33,7 +33,7 @@ const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfMod
 const AdminProfile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/AdminProfile');
 const TcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
-const AdministratorCredentialList = require('./AuthorizationApplication');
+const AdministratorCredentialList = require('./individualServices/AuthorizationApplication');
 
 /**
  * Checks authentication of an OaM request
