@@ -11,6 +11,9 @@ const { getFilePath } = require('onf-core-model-ap/applicationPattern/onfModel/m
 const profile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/FileProfile');
 const { resolve } = require('path');
 
+const administratorList = 'administrator-credential-list';
+const authorizationValue ='authorization';
+const allowedMethodsValue ='allowed-methods';
 
 
 
@@ -33,11 +36,11 @@ exports.isAuthorizationExistAsync = async function (authorization) {
        
                     let applicationDataFile = await getfilepath();
                     let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
-                    if( applicationData["administrator-credential-list"]){
-                    let registeredApplicationList = applicationData["administrator-credential-list"];
+                    if( applicationData[administratorList]){
+                    let registeredApplicationList = applicationData[administratorList];
                     for (let i = 0; i < registeredApplicationList.length; i++) {
                         let registeredApplication = registeredApplicationList[i];
-                        let _authorization =  registeredApplication ['authorization'];
+                        let _authorization =  registeredApplication [authorizationValue];
                         if (_authorization == authorization) {
                             isAuthorizationExist = true;
                         }
@@ -57,12 +60,12 @@ exports.isAuthorizedAsync = async function (authorization,allowedMethods) {
     try {
                     let applicationDataFile = await getfilepath();
                     let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
-                    if( applicationData["administrator-credential-list"]){
-                    let registeredApplicationList = applicationData["administrator-credential-list"];
+                    if( applicationData[administratorList]){
+                    let registeredApplicationList = applicationData[administratorList];
                     for (let i = 0; i < registeredApplicationList.length; i++) {
                         let registeredApplication = registeredApplicationList[i];
-                        let _authorization =  registeredApplication ['authorization'];
-                        let _allowedMethods =  registeredApplication ['allowed-methods'];
+                        let _authorization =  registeredApplication [authorizationValue];
+                        let _allowedMethods =  registeredApplication [allowedMethodsValue];
                      if (_authorization == authorization && _allowedMethods == allowedMethods
                            ) {
                             isAuthorized = true;
