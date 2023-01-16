@@ -354,7 +354,7 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
         operationNamesByAttributes,
         individualServicesOperationsMapping.individualServicesOperationsMapping
       );
-      let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationInformationAsync(
+      let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.findOrCreateApplicationInformationAsync(
         logicalTerminatinPointConfigurationInput
       );
 
