@@ -35,6 +35,7 @@ const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfMod
 const AdminProfile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/AdminProfile');
 const TcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
+const AdministratorCredentialList = require('./individualServices/AuthorizationApplication');
 
 /**
  * Checks authentication of an OaM request
@@ -59,11 +60,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
       let authorization = body["Authorization"];
       let method = body["method"];
 
-      if (method == "GET") {
-        method = AdminProfile.AdminProfilePac.AdminProfileConfiguration.allowedMethodsEnum.GET;
-      } else {
-        method = AdminProfile.AdminProfilePac.AdminProfileConfiguration.allowedMethodsEnum.ALL;
-      }
+    
 
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
@@ -75,9 +72,10 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
       if (isApplicationExists) {
         let isReleaseExists = await httpClientInterface.isApplicationExists(applicationName, applicationReleaseNumber);
         if (isReleaseExists) {
-          let isAuthorizationExists = await AdminProfile.isAuthorizationExistAsync(authorization);
+        
+      let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
           if (isAuthorizationExists) {
-            let isAuthorized = await AdminProfile.isAuthorizedAsync(authorization, method);
+         let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization,method)
             if (isAuthorized) {
               oamRequestIsApproved = true;
             } else {
