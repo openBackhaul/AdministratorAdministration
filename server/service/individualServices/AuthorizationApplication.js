@@ -1,6 +1,6 @@
 /**
- * @file This module provides functionality to monitor the whether the registered application are approved within the required time.
- * @module MonitorTypeApprovalChannel
+ * @file This module provides functionality to  check  Authorization Status 
+ * @module AuthorizationApplication
  **/
 
 
@@ -37,6 +37,7 @@ async function getfilepath(){
 
 /**
      * @description This function returns the approval status for the provided application .
+     * @param {String} authorization : authorization code of the user , value should be Bse64 Encoding of username and password 
      * @returns {promise} string {approvalStatus}
 **/
 
@@ -69,7 +70,9 @@ exports.isAuthorizationExistAsync = async function (authorization) {
 
 /**
      * @description This function returns the approval status for the provided application .
-     * @returns {promise} string {approvalStatus}
+     * @param {String} authorization : authorization code of the user , value should be Bse64 Encoding of username and password 
+     * @param {String} allowedMethodsValue: allowedMethodsValue allowed methods as per the allowedMethodsEnum.
+     * @returns string {approvalStatus}
 **/
 
 exports.isAuthorizedAsync = async function (authorization,allowedMethods) {
