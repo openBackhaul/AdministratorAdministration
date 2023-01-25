@@ -128,6 +128,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
  **/
 exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
   return new Promise(async function (resolve, reject) {
+    const FcportValue = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
     try {
 
       /****************************************************************************************
@@ -135,33 +136,38 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
        ****************************************************************************************/
       let applicationName = body["new-application-name"];
       let releaseNumber = body["new-application-release"];
-      let applicationAddress = body["new-application-address"];
-      let applicationPort = body["new-application-port"];
-
+      let operationNamesByAttributes = new Map();
+      let tcpServerList = [
+        {
+          protocol : body["new-application-protocol"],
+          address : body["new-application-address"],
+          port : body["new-application-port"]
+      }
+      ];
+   
+      
+      
+    let newHttpClientLtpUuid = await resolveHttpClient(FcportValue)
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
        ****************************************************************************************/
+      let newReleaseHttpClientLtpUuid = newHttpClientLtpUuid[0]
+      let individualServicesOperationsMapping = [];
       let isdataTransferRequired = true;
-      let newReleaseUuid = await httpClientInterface.getHttpClientUuidAsync("NewRelease");
-      let currentApplicationName = await httpServerInterface.getApplicationNameAsync();
-      if (currentApplicationName == applicationName) {
-        let isUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseUuid, releaseNumber);
-        let currentApplicationRemoteAddress = await TcpServerInterface.getLocalAddress();
-        let currentApplicationRemotePort = await TcpServerInterface.getLocalPort();
-        if ((applicationAddress == currentApplicationRemoteAddress) &&
-          (applicationPort == currentApplicationRemotePort)) {
-          isdataTransferRequired = false;
-        }
-        if (isUpdated) {
-          applicationName = await httpClientInterface.getApplicationNameAsync(newReleaseUuid);
-          let operationList = [];
+      if (newReleaseHttpClientLtpUuid != undefined) {
+        let isReleaseUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpClientLtpUuid, releaseNumber);
+        let isApplicationNameUpdated = await httpClientInterface.setApplicationNameAsync(newReleaseHttpClientLtpUuid, applicationName);
+        if (isReleaseUpdated || isApplicationNameUpdated) {
+        let  applicationNameValue = await httpClientInterface.getApplicationNameAsync(newReleaseHttpClientLtpUuid);
+        let ReleaseNumberValue = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientLtpUuid)
           let logicalTerminatinPointConfigurationInput = new LogicalTerminatinPointConfigurationInput(
-            applicationName,
-            releaseNumber,
-            applicationAddress,
-            applicationPort,
-            operationList
+            applicationNameValue,
+            ReleaseNumberValue,
+            tcpServerList,
+            operationServerName,
+            operationNamesByAttributes,
+            individualServicesOperationsMapping
           );
           let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationInformationAsync(
             logicalTerminatinPointConfigurationInput
@@ -191,6 +197,9 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
     }
   });
 }
+
+
+
 
 
 /**
@@ -454,3 +463,29 @@ function getAllApplicationList() {
   });
 }
 
+var resolveHttpClient = exports.resolveHttpClientLtpUuidFromForwardingName =  function (forwardingName) {
+  return new Promise(async function (resolve, reject) {
+    try{
+    let ForwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
+    if (ForwardConstructName === undefined) {
+    return null;
+    }
+  let LogicalTerminationPointlist;
+  let httpClientUuidList = [];
+  let ForwardConstructUuid = ForwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
+  let ListofUuid = await ForwardingConstruct.getFcPortListAsync(ForwardConstructUuid)
+  for (let i = 0; i < ListofUuid.length; i++) {
+     let PortDirection = ListofUuid[i][[onfAttributes.FC_PORT.PORT_DIRECTION]]
+      if (PortDirection === FcPort.portDirectionEnum.OUTPUT) {
+        LogicalTerminationPointlist = ListofUuid[i][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT]
+         let httpClientUuid = await logicalTerminationPoint.getServerLtpListAsync(LogicalTerminationPointlist)
+           httpClientUuidList.push(httpClientUuid[0]);
+
+         }
+      }
+        resolve(httpClientUuidList)
+      }catch(error){
+        console.log(error)
+      }
+    })
+  }

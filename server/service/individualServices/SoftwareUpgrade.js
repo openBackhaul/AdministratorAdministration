@@ -17,6 +17,10 @@ const applicationProfile = require('onf-core-model-ap/applicationPattern/onfMode
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/client/eventDispatcher');
+const IndivisualService = require('../IndividualServicesService')
+const FcportValue = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
+
+
 /**
  * This method performs the set of procedure to transfer the data from this version to next version 
  * of the application and bring the new release official
@@ -141,15 +145,18 @@ async function PromptForBequeathingDataCausesTransferOfListOfApplications(user, 
                     let releaseNumber = await httpClientInterface.getReleaseNumberAsync(httpClientUuid);
                     let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(tcpClientUuid);
                     let applicationPort = await tcpClientInterface.getRemotePortAsync(tcpClientUuid);
+                    let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid);
+
                     /***********************************************************************************
                      * PromptForBequeathingDataCausesTransferOfListOfApplications
                      *   /v1/regard-application
                      ************************************************************************************/
                     let requestBody = {};
                     requestBody.applicationName = applicationName;
-                    requestBody.applicationReleaseNumber = releaseNumber;
-                    requestBody.applicationAddress = applicationAddress;
-                    requestBody.applicationPort = applicationPort;
+                    requestBody.releaseNumber = releaseNumber;
+                    requestBody.Address = applicationAddress;
+                    requestBody.Port = applicationPort;
+                    requestBody.Protocol = applicationProtocol.toUpperCase();
                     requestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(requestBody);
                     result = await forwardRequest(
                         forwardingKindNameOfTheBequeathOperation,
@@ -188,21 +195,21 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOf
         try {
             let result = true;
             let forwardingKindNameOfTheBequeathOperation = "PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease";
-
+           
             /***********************************************************************************
              * Preparing requestBody 
              ************************************************************************************/
             try {
-
-                let newReleaseHttpClientUuid = await httpClientInterface.getHttpClientUuidAsync("NewRelease");
+                let newHttpClientUuid = await IndivisualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue)
+                let newReleaseHttpClientUuid = newHttpClientUuid[0]     
                 let newReleaseTcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientUuid))[0];
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
                 let releaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid);
-                let regardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-0-0-1-op-s-3001");
+                let regardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-0-op-s-is-001");
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
-
+                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid); 
                 /***********************************************************************************
                  * PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease
                  *   /v1/notify-approvals
@@ -213,6 +220,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOf
                 requestBody.subscriberOperation = regardApplicationOperation;
                 requestBody.subscriberAddress = applicationAddress;
                 requestBody.subscriberPort = applicationPort;
+                requestBody.subscriberProtocol = applicationProtocol.toUpperCase();
                 requestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(requestBody);
                 result = await forwardRequest(
                     forwardingKindNameOfTheBequeathOperation,
@@ -256,16 +264,16 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnAp
              * Preparing requestBody 
              ************************************************************************************/
             try {
-
-                let newReleaseHttpClientUuid = await httpClientInterface.getHttpClientUuidAsync("NewRelease");
+                let newHttpClientUuid = await IndivisualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue)
+                let newReleaseHttpClientUuid = newHttpClientUuid[0]
                 let newReleaseTcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientUuid))[0];
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
                 let releaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid);
-                let disregardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-0-0-1-op-s-3002");
+                let disregardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-0-op-s-is-002");
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
-
+                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid);
                 /***********************************************************************************
                  * PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease
                  *   /v1/notify-withdrawn-approvals
@@ -276,6 +284,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnAp
                 requestBody.subscriberOperation = disregardApplicationOperation;
                 requestBody.subscriberAddress = applicationAddress;
                 requestBody.subscriberPort = applicationPort;
+                requestBody.subscriberProtocol = applicationProtocol.toUpperCase();
                 requestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(requestBody);
                 result = await forwardRequest(
                     forwardingKindNameOfTheBequeathOperation,
@@ -316,8 +325,8 @@ async function PromptForBequeathingDataCausesRObeingRequestedToStopNotifications
             let forwardingKindNameOfTheBequeathOperation = "PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease";
 
             let listOfOperationToBeUnsubscribed = [];
-            let approvalOperationName = await operationClientInterface.getOperationNameAsync("aa-0-0-1-op-c-3020");
-            let deregistrationOperationName = await operationClientInterface.getOperationNameAsync("aa-0-0-1-op-c-3021");
+            let approvalOperationName = await operationClientInterface.getOperationNameAsync("aa-2-0-0-op-c-im-ro-2-0-0-000");
+            let deregistrationOperationName = await operationClientInterface.getOperationNameAsync("aa-2-0-0-op-c-im-ro-2-0-0-001");
             listOfOperationToBeUnsubscribed.push(approvalOperationName);
             listOfOperationToBeUnsubscribed.push(deregistrationOperationName);
             /***********************************************************************************
@@ -383,25 +392,29 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
              ************************************************************************************/
             try {
 
-                let newReleaseHttpClientUuid = await httpClientInterface.getHttpClientUuidAsync("NewRelease");
+                let newHttpClientUuid = await IndivisualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue) 
+                let newReleaseHttpClientUuid = newHttpClientUuid[0]
                 let newReleaseTcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientUuid))[0];
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
                 let oldReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
-                let newReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid);
+                let newApplicationName = await HttpClientInterface.getApplicationNameAsync(newReleaseHttpClientUuid)
+                let newReleaseNumber= await HttpServerInterface.getReleaseNumberAsync(newReleaseHttpClientUuid)
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
-
+                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid);   
                 /***********************************************************************************
                  * PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
                  *   /v1/relay-server-replacement
                  ************************************************************************************/
                 let requestBody = {};
-                requestBody.applicationName = applicationName;
-                requestBody.oldApplicationReleaseNumber = oldReleaseNumber;
-                requestBody.newApplicationReleaseNumber = newReleaseNumber;
-                requestBody.newApplicationAddress = applicationAddress;
-                requestBody.newApplicationPort = applicationPort;
+                 requestBody.currentApplicationName = applicationName;
+                 requestBody.currentReleaseNumber = oldReleaseNumber; 
+                 requestBody.futureReleaseNumber = newReleaseNumber; 
+                 requestBody.futureApplicationName = newApplicationName;
+                 requestBody.futureAddress = applicationAddress;
+                 requestBody.futurePort= applicationPort;
+                 requestBody.futureProtocol= applicationProtocol.toUpperCase()
                 requestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(requestBody);
                 result = await forwardRequest(
                     forwardingKindNameOfTheBequeathOperation,
@@ -445,7 +458,9 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
              * Preparing requestBody 
              ************************************************************************************/
             try {
-                let newReleaseHttpClientUuid = await httpClientInterface.getHttpClientUuidAsync("NewRelease");
+                let newHttpClientUuid = await IndivisualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue);
+                let newReleaseHttpClientUuid = newHttpClientUuid[0]
+               
                 let oldApplicationName = await httpServerInterface.getApplicationNameAsync();
                 let oldReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
                 let newReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid);
@@ -456,7 +471,7 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
                      ************************************************************************************/
                     let requestBody = {};
                     requestBody.applicationName = oldApplicationName;
-                    requestBody.applicationReleaseNumber = oldReleaseNumber;
+                    requestBody.releaseNumber = oldReleaseNumber;
                     requestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(requestBody);
                     result = await forwardRequest(
                         forwardingKindNameOfTheBequeathOperation,
