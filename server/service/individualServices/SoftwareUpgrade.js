@@ -206,7 +206,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOf
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
                 let releaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid);
-                let regardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-0-op-s-is-001");
+                let regardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-1-op-s-is-001");
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
                 let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid); 
@@ -270,7 +270,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnAp
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
                 let releaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid);
-                let disregardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-0-op-s-is-002");
+                let disregardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-1-op-s-is-002");
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
                 let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid);
@@ -325,8 +325,8 @@ async function PromptForBequeathingDataCausesRObeingRequestedToStopNotifications
             let forwardingKindNameOfTheBequeathOperation = "PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease";
 
             let listOfOperationToBeUnsubscribed = [];
-            let approvalOperationName = await operationClientInterface.getOperationNameAsync("aa-2-0-0-op-c-im-ro-2-0-0-000");
-            let deregistrationOperationName = await operationClientInterface.getOperationNameAsync("aa-2-0-0-op-c-im-ro-2-0-0-001");
+            let approvalOperationName = await operationClientInterface.getOperationNameAsync("aa-2-0-1-op-c-im-ro-2-0-1-000");
+            let deregistrationOperationName = await operationClientInterface.getOperationNameAsync("aa-2-0-1-op-c-im-ro-2-0-1-001");
             listOfOperationToBeUnsubscribed.push(approvalOperationName);
             listOfOperationToBeUnsubscribed.push(deregistrationOperationName);
             /***********************************************************************************
