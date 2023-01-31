@@ -120,16 +120,7 @@ exports.getTcpServerLocalProtocol = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
       var value = await fileOperation.readFromDatabaseAsync(url);
-      if (value.toUpperCase() == "HTTP") {
-        value = "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP";
-      } else if (value.toUpperCase() == "HTTPS") {
-        value = "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS";
-        console.log(value)
-      } else {
-        value = "tcp-server-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED";
-      }
       
-  
       var response = {};
       response['application/json'] = {
         "tcp-server-interface-1-0:local-protocol": value
@@ -156,19 +147,8 @@ exports.getTcpServerLocalProtocol = function(url) {
 
 exports.putTcpServerLocalProtocol = function(url,body,uuid) {
   return new Promise(async function(resolve, reject) {
-   // let BodyValue =  body['tcp-server-interface-1-0:local-protocol'].split('_')[2];
     try {
-      
-        let value = body["tcp-server-interface-1-0:local-protocol"];
-        if (value == "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP") {
-          body["tcp-server-interface-1-0:local-protocol"] = "HTTP";
-        } else if (value == "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS") {
-          body["tcp-server-interface-1-0:local-protocol"] = "HTTPS";
-        } else {
-          body["tcp-server-interface-1-0:local-protocol"] = "NOT_YET_DEFINED";
-
-        }
-
+        
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
   
         /****************************************************************************************
