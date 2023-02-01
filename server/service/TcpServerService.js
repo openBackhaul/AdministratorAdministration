@@ -11,15 +11,15 @@ const ForwardingAutomationService = require('onf-core-model-ap/applicationPatter
  **/
 exports.getTcpServerLocalAddress = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+  response['application/json'] = {
   "tcp-server-interface-1-0:local-address" : 
   value
   
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -57,7 +57,7 @@ exports.getTcpServerLocalPort = function (url) {
 /**
  * Documents IPv4 address of the server
  *
- * body Localaddress_ipv4address_body 
+ * body Localaddress_ipv4address_body
  * uuid String 
  * no response value expected for this operation
  **/
@@ -116,6 +116,7 @@ exports.putTcpServerLocalPort = function (url, body,uuid) {
   });
 }
 
+
 exports.getTcpServerLocalProtocol = function(url) {
   return new Promise(async function(resolve, reject) {
     try {
@@ -138,12 +139,7 @@ exports.getTcpServerLocalProtocol = function(url) {
 
 
  
-   /* var examples = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
-  "tcp-server-interface-1-0:local-protocol" : "tcp-server-interface-1-0:PROTOCOL_TYPE_"+value
-};*/
-    
+   
 
 exports.putTcpServerLocalProtocol = function(url,body,uuid) {
   return new Promise(async function(resolve, reject) {
@@ -205,13 +201,13 @@ exports.putTcpServerDescription = function(url,body,uuid) {
 
 exports.getTcpServerDescription = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "tcp-server-interface-1-0:description" : "tcp-server-interface-1-0:"+value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }

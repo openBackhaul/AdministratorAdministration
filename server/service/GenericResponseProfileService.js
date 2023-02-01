@@ -10,13 +10,13 @@ const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constant
  **/
 exports.getGenericResponseProfileDatatype = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "response-profile-1-0:datatype" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -32,15 +32,13 @@ exports.getGenericResponseProfileDatatype = function(url) {
  **/
 exports.getGenericResponseProfileDescription = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
-    console.log("function",url)
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    console.log(value)
-    examples['application/json'] = {
+    var response = {};
+    var value = await fileOperation.readFromDatabaseAsync(url); 
+    response['application/json'] = {
   "response-profile-1-0:description" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -56,15 +54,14 @@ exports.getGenericResponseProfileDescription = function(url) {
  **/
 exports.getGenericResponseProfileFieldName = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
-    console.log(url)
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    console.log(value)
-    examples['application/json'] = {
+   
+    response['application/json'] = {
   "response-profile-1-0:field-name" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -80,14 +77,13 @@ exports.getGenericResponseProfileFieldName = function(url) {
  **/
 exports.getGenericResponseProfileOperationName = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    console.log(value)
-    examples['application/json'] = {
+    response['application/json'] = {
   "response-profile-1-0:operation-name" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -103,13 +99,13 @@ exports.getGenericResponseProfileOperationName = function(url) {
  **/
 exports.getGenericResponseProfileValue = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "response-profile-1-0:value" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }

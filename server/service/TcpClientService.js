@@ -145,7 +145,7 @@ exports.putTcpClientRemoteProtocol = function(url,body,uuid) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
   
    
-  
+
         /****************************************************************************************
          * Prepare attributes to automate forwarding-construct
          ****************************************************************************************/

@@ -77,7 +77,7 @@ exports.putHttpClientReleaseNumber = function (body, url,uuid) {
       resolve();
     } catch (error) {}
     reject();
-    reject();
+    
   });
 }
 

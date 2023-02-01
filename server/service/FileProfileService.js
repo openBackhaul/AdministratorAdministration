@@ -11,13 +11,13 @@ var fileOperation = require('../node_modules/onf-core-model-ap/applicationPatter
  **/
 exports.getFileProfileFileDescription = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "file-profile-1-0:file-description" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -33,13 +33,13 @@ exports.getFileProfileFileDescription = function(url) {
  **/
 exports.getFileProfileFileIdentifier = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "file-profile-1-0:file-identifier" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -55,13 +55,13 @@ exports.getFileProfileFileIdentifier = function(url) {
  **/
 exports.getFileProfileFilePath = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "file-profile-1-0:file-path" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -77,13 +77,13 @@ exports.getFileProfileFilePath = function(url) {
  **/
 exports.getFileProfileOperation = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "file-profile-1-0:operation" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -99,13 +99,13 @@ exports.getFileProfileOperation = function(url) {
  **/
 exports.getFileProfilePassword = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "file-profile-1-0:password" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -121,13 +121,13 @@ exports.getFileProfilePassword = function(url) {
  **/
 exports.getFileProfileUserName = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "file-profile-1-0:user-name" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }

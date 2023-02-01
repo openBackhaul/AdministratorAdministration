@@ -92,8 +92,6 @@ exports.putOperationServerLifeCycleState = function (url, body,uuid) {
     try {
       let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
 
- 
-console.log("isUdated",isUpdated)
       /****************************************************************************************
        * Prepare attributes to automate forwarding-construct
        ****************************************************************************************/

@@ -36,13 +36,13 @@ exports.getControlConstruct = function () {
  **/
 exports.getProfileInstance = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "core-model-1-4:profile" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }

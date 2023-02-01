@@ -10,13 +10,13 @@ var fileOperation = require('../node_modules/onf-core-model-ap/applicationPatter
  **/
 exports.getActionProfileConsequentOperationReference = function(url) {
   return new Promise( async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "action-profile-1-0:consequent-operation-reference" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -32,13 +32,13 @@ exports.getActionProfileConsequentOperationReference = function(url) {
  **/
 exports.getActionProfileDisplayInNewBrowserWindow = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "action-profile-1-0:display-in-new-browser-window" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -54,28 +54,16 @@ exports.getActionProfileDisplayInNewBrowserWindow = function(url) {
  **/
 exports.getActionProfileInputValueListt = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
     console.log(value)
-    examples['application/json'] = {
+    response['application/json'] = {
         "action-profile-1-0:input-value-list" : value 
 };
-/*"action-profile-1-0:input-value-list" : [ {
-    "field-name" : "Label of input field",
-    "unit" : "Unit at input field"
-  }, {
-    "field-name" : "Label of input field",
-    "unit" : "Unit at input field"
-  } ] [ {
-    "field-name" : "Label of input field",
-    "unit" : "Unit at input field"
-  }, {
-    "field-name" : "Label of input field",
-    "unit" : "Unit at input field"
-  } ]*/    
+   
 
-if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -91,13 +79,13 @@ if (Object.keys(examples).length > 0) {
  **/
 exports.getActionProfileLabel = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "action-profile-1-0:label" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
@@ -113,13 +101,13 @@ exports.getActionProfileLabel = function(url) {
  **/
 exports.getActionProfileOperationName = function(url) {
   return new Promise(async function(resolve, reject) {
-    var examples = {};
+    var response = {};
     var value = await fileOperation.readFromDatabaseAsync(url);
-    examples['application/json'] = {
+    response['application/json'] = {
   "action-profile-1-0:operation-name" : value
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
+    if (Object.keys(response).length > 0) {
+      resolve(response[Object.keys(response)[0]]);
     } else {
       resolve();
     }
