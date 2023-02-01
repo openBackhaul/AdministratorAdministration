@@ -480,8 +480,8 @@ var resolveHttpClient = exports.resolveHttpClientLtpUuidFromForwardingName =  fu
      let PortDirection = ListofUuid[i][[onfAttributes.FC_PORT.PORT_DIRECTION]]
       if (PortDirection === FcPort.portDirectionEnum.OUTPUT) {
         LogicalTerminationPointlist = ListofUuid[i][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT]
-         let httpClientUuid = await logicalTerminationPoint.getServerLtpListAsync(LogicalTerminationPointlist)
-           httpClientUuidList.push(httpClientUuid[0]);
+        let httpClientUuid = await logicalTerminationPoint.getServerLtpListAsync(LogicalTerminationPointlist)
+           httpClientUuidList.push(httpClientUuid[0],LogicalTerminationPointlist);
 
          }
       }
