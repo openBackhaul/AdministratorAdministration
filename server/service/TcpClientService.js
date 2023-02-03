@@ -89,7 +89,8 @@ exports.getTcpClientRemotePort = function (url) {
 exports.putTcpClientRemoteAddress = function(url,body,uuid) {
   return new Promise(async function(resolve, reject) {
     try {
-      let isUpdated = await tcpClientInterface.setRemoteAddressAsync(uuid, body["tcp-client-interface-1-0:remote-address"]);
+      let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
+
       /****************************************************************************************
        * Prepare attributes to automate forwarding-construct
        ****************************************************************************************/

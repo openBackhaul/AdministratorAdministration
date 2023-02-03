@@ -137,26 +137,17 @@ exports.getOperationClientOperationalState = function (url) {
  * body Operationclientinterfaceconfiguration_detailedloggingison_body 
  * no response value expected for this operation
  **/
-exports.putOperationClientDetailedLoggingIsOn = function (url, body,uuid) {
+exports.putOperationClientDetailedLoggingIsOn = function (url, body) {
   return new Promise(async function (resolve, reject) {
     try {
-      let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
-      /****************************************************************************************
-       * Prepare attributes to automate forwarding-construct
-       ****************************************************************************************/
-      if(isUpdated){
-        let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
-          uuid
-        );
-        ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
-          forwardingAutomationInputList
-        );
-      }      
+      await fileOperation.writeToDatabaseAsync(url, body, false);
       resolve();
-    } catch (error) {}
-    reject();
+    } catch (error) {
+      reject();
+    }
   });
 }
+
 
 /**
  * Configures key used for connecting to server.

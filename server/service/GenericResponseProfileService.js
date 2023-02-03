@@ -120,43 +120,14 @@ exports.getGenericResponseProfileValue = function(url) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putGenericResponseProfileValue = function(url,body,uuid) {
+exports.putGenericResponseProfileValue = function(url,body) {
   return new Promise(async function(resolve, reject) {
     try {
-        let isInputHasValueReference = "value-reference" in body["response-profile-1-0:value"];
-        let isValueReferenceExist = await fileOperation.readFromDatabaseAsync(
-          onfPaths.RESPONSE_PROFILE_VALUE_REFERENCE.replace("{profileUuid}", uuid));
-        if (isInputHasValueReference) {
-          if (isValueReferenceExist != undefined) {
-            await fileOperation.writeToDatabaseAsync(url, body, false);
-          } else {
-            let isDeleted = await fileOperation.deletefromDatabaseAsync(
-              onfPaths.RESPONSE_PROFILE_STATIC_VALUE.replace(
-                "{profileUuid}", uuid),
-              "",
-              false
-            );
-            if (isDeleted) {
-              await fileOperation.writeToDatabaseAsync(url, body, false);
-            }
-          }
-        } else {
-          if (isValueReferenceExist != undefined) {
-            let isDeleted = await fileOperation.deletefromDatabaseAsync(
-              onfPaths.RESPONSE_PROFILE_VALUE_REFERENCE.replace(
-                "{profileUuid}", uuid),
-              "",
-              false
-            );
-            if (isDeleted) {
-              await fileOperation.writeToDatabaseAsync(url, body, false);
-            }
-          } else {
-            await fileOperation.writeToDatabaseAsync(url, body, false);
-          }
-        }
-        resolve();
-      } catch (error) {}
+      await fileOperation.writeToDatabaseAsync(url, body, false);
+      resolve();
+    } catch (error) {
       reject();
-    });
+    }
+  });    
+          
   }
