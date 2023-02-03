@@ -209,7 +209,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOf
                 let regardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-1-op-s-is-001");
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
-                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid); 
+                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpClientUuid); 
                 /***********************************************************************************
                  * PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease
                  *   /v1/notify-approvals
@@ -273,7 +273,7 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnAp
                 let disregardApplicationOperation = await OperationServerInterface.getOperationNameAsync("aa-2-0-1-op-s-is-002");
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
-                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid);
+                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpClientUuid);
                 /***********************************************************************************
                  * PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease
                  *   /v1/notify-withdrawn-approvals
@@ -408,7 +408,7 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
                 let newReleaseNumber= await HttpServerInterface.getReleaseNumberAsync(newReleaseHttpClientUuid)
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
-                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid);   
+                let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpClientUuid);   
                 /***********************************************************************************
                  * PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
                  *   /v1/relay-server-replacement

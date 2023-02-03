@@ -29,6 +29,7 @@ exports.regardApplication = function (logicalTerminationPointconfigurationStatus
             InquiringOamRequestRequestBody.oamApprovalOperation = await operationServerInterface.getOperationNameAsync("aa-2-0-1-op-s-is-004");
             InquiringOamRequestRequestBody.oamApprovalAddress = await tcpServerInterface.getLocalAddress();
             InquiringOamRequestRequestBody.oamApprovalPort = await tcpServerInterface.getLocalPort();
+            InquiringOamRequestRequestBody.oamApprovalProtocol = await tcpServerInterface.getLocalProtocol();
             InquiringOamRequestRequestBody = onfFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestRequestBody);
             let forwardingAutomation = new forwardingConstructAutomationInput(
                 InquiringOamRequestForwardingName,
