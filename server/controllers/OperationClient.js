@@ -70,9 +70,9 @@ module.exports.getOperationClientOperationalState = async function getOperationC
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putOperationClientDetailedLoggingIsOn = async function putOperationClientDetailedLoggingIsOn(req, res, next, body) {
+module.exports.putOperationClientDetailedLoggingIsOn = async function putOperationClientDetailedLoggingIsOn(req, res, next, body,uuid) {
   let responseCode = responseCodeEnum.code.NO_CONTENT;
-  await OperationClient.putOperationClientDetailedLoggingIsOn(req.url, body)
+  await OperationClient.putOperationClientDetailedLoggingIsOn(req.url, body,uuid)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
@@ -98,7 +98,7 @@ module.exports.putOperationClientOperationKey = async function putOperationClien
 
 module.exports.putOperationClientOperationName = async function putOperationClientOperationName(req, res, next, body, uuid) {
   let responseCode = responseCodeEnum.code.NO_CONTENT;
-  await OperationClient.putOperationClientOperationName(req.url, body)
+  await OperationClient.putOperationClientOperationName(req.url, body,uuid)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
