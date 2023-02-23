@@ -10,7 +10,7 @@ const ForwardingAutomationService = require('onf-core-model-ap/applicationPatter
 const prepareForwardingConfiguration = require('./individualServices/PrepareForwardingConfiguration');
 const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
-const individualServicesOperationsMapping = require('./individualServices/IndividualServicesOperationsMapping');
+const individualServicesOperationsMapping = require('./individualServices/individualServicesOperationsMapping');
 
 
 const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
