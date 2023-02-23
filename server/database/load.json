@@ -234,7 +234,7 @@
                   "file-description": "Administrator name, user name, authorization and allowed methods"
                 },
                 "file-profile-configuration": {
-                  "file-path": "../application-data/application-data.json",
+                  "file-path": "./application-data/application-data.json",
                   "user-name": "AdministratorAdministration",
                   "password": "Operations to add password",
                   "operation": "file-profile-1-0:OPERATION_TYPE_READ_WRITE"
