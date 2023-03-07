@@ -200,8 +200,8 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOf
              * Preparing requestBody 
              ************************************************************************************/
             try {
-                let newHttpClientUuid = await IndividualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue)
-                let newReleaseHttpClientUuid = newHttpClientUuid.httpClientUuid  
+                let newClientUuidList = await IndividualService.resolveHttpTcpAndOperationClientUuidFromForwardingName(FcportValue)
+                let newReleaseHttpClientUuid = newClientUuidList.httpClientUuid  
                 let newReleaseTcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientUuid))[0];
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
@@ -264,8 +264,8 @@ async function PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnAp
              * Preparing requestBody 
              ************************************************************************************/
             try {
-                let newHttpClientUuid = await IndividualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue)
-                let newReleaseHttpClientUuid = newHttpClientUuid.httpClientUuid
+                let newClientUuidList = await IndividualService.resolveHttpTcpAndOperationClientUuidFromForwardingName(FcportValue)
+                let newReleaseHttpClientUuid = newClientUuidList.httpClientUuid
                 let newReleaseTcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientUuid))[0];
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
@@ -326,9 +326,9 @@ async function PromptForBequeathingDataCausesRObeingRequestedToStopNotifications
             let forwardingKindNameOfTheNotifyApprovals= "PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease";
             let forwardingKindNameOfTheNotifyWithdrawnApprovals= "PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease";
             
-            let operationClientUuidValueOfnotifyApprovals = await IndividualService.resolveHttpClientLtpUuidFromForwardingName(forwardingKindNameOfTheNotifyApprovals);
+            let operationClientUuidValueOfnotifyApprovals = await IndividualService.resolveHttpTcpAndOperationClientUuidFromForwardingName(forwardingKindNameOfTheNotifyApprovals);
             let operationClientUuidOfnotifyApprovals = operationClientUuidValueOfnotifyApprovals.operationClientUuid
-            let operationClientUuidValuenotifyWithdrawnApprovals = await IndividualService.resolveHttpClientLtpUuidFromForwardingName(forwardingKindNameOfTheNotifyWithdrawnApprovals)
+            let operationClientUuidValuenotifyWithdrawnApprovals = await IndividualService.resolveHttpTcpAndOperationClientUuidFromForwardingName(forwardingKindNameOfTheNotifyWithdrawnApprovals)
             let operationClientUuidOfnotifyWithdrawnApprovals = operationClientUuidValuenotifyWithdrawnApprovals.operationClientUuid
             let listOfOperationToBeUnsubscribed = [];
             let approvalOperationName = await operationClientInterface.getOperationNameAsync(operationClientUuidOfnotifyApprovals);
@@ -398,8 +398,8 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
              ************************************************************************************/
             try {
 
-                let newHttpClientUuid = await IndividualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue) 
-                let newReleaseHttpClientUuid = newHttpClientUuid.httpClientUuid
+                let newClientUuidList = await IndividualService.resolveHttpTcpAndOperationClientUuidFromForwardingName(FcportValue) 
+                let newReleaseHttpClientUuid = newClientUuidList.httpClientUuid
                 let newReleaseTcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientUuid))[0];
 
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
@@ -464,8 +464,8 @@ async function promptForBequeathingDataCausesRequestForDeregisteringOfOldRelease
              * Preparing requestBody 
              ************************************************************************************/
             try {
-                let newHttpClientUuid = await IndividualService.resolveHttpClientLtpUuidFromForwardingName(FcportValue);
-                let newReleaseHttpClientUuid = newHttpClientUuid.httpClientUuid
+                let newClientUuidList = await IndividualService.resolveHttpTcpAndOperationClientUuidFromForwardingName(FcportValue);
+                let newReleaseHttpClientUuid = newClientUuidList.httpClientUuid
                
                 let oldApplicationName = await httpServerInterface.getApplicationNameAsync();
                 let oldReleaseNumber = await httpServerInterface.getReleaseNumberAsync();

@@ -140,14 +140,14 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationPort = body["new-application-port"];
       
       
-    let httpClientUuidList = await resolveHttpClient(FcportValue)
+    let newReleaseUuids = await resolveHttpTcpAndOperationClient(FcportValue)
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
        ****************************************************************************************/
       let isdataTransferRequired = true;
-      let newReleaseHttpClientLtpUuid = httpClientUuidList.httpClientUuid;
-      let tcpclientUuid = httpClientUuidList.tcpClientUuid;
+      let newReleaseHttpClientLtpUuid = newReleaseUuids.httpClientUuid;
+      let tcpclientUuid = newReleaseUuids.tcpClientUuid;
       
       let currentNewReleaseApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpClientLtpUuid);
       let currentNewReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientLtpUuid);
@@ -488,7 +488,7 @@ function getAllApplicationList() {
   });
 }
 
-var resolveHttpClient = exports.resolveHttpClientLtpUuidFromForwardingName =  function (forwardingName) {
+var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientUuidFromForwardingName =  function (forwardingName) {
   return new Promise(async function (resolve, reject) {
     try{
     let uuidList = {};
