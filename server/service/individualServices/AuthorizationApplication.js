@@ -14,23 +14,7 @@ const { resolve } = require('path');
 const administratorList = 'administrator-credential-list';
 const authorizationValue = 'authorization';
 const allowedMethodsValue = 'allowed-methods';
-
-/**
-     * @description This function returns the File path from the  FileProfile .
-     * @returns  string {FilePath}
-**/
-
-async function getfilepath() {
-    try {
-        let FileProfileUuuidList = await profile.getFileProfileUuidsList()
-        let FileProfilePath = await profile.getFilePath(FileProfileUuuidList[0])
-        if (fs.existsSync(FileProfilePath)) {
-            return FileProfilePath
-        }
-    } catch (err) {
-        console.error(err)
-    }
-}
+const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver')
 
 /**
      * @description This function returns the approval status for the provided application .
@@ -45,8 +29,7 @@ exports.isAuthorizationExistAsync = async function (authorization) {
         let isFileExit = false;
         let isAuthorizationFile = {};
         try {
-
-            let applicationDataFile = await getfilepath();
+            let applicationDataFile = await fileOperation.getApplicationDataFile()
             if (applicationDataFile !== undefined) {
                 isFileExit = true;
                 let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
@@ -80,7 +63,7 @@ exports.isAuthorizedAsync = async function (authorization, allowedMethods) {
     return new Promise(async function (resolve, reject) {
         let isAuthorized = false;
         try {
-            let applicationDataFile = await getfilepath();
+            let applicationDataFile = await fileOperation.getApplicationDataFile()
             if (applicationDataFile !== undefined) {
                 let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
                 if (applicationData[administratorList]) {
