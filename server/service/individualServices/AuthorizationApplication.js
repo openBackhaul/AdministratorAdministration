@@ -12,27 +12,24 @@ const profile = require('onf-core-model-ap/applicationPattern/onfModel/models/pr
 const { resolve } = require('path');
 
 const administratorList = 'administrator-credential-list';
-const authorizationValue ='authorization';
-const allowedMethodsValue ='allowed-methods';
+const authorizationValue = 'authorization';
+const allowedMethodsValue = 'allowed-methods';
 
 /**
      * @description This function returns the File path from the  FileProfile .
      * @returns  string {FilePath}
 **/
 
-async function getfilepath(){
-    try {  
-    let FileProfileUuuidList = await profile.getFileProfileUuidsList()
-    let FileProfilePath = await profile.getFilePath(FileProfileUuuidList[0])
-    if (fs.existsSync(FileProfilePath)) {
-        return FileProfilePath
+async function getfilepath() {
+    try {
+        let FileProfileUuuidList = await profile.getFileProfileUuidsList()
+        let FileProfilePath = await profile.getFilePath(FileProfileUuuidList[0])
+        if (fs.existsSync(FileProfilePath)) {
+            return FileProfilePath
+        }
+    } catch (err) {
+        console.error(err)
     }
-    else {
-        return
-    }
-} catch(err) {
-    console.error(err)
-  }
 }
 
 /**
@@ -44,28 +41,32 @@ async function getfilepath(){
 
 exports.isAuthorizationExistAsync = async function (authorization) {
     return new Promise(async function (resolve, reject) {
-    let isAuthorizationExist = false;           
-    try {
-       
-                    let applicationDataFile = await getfilepath();
-                    if(applicationDataFile !== undefined){
-                    let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
-                    if( applicationData[administratorList]){
+        let isAuthorizationExist = false;
+        let isFileExit = false;
+        let isAuthorizationFile = {};
+        try {
+
+            let applicationDataFile = await getfilepath();
+            if (applicationDataFile !== undefined) {
+                isFileExit = true;
+                let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
+                if (applicationData[administratorList]) {
                     let registeredApplicationList = applicationData[administratorList];
                     for (let i = 0; i < registeredApplicationList.length; i++) {
                         let registeredApplication = registeredApplicationList[i];
-                        let _authorization =  registeredApplication [authorizationValue];
+                        let _authorization = registeredApplication[authorizationValue];
                         if (_authorization == authorization) {
                             isAuthorizationExist = true;
                         }
                     }
-                  }
                 }
-                    resolve(isAuthorizationExist);
-                } catch (error) {
-                    console.log(error);
-                }
-            });
+            }
+            isAuthorizationFile = { isAuthorizationExist, isFileExit }
+            resolve(isAuthorizationFile);
+        } catch (error) {
+            console.log(error);
+        }
+    });
 }
 
 /**
@@ -75,29 +76,29 @@ exports.isAuthorizationExistAsync = async function (authorization) {
      * @returns string {approvalStatus}
 **/
 
-exports.isAuthorizedAsync = async function (authorization,allowedMethods) {
+exports.isAuthorizedAsync = async function (authorization, allowedMethods) {
     return new Promise(async function (resolve, reject) {
-        let isAuthorized = false;         
-    try {
-                    let applicationDataFile = await getfilepath();
-                    if(applicationDataFile !== undefined){
-                    let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
-                    if( applicationData[administratorList]){
+        let isAuthorized = false;
+        try {
+            let applicationDataFile = await getfilepath();
+            if (applicationDataFile !== undefined) {
+                let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
+                if (applicationData[administratorList]) {
                     let registeredApplicationList = applicationData[administratorList];
                     for (let i = 0; i < registeredApplicationList.length; i++) {
                         let registeredApplication = registeredApplicationList[i];
-                        let _authorization =  registeredApplication [authorizationValue];
-                        let _allowedMethods =  registeredApplication [allowedMethodsValue];
-                     if (_authorization == authorization && _allowedMethods == allowedMethods
-                           ) {
+                        let _authorization = registeredApplication[authorizationValue];
+                        let _allowedMethods = registeredApplication[allowedMethodsValue];
+                        if (_authorization == authorization && (_allowedMethods == allowedMethods || _allowedMethods == "ALL")
+                        ) {
                             isAuthorized = true;
                         }
                     }
                 }
             }
-                    resolve(isAuthorized);
-                } catch (error) {
-                    console.log(error);
-                }
-            });
+            resolve(isAuthorized);
+        } catch (error) {
+            console.log(error);
+        }
+    });
 }
