@@ -150,9 +150,19 @@ exports.putTcpServerLocalProtocol = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
     try {
 
-      let oldValue = await tcpClientInterface.getRemotePortAsync();
+      let oldValue = await tcpServerInterface.getLocalProtocol()
       let newValue = body["tcp-server-interface-1-0:local-protocol"];
-      if (oldValue !== newValue) {
+      let value
+      if (oldValue == "HTTPS") {
+        value = "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTPS"
+      }
+      else if (oldValue == "HTTP") {
+        value = "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP"
+      }
+      else { 
+        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED"
+       }
+      if (value !== newValue) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
 
         /****************************************************************************************

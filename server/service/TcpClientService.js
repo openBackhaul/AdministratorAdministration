@@ -150,9 +150,19 @@ exports.putTcpClientRemoteProtocol = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
 
     try {
-      let oldValue = await tcpClientInterface.getRemoteProtocolAsync(uuid);
+      let oldValue = await tcpClientInterface.getRemoteProtocolAsync(uuid)
       let newValue = body["tcp-client-interface-1-0:remote-protocol"];
-      if (oldValue !== newValue) {
+      let value
+      if (oldValue == "HTTPS") {
+        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS"
+      }
+      else if (oldValue == "HTTP") {
+        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP"
+      }
+      else {
+        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED"
+      }
+      if (value !== newValue) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
 
         /****************************************************************************************
