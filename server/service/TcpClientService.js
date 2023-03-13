@@ -154,13 +154,13 @@ exports.putTcpClientRemoteProtocol = function (url, body, uuid) {
       let newValue = body["tcp-client-interface-1-0:remote-protocol"];
       let value
       if (oldValue == "HTTPS") {
-        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTPS"
+        value = tcpClientInterface.TcpClientInterfacePac.TcpClientInterfaceConfiguration.remoteProtocolEnum.HTTPS
       }
       else if (oldValue == "HTTP") {
-        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP"
+        value = tcpClientInterface.TcpClientInterfacePac.TcpClientInterfaceConfiguration.remoteProtocolEnum.HTTP
       }
       else {
-        value = "tcp-client-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED"
+        value = tcpClientInterface.TcpClientInterfacePac.TcpClientInterfaceConfiguration.remoteProtocolEnum.NOT_YET_DEFINED
       }
       if (value !== newValue) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
