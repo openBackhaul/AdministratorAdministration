@@ -73,9 +73,9 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
         if (isReleaseExists) {
 
           let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
-          let isAuthorizationExist = isAuthorizationExists.isAuthorizationExist;
+          let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
           let isFileExit = isAuthorizationExists.isFileExit;
-          if (isAuthorizationExist && isFileExit) {
+          if (isAuthorizationExistValue && isFileExit) {
 
             let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
             if (isAuthorized) {
