@@ -152,16 +152,7 @@ exports.putTcpServerLocalProtocol = function (url, body, uuid) {
 
       let oldValue = await tcpServerInterface.getLocalProtocol()
       let newValue = body["tcp-server-interface-1-0:local-protocol"];
-      let value
-      if (oldValue == "HTTPS") {
-         value = tcpServerInterface.TcpServerInterfacePac.TcpServerInterfaceConfiguration.localProtocolEnum.HTTPS
-      }
-      else if (oldValue == "HTTP") {
-        value = tcpServerInterface.TcpServerInterfacePac.TcpServerInterfaceConfiguration.localProtocolEnum.HTTP
-      }
-      else { 
-        value = tcpServerInterface.TcpServerInterfacePac.TcpServerInterfaceConfiguration.localProtocolEnum.NOT_YET_DEFINED
-       }
+      let value = tcpServerInterface.getProtocolFromProtocolEnum(oldValue)[1]
       if (value !== newValue) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
 
