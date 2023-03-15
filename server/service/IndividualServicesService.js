@@ -147,7 +147,6 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
 
       
     let newReleaseUuids = await resolveHttpTcpAndOperationClient(FcportValue)
-
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
@@ -202,35 +201,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
            tcpclientUuid ,
             undefined,
             true);
-          logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus;
-          // ALT should know about this change
-
-          let newReleaseTcpClientUuidList = await logicalTerminationPoint.getServerLtpListAsync(newReleaseHttpClientLtpUuid);
-          let newReleaseTcpClientUuid = newReleaseTcpClientUuidList[0];
-          if (applicationProtocol != currentNewReleaseRemoteProtocol) {
-            update.isProtocolUpdated = await tcpClientInterface.setRemoteProtocolAsync(newReleaseTcpClientUuid, applicationProtocol);
-          }
-          if (applicationAddress != currentNewReleaseRemoteAddress) {
-            update.isAddressUpdated = await tcpClientInterface.setRemoteAddressAsync(newReleaseTcpClientUuid, applicationAddress);
-          }
-          if (applicationPort != currentNewReleaseRemotePort) {
-            update.isPortUpdated = await tcpClientInterface.setRemotePortAsync(newReleaseTcpClientUuid, applicationPort);
-          }
-
-          let isdataTransferRequired = true;
-          let serverAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(applicationProtocol);
-          let serverPort = await tcpServerInterface.getLocalPortOfTheProtocol(applicationProtocol);
-          if (applicationAddress === serverAddress && applicationPort === serverPort) {
-            isdataTransferRequired = false;
-          }
-
-          if (update.isProtocolUpdated || update.isAddressUpdated || update.isPortUpdated) {
-            let configurationStatus = new ConfigurationStatus(
-              newReleaseTcpClientUuid,
-              undefined,
-              true);
-            logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus];
-          }
+            logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus]; } 
           if (logicalTerminationPointConfigurationStatus != undefined) {
 
             /****************************************************************************************
@@ -282,7 +253,7 @@ exports.disregardApplication = function (body, user, originator, xCorrelator, tr
        * Setting up required local variables from the request body
        ****************************************************************************************/
       let applicationName = body["application-name"];
-      let applicationReleaseNumber = body["release-number"];
+      let applicationReleaseNumber =  body["release-number"];
 
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
@@ -394,9 +365,9 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
       let releaseNumber = body["release-number"];
       let tcpServerList = [
         {
-          protocol: body["protocol"],
-          address: body["address"],
-          port: body["port"]
+          protocol : body["protocol"],
+          address : body["address"],
+          port : body["port"]
         }
       ];
       let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
@@ -544,11 +515,6 @@ var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientU
     uuidList = { httpClientUuid, tcpClientUuid ,operationClientUuid}
     resolve(uuidList)
       }catch(error){
-        console.log(error)
-
-      }
-      resolve(httpClientUuidList)
-    } catch (error) {
       console.log(error)
     }
   })
