@@ -145,14 +145,17 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationAddress = body["new-application-address"];
       let applicationPort = body["new-application-port"];
 
+      
+    let newReleaseUuids = await resolveHttpTcpAndOperationClient(FcportValue)
 
-      let newHttpClientLtpUuid = await resolveHttpClient(FcportValue)
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
        ****************************************************************************************/
-      let newReleaseHttpClientLtpUuid = newHttpClientLtpUuid[0]
-      let tcpclientUuid = newHttpClientLtpUuid[2]
+      let isdataTransferRequired = true;
+      let newReleaseHttpClientLtpUuid = newReleaseUuids.httpClientUuid;
+      let tcpclientUuid = newReleaseUuids.tcpClientUuid;
+      
       let currentNewReleaseApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpClientLtpUuid);
       let currentNewReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientLtpUuid);
       let currentNewReleaseRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpclientUuid);
@@ -162,16 +165,41 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let update = {};
       let logicalTerminationPointConfigurationStatus = {};
       if (newReleaseHttpClientLtpUuid != undefined) {
-        if (currentNewReleaseNumber != releaseNumber) {
-          update.isReleaseUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpClientLtpUuid, releaseNumber);
+
+     
+        if(releaseNumber != currentNewReleaseNumber){
+          update.isReleaseUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpClientLtpUuid, releaseNumber); }
+         if(applicationName != currentNewReleaseApplicationName) {
+           update.isApplicationNameUpdated = await httpClientInterface.setApplicationNameAsync(newReleaseHttpClientLtpUuid, applicationName);  }
+
+           if (update.isReleaseUpdated || update.isApplicationNameUpdated) {
+            let configurationStatus = new ConfigurationStatus(
+              newReleaseHttpClientLtpUuid,
+              undefined,
+              true);
+      logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus; 
+           // ALT should know about this change
+               
+        if(applicationProtocol != currentNewReleaseRemoteProtocol){
+          update.isProtocolUpdated = await tcpClientInterface.setRemoteProtocolAsync(tcpclientUuid, applicationProtocol);
         }
-        if (applicationName != currentNewReleaseApplicationName) {
-          update.isApplicationNameUpdated = await httpClientInterface.setApplicationNameAsync(newReleaseHttpClientLtpUuid, applicationName);
+         if (JSON.stringify(applicationAddress) != JSON.stringify(currentNewReleaseRemoteAddress)) {
+          update.isAddressUpdated = await tcpClientInterface.setRemoteAddressAsync(tcpclientUuid, applicationAddress);
+        }
+        if(applicationPort != currentNewReleaseRemotePort) {
+          update.isPortUpdated = await tcpClientInterface.setRemotePortAsync(tcpclientUuid, applicationPort);
         }
 
-        if (update.isReleaseUpdated || update.isApplicationNameUpdated) {
+        
+        let serverAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(applicationProtocol);
+         let serverPort = await tcpServerInterface.getLocalPortOfTheProtocol(applicationProtocol);
+          if ( applicationAddress === serverAddress && applicationPort === serverPort) {         
+               isdataTransferRequired = false;
+                 }
+
+        if (update.isProtocolUpdated || update.isAddressUpdated || update.isPortUpdated) {
           let configurationStatus = new ConfigurationStatus(
-            newReleaseHttpClientLtpUuid,
+           tcpclientUuid ,
             undefined,
             true);
           logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus;
@@ -497,26 +525,27 @@ function getAllApplicationList() {
   });
 }
 
-var resolveHttpClient = exports.resolveHttpClientLtpUuidFromForwardingName = function (forwardingName) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let ForwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
-      if (ForwardConstructName === undefined) {
-        return null;
-      }
-      let LogicalTerminationPointlist;
-      let httpClientUuidList = [];
-      let ForwardConstructUuid = ForwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
-      let ListofUuid = await ForwardingConstruct.getFcPortListAsync(ForwardConstructUuid)
-      for (let i = 0; i < ListofUuid.length; i++) {
-        let PortDirection = ListofUuid[i][[onfAttributes.FC_PORT.PORT_DIRECTION]]
-        if (PortDirection === FcPort.portDirectionEnum.OUTPUT) {
-          LogicalTerminationPointlist = ListofUuid[i][onfAttributes.CONTROL_CONSTRUCT.LOGICAL_TERMINATION_POINT]
-          let httpClientUuid = await logicalTerminationPoint.getServerLtpListAsync(LogicalTerminationPointlist)
-          let tcpClientUuid = await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid[0])
-          httpClientUuidList.push(httpClientUuid[0], LogicalTerminationPointlist, tcpClientUuid[0]);
 
-        }
+var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientUuidFromForwardingName =  function (forwardingName) {
+  return new Promise(async function (resolve, reject) {
+    try{
+    let uuidList = {};
+    let forwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
+    if (forwardConstructName === undefined) {
+    return {};
+    }
+    let forwardConstructUuid = forwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
+    let listofUuid = await ForwardingConstruct.getFcPortListAsync(forwardConstructUuid)
+    let fcPort = listofUuid.find(fcp => fcp[onfAttributes.FC_PORT.PORT_DIRECTION] === FcPort.portDirectionEnum.OUTPUT);
+    let operationClientUuid = fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
+
+    let httpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid))[0];
+    let tcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid))[0];
+    uuidList = { httpClientUuid, tcpClientUuid ,operationClientUuid}
+    resolve(uuidList)
+      }catch(error){
+        console.log(error)
+
       }
       resolve(httpClientUuidList)
     } catch (error) {
