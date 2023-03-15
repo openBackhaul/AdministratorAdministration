@@ -32,23 +32,23 @@ exports.getTcpClientRemoteAddress = function (url) {
 exports.getTcpClientRemoteProtocol = function (url) {
   return new Promise(async function (resolve, reject) {
     try {
-        var value = await fileOperation.readFromDatabaseAsync(url);
-        var response = {};
-        response['application/json'] = {
-          "tcp-client-interface-1-0:remote-protocol": value
-        };
-        if (Object.keys(response).length > 0) {
-          resolve(response[Object.keys(response)[0]]);
-        } else {
-          resolve();
-        }
-      } catch (error) {
-        reject();
+      var value = await fileOperation.readFromDatabaseAsync(url);
+      var response = {};
+      response['application/json'] = {
+        "tcp-client-interface-1-0:remote-protocol": value
+      };
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
       }
-    });
-  }
-  
-   
+    } catch (error) {
+      reject();
+    }
+  });
+}
+
+
 
 /**
  * Returns target TCP port at server
@@ -86,22 +86,27 @@ exports.getTcpClientRemotePort = function (url) {
 
 
 
-exports.putTcpClientRemoteAddress = function(url,body,uuid) {
-  return new Promise(async function(resolve, reject) {
+exports.putTcpClientRemoteAddress = function (url, body, uuid) {
+  return new Promise(async function (resolve, reject) {
     try {
-      let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
 
-      /****************************************************************************************
-       * Prepare attributes to automate forwarding-construct
-       ****************************************************************************************/
-      if(isUpdated){
-        let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
-          uuid
-        );
-        ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
-          forwardingAutomationInputList
-        );
-      }      
+      let oldValue = await tcpClientInterface.getRemoteAddressAsync(uuid);
+      let newValue = body["tcp-client-interface-1-0:remote-address"];
+      if (JSON.stringify(oldValue) != JSON.stringify(newValue)) {
+        let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
+
+        /****************************************************************************************
+         * Prepare attributes to automate forwarding-construct
+         ****************************************************************************************/
+        if (isUpdated) {
+          let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
+            uuid
+          );
+          ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
+            forwardingAutomationInputList
+          );
+        }
+      }
       resolve();
     } catch (error) {
       reject();
@@ -115,52 +120,57 @@ exports.putTcpClientRemoteAddress = function(url,body,uuid) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putTcpClientRemotePort = function (url, body,uuid) {
+exports.putTcpClientRemotePort = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
     try {
-      let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
-
- 
-
-      /****************************************************************************************
-       * Prepare attributes to automate forwarding-construct
-       ****************************************************************************************/
-      if(isUpdated){
-        let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
-          uuid
-        );
-        ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
-          forwardingAutomationInputList
-        );
-      }      
-      resolve();
-    } catch (error) {}
-    reject();
-  });
-}
-
-exports.putTcpClientRemoteProtocol = function(url,body,uuid) {
-  return new Promise(async function(resolve, reject) {
-  
-      try {
+      let oldValue = await tcpClientInterface.getRemotePortAsync(uuid);
+      let newValue = body["tcp-client-interface-1-0:remote-port"];
+      if (oldValue !== newValue) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
-  
-   
 
         /****************************************************************************************
          * Prepare attributes to automate forwarding-construct
          ****************************************************************************************/
-        if(isUpdated){
+        if (isUpdated) {
           let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
             uuid
           );
           ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
             forwardingAutomationInputList
           );
-        }      
-        resolve();
-      } catch (error) {
-        reject();
+        }
       }
-    });
-  }
+      resolve();
+    } catch (error) { }
+    reject();
+  });
+}
+
+exports.putTcpClientRemoteProtocol = function (url, body, uuid) {
+  return new Promise(async function (resolve, reject) {
+
+    try {
+      let oldValue = await tcpClientInterface.getRemoteProtocolAsync(uuid)
+      let newValue = body["tcp-client-interface-1-0:remote-protocol"];
+       let value = tcpClientInterface.getProtocolFromProtocolEnum(oldValue)[1]
+      if (value !== newValue) {
+        let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
+
+        /****************************************************************************************
+         * Prepare attributes to automate forwarding-construct
+         ****************************************************************************************/
+        if (isUpdated) {
+          let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
+            uuid
+          );
+          ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
+            forwardingAutomationInputList
+          );
+        }
+      }
+      resolve();
+    } catch (error) {
+      reject();
+    }
+  });
+}
