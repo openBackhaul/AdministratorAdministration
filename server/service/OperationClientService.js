@@ -118,7 +118,7 @@ exports.getOperationClientOperationalState = function (url) {
       var value = await fileOperation.readFromDatabaseAsync(url);
       var response = {};
       response['application/json'] = {
-        "operation-client-interface-1-0:detailed-logging-is-on": value
+        "operation-client-interface-1-0:operational-state": value
       };
       if (Object.keys(response).length > 0) {
         resolve(response[Object.keys(response)[0]]);
