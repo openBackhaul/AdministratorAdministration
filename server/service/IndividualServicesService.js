@@ -74,8 +74,8 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
 
           let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
           let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
-          let isFileExit = isAuthorizationExists.isFileExit;
-          if (isAuthorizationExistValue && isFileExit) {
+          let isFileExist = isAuthorizationExists.isFileExit;
+          if (isAuthorizationExistValue && isFileExist) {
 
             let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
             if (isAuthorized) {
@@ -85,7 +85,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
             }
           } else {
             reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
-            if (!isFileExit) {
+            if (!isFileExist) {
               reasonOfObjection = "UNKNOWN";
             }
           }
