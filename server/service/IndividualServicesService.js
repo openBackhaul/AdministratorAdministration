@@ -59,7 +59,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
       let authorization = body["Authorization"];
       let method = body["method"];
 
-    
+
 
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
@@ -71,10 +71,13 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
       if (isApplicationExists) {
         let isReleaseExists = await httpClientInterface.isApplicationExists(applicationName, applicationReleaseNumber);
         if (isReleaseExists) {
-        
-      let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
-          if (isAuthorizationExists) {
-         let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization,method)
+
+          let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
+          let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
+          let isFileExist = isAuthorizationExists.isFileExit;
+          if (isAuthorizationExistValue && isFileExist) {
+
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
             if (isAuthorized) {
               oamRequestIsApproved = true;
             } else {
@@ -82,6 +85,9 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
             }
           } else {
             reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
+            if (!isFileExist) {
+              reasonOfObjection = "UNKNOWN";
+            }
           }
         } else {
           reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
@@ -138,7 +144,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationProtocol = body["new-application-protocol"];
       let applicationAddress = body["new-application-address"];
       let applicationPort = body["new-application-port"];
-      
+
       
     let newReleaseUuids = await resolveHttpTcpAndOperationClient(FcportValue)
       /****************************************************************************************
@@ -154,10 +160,12 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let currentNewReleaseRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpclientUuid);
       let currentNewReleaseRemoteProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpclientUuid);
       let currentNewReleaseRemotePort = await tcpClientInterface.getRemotePortAsync(tcpclientUuid);
-      
+
       let update = {};
       let logicalTerminationPointConfigurationStatus = {};
       if (newReleaseHttpClientLtpUuid != undefined) {
+
+     
         if(releaseNumber != currentNewReleaseNumber){
           update.isReleaseUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpClientLtpUuid, releaseNumber); }
          if(applicationName != currentNewReleaseApplicationName) {
@@ -194,25 +202,25 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
             undefined,
             true);
             logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus]; } 
-                  if (logicalTerminationPointConfigurationStatus != undefined) {
+          if (logicalTerminationPointConfigurationStatus != undefined) {
 
-          /****************************************************************************************
-           * Prepare attributes to automate forwarding-construct
-           ****************************************************************************************/
-          let forwardingAutomationInputList = await prepareForwardingAutomation.bequeathYourDataAndDie(
-            logicalTerminationPointConfigurationStatus
-          );
-          ForwardingAutomationService.automateForwardingConstructAsync(
-            operationServerName,
-            forwardingAutomationInputList,
-            user,
-            xCorrelator,
-            traceIndicator,
-            customerJourney
-          );
+            /****************************************************************************************
+             * Prepare attributes to automate forwarding-construct
+             ****************************************************************************************/
+            let forwardingAutomationInputList = await prepareForwardingAutomation.bequeathYourDataAndDie(
+              logicalTerminationPointConfigurationStatus
+            );
+            ForwardingAutomationService.automateForwardingConstructAsync(
+              operationServerName,
+              forwardingAutomationInputList,
+              user,
+              xCorrelator,
+              traceIndicator,
+              customerJourney
+            );
+          }
         }
       }
-    }
       softwareUpgrade.upgradeSoftwareVersion(isdataTransferRequired, user, xCorrelator, traceIndicator, customerJourney)
         .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
       resolve();
@@ -360,13 +368,13 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
           protocol : body["protocol"],
           address : body["address"],
           port : body["port"]
-      }
+        }
       ];
       let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
       let operationNamesByAttributes = new Map();
       operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
 
-      
+
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
@@ -446,7 +454,7 @@ function getAllApplicationList() {
     let clientApplicationList = [];
     let httpClientUuidList = [];
     let LogicalTerminationPointlist;
-    
+
     const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
     try {
 
@@ -471,15 +479,15 @@ function getAllApplicationList() {
         let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(tcpClientUuid);
         let applicationPort = await tcpClientInterface.getRemotePortAsync(tcpClientUuid);
         let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(tcpClientUuid)
-       
+
         let application = {};
         application.applicationName = applicationName,
-        application.releaseNumber = applicationReleaseNumber,
-        application.protocol = applicationProtocol,
-        application.address = applicationAddress,
-        application.port = applicationPort,
-        
-        clientApplicationList.push(application);
+          application.releaseNumber = applicationReleaseNumber,
+          application.protocol = applicationProtocol,
+          application.address = applicationAddress,
+          application.port = applicationPort,
+
+          clientApplicationList.push(application);
       }
       resolve(clientApplicationList);
     } catch (error) {
@@ -487,6 +495,7 @@ function getAllApplicationList() {
     }
   });
 }
+
 
 var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientUuidFromForwardingName =  function (forwardingName) {
   return new Promise(async function (resolve, reject) {
@@ -506,7 +515,7 @@ var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientU
     uuidList = { httpClientUuid, tcpClientUuid ,operationClientUuid}
     resolve(uuidList)
       }catch(error){
-        console.log(error)
-      }
-    })
-  }
+      console.log(error)
+    }
+  })
+}
