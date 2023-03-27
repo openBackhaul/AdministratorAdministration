@@ -177,7 +177,8 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
               undefined,
               true);
       logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus; 
-           // ALT should know about this change
+            }  
+      // ALT should know about this change
                
         if(applicationProtocol != currentNewReleaseRemoteProtocol){
           update.isProtocolUpdated = await tcpClientInterface.setRemoteProtocolAsync(tcpclientUuid, applicationProtocol);
@@ -201,7 +202,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
            tcpclientUuid ,
             undefined,
             true);
-            logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus]; } 
+            logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus]; }
           if (logicalTerminationPointConfigurationStatus != undefined) {
 
             /****************************************************************************************
@@ -219,7 +220,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
               customerJourney
             );
           }
-        }
+        
       }
       softwareUpgrade.upgradeSoftwareVersion(isdataTransferRequired, user, xCorrelator, traceIndicator, customerJourney)
         .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
