@@ -193,9 +193,9 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
         
         let serverAddress = await tcpServerInterface.getLocalAddressOfTheProtocol(applicationProtocol);
          let serverPort = await tcpServerInterface.getLocalPortOfTheProtocol(applicationProtocol);
-          if ( applicationAddress === serverAddress && applicationPort === serverPort) {         
+          if (JSON.stringify( applicationAddress) === JSON.stringify(serverAddress) && applicationPort === serverPort) {         
                isdataTransferRequired = false;
-                 }
+          }
 
         if (update.isProtocolUpdated || update.isAddressUpdated || update.isPortUpdated) {
           let configurationStatus = new ConfigurationStatus(
@@ -513,7 +513,7 @@ var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientU
 
     let httpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid))[0];
     let tcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid))[0];
-    uuidList = { httpClientUuid, tcpClientUuid ,operationClientUuid}
+    uuidList = { httpClientUuid, tcpClientUuid}
     resolve(uuidList)
       }catch(error){
       console.log(error)
