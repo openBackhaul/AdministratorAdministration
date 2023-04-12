@@ -65,7 +65,7 @@ exports.putTcpServerLocalAddress = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
     try {
 
-      let oldValue = await tcpClientInterface.getLocalAddress();
+      let oldValue = await tcpServerInterface.getLocalAddress();
       let newValue = body["tcp-server-interface-1-0:local-address"];
       if (JSON.stringify(oldValue) != JSON.stringify(newValue)) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
@@ -99,7 +99,7 @@ exports.putTcpServerLocalAddress = function (url, body, uuid) {
 exports.putTcpServerLocalPort = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
     try {
-      let oldValue = await tcpClientInterface.getRemotePortAsync();
+      let oldValue = await tcpServerInterface.getLocalPort();
       let newValue = body["tcp-server-interface-1-0:local-port"];
       if (oldValue !== newValue) {
         let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
