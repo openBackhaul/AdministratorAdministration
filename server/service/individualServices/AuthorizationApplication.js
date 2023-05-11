@@ -31,7 +31,7 @@ exports.isAuthorizationExistAsync = async function (authorization) {
         let isAuthorizationFile = {};
         try {
             let applicationDataFile = await FileprofileOperation.getApplicationDataFileContent()
-            if (applicationDataFile !== undefined) {
+            
                 isFileExit = true;
                 let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
                 if (applicationData[administratorList]) {
@@ -44,10 +44,12 @@ exports.isAuthorizationExistAsync = async function (authorization) {
                         }
                     }
                 }
-            }
+            
             isAuthorizationFile = { isAuthorizationExist, isFileExit }
             resolve(isAuthorizationFile);
         } catch (error) {
+            isAuthorizationFile = { isAuthorizationExist, isFileExit }
+            resolve(isAuthorizationFile);
             console.log(error);
         }
     });
@@ -65,7 +67,6 @@ exports.isAuthorizedAsync = async function (authorization, allowedMethods) {
         let isAuthorized = false;
         try {
             let applicationDataFile = await FileprofileOperation.getApplicationDataFileContent()
-            if (applicationDataFile !== undefined) {
                 let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
                 if (applicationData[administratorList]) {
                     let registeredApplicationList = applicationData[administratorList];
@@ -79,7 +80,6 @@ exports.isAuthorizedAsync = async function (authorization, allowedMethods) {
                         }
                     }
                 }
-            }
             resolve(isAuthorized);
         } catch (error) {
             console.log(error);
