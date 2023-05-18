@@ -139,6 +139,10 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationAddress = body["new-application-address"];
       let applicationPort = body["new-application-port"];
       
+      const oldReleaseLtpDetails = await resolveHttpTcpAndOperationClient('PromptForEmbeddingCausesRequestForBequeathingData');
+      if(oldReleaseLtpDetails['application-name'] === "OldRelease"){
+        throw new Error(`/v1/bequeath-your-data-and-die could not be addressed as the client application name is still OldRelease`)
+      }
       
     let newReleaseUuids = await resolveHttpTcpAndOperationClient(FcportValue)
       /****************************************************************************************
@@ -503,7 +507,8 @@ var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientU
 
     let httpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid))[0];
     let tcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid))[0];
-    uuidList = { httpClientUuid, tcpClientUuid ,operationClientUuid}
+    let applicationName = await httpClientInterface.getApplicationNameAsync(httpClientUuid)
+    uuidList = { httpClientUuid, tcpClientUuid ,operationClientUuid, "application-name":applicationName}
     resolve(uuidList)
       }catch(error){
         console.log(error)
