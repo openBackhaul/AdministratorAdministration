@@ -48,8 +48,6 @@ exports.isAuthorizationExistAsync = async function (authorization) {
             isAuthorizationFile = { isAuthorizationExist, isFileExit }
             resolve(isAuthorizationFile);
         } catch (error) {
-            isAuthorizationFile = { isAuthorizationExist, isFileExit }
-            resolve(isAuthorizationFile);
             console.log(error);
         }
     });
