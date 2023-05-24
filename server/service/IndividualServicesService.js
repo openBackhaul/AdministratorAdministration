@@ -86,7 +86,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
           } else {
             reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
             if (!isFileExist) {
-              reasonOfObjection = "UNKNOWN";
+              reject("ApplicationData file does not exist");
             }
           }
         } else {
