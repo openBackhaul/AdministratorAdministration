@@ -133,7 +133,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
  **/
 exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
   return new Promise(async function (resolve, reject) {
-    const FcportValue = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
+   
     try {
 
       /****************************************************************************************
@@ -146,7 +146,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationPort = body["new-application-port"];
 
       
-    let newReleaseUuids = await resolveHttpTcpAndOperationClient(FcportValue)
+    let newReleaseUuids =  await LogicalTerminationPointService.resolveHttpTcpAndOperationClientUuidFromForwardingName()
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
@@ -436,26 +436,3 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
 /****************************************************************************************
  * Functions utilized by individual services
  ****************************************************************************************/
-
-var resolveHttpTcpAndOperationClient = exports.resolveHttpTcpAndOperationClientUuidFromForwardingName =  function (forwardingName) {
-  return new Promise(async function (resolve, reject) {
-    try{
-    let uuidList = {};
-    let forwardConstructName = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingName)
-    if (forwardConstructName === undefined) {
-    return {};
-    }
-    let forwardConstructUuid = forwardConstructName[onfAttributes.GLOBAL_CLASS.UUID]
-    let listofUuid = await ForwardingConstruct.getFcPortListAsync(forwardConstructUuid)
-    let fcPort = listofUuid.find(fcp => fcp[onfAttributes.FC_PORT.PORT_DIRECTION] === FcPort.portDirectionEnum.OUTPUT);
-    let operationClientUuid = fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
-
-    let httpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(operationClientUuid))[0];
-    let tcpClientUuid = (await logicalTerminationPoint.getServerLtpListAsync(httpClientUuid))[0];
-    uuidList = { httpClientUuid, tcpClientUuid}
-    resolve(uuidList)
-      }catch(error){
-      console.log(error)
-    }
-  })
-}
