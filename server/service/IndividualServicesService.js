@@ -11,7 +11,7 @@ const prepareForwardingConfiguration = require('./individualServices/PrepareForw
 const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
 const individualServicesOperationsMapping = require('./individualServices/individualServicesOperationsMapping');
-
+const LogicalTerminationPointServiceOfUtility = require("onf-core-model-ap-bs/basicServices/basicServices/utility/LogicalTerminationPoint.js")
 
 const httpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
@@ -146,7 +146,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationPort = body["new-application-port"];
 
       
-    let newReleaseUuids =  await LogicalTerminationPointService.resolveHttpTcpAndOperationClientUuidFromForwardingName()
+    let newReleaseUuids =  await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidFromForwardingName()
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
@@ -320,7 +320,7 @@ exports.listApplications = function (user, originator, xCorrelator, traceIndicat
       /****************************************************************************************
        * Preparing response body
        ****************************************************************************************/
-    let applicationList = await LogicalTerminationPointService.getAllApplicationList(forwardingName);
+    let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
 
       /****************************************************************************************
        * Setting 'application/json' response body
