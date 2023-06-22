@@ -146,7 +146,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationPort = body["new-application-port"];
 
       
-    let newReleaseUuids =  await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidFromForwardingName()
+    let newReleaseUuids =  await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease()
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
