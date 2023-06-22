@@ -5,7 +5,7 @@ var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server
 var restResponseHeader = require('onf-core-model-ap/applicationPattern/rest/server/ResponseHeader');
 var restResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
 var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
-
+const BadRequestHttpException = require('onf-core-model-ap/applicationPattern/rest/server/HttpException');
 
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   try {
@@ -348,9 +348,13 @@ module.exports.updateOperationKey = async function updateOperationKey(req, res, 
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       })
-      .catch(async function (response) {
+      .catch(async function (responseBody) {
         responseBodyToDocument = responseBody;
+       if (responseBody instanceof BadRequestHttpException) {
+          responseCode = responseCodeEnum.code.BAD_REQUEST;
+        }else{
         responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+        }
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       });
