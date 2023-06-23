@@ -390,7 +390,7 @@ async function promptForBequeathingDataCausesRequestForBroadcastingInfoAboutServ
                 let applicationName = await httpServerInterface.getApplicationNameAsync();
                 let oldReleaseNumber = await httpServerInterface.getReleaseNumberAsync();
                 let newApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpClientUuid)
-                let newReleaseNumber = await httpServerInterface.getReleaseNumberAsync(newReleaseHttpClientUuid)
+                let newReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientUuid)
                 let applicationAddress = await tcpClientInterface.getRemoteAddressAsync(newReleaseTcpClientUuid);
                 let applicationPort = await tcpClientInterface.getRemotePortAsync(newReleaseTcpClientUuid);
                 let applicationProtocol = await tcpClientInterface.getRemoteProtocolAsync(newReleaseTcpClientUuid);
