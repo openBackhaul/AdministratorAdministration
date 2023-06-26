@@ -18,10 +18,10 @@ module.exports.approveOamRequest = async function approveOamRequest (req, res, n
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       })
       .catch(async function (responseBody) {
-        responseBodyToDocument = responseBody;
-        responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+        responseCode = sentResp.code;
+        responseBodyToDocument = sentResp.body;
       });
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   } catch (error) {}
@@ -38,11 +38,11 @@ module.exports.bequeathYourDataAndDie = async function bequeathYourDataAndDie(re
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       })
-      .catch(async function (response) {
-        responseBodyToDocument = responseBody;
-        responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+      .catch(async function (responseBody) {
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+        responseCode = sentResp.code;
+        responseBodyToDocument = sentResp.body;
       });
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   } catch (error) {}
@@ -60,10 +60,10 @@ module.exports.disregardApplication = async function disregardApplication (req, 
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       })
       .catch(async function (responseBody) {
-        responseBodyToDocument = responseBody;
-        responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+        responseCode = sentResp.code;
+        responseBodyToDocument = sentResp.body;
       });
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   } catch (error) {}
@@ -81,10 +81,10 @@ module.exports.listApplications = async function listApplications (req, res, nex
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       })
       .catch(async function (responseBody) {
-        responseBodyToDocument = responseBody;
-        responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+        responseCode = sentResp.code;
+        responseBodyToDocument = sentResp.body;
       });
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   } catch (error) {}
@@ -102,10 +102,10 @@ module.exports.regardApplication = async function regardApplication (req, res, n
         restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
       })
       .catch(async function (responseBody) {
-        responseBodyToDocument = responseBody;
-        responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
         let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-        restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+        let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+        responseCode = sentResp.code;
+        responseBodyToDocument = sentResp.body;
       });
     executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
   } catch (error) {}
