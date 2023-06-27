@@ -6,133 +6,133 @@ var responseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/
 var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 var oamLogService = require('onf-core-model-ap/applicationPattern/services/OamLogService');
 
-module.exports.getFileProfileFileDescription = function getFileProfileFileDescription (req, res, next, uuid) {
+module.exports.getFileProfileFileDescription = async function getFileProfileFileDescription(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  FileProfile.getFileProfileFileDescription(req.url)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+  await FileProfile.getFileProfileFileDescription(req.url)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
 
-module.exports.getFileProfileFileIdentifier = function getFileProfileFileIdentifier (req, res, next, uuid) {
+module.exports.getFileProfileFileIdentifier = async function getFileProfileFileIdentifier(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  FileProfile.getFileProfileFileIdentifier(req.url)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+  await FileProfile.getFileProfileFileIdentifier(req.url)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getFileProfileFilePath = function getFileProfileFilePath (req, res, next, uuid) {
+module.exports.getFileProfileFilePath = async function getFileProfileFilePath(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  FileProfile.getFileProfileFilePath(req.url)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+  await FileProfile.getFileProfileFilePath(req.url)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getFileProfileOperation = function getFileProfileOperation (req, res, next, uuid) {
+module.exports.getFileProfileOperation = async function getFileProfileOperation(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  FileProfile.getFileProfileOperation(req.url)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+  await FileProfile.getFileProfileOperation(req.url)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getFileProfilePassword = function getFileProfilePassword (req, res, next, uuid) {
+module.exports.getFileProfilePassword = async function getFileProfilePassword(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  FileProfile.getFileProfilePassword(req.url)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+  await FileProfile.getFileProfilePassword(req.url)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getFileProfileUserName = function getFileProfileUserName (req, res, next, uuid) {
+module.exports.getFileProfileUserName = async function getFileProfileUserName(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  FileProfile.getFileProfileUserName(req.url)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+  await FileProfile.getFileProfileUserName(req.url)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putFileProfileFilePath = function putFileProfileFilePath (req, res, next, body, uuid) {
-  let responseCode = responseCodeEnum.code.NO_CONTENT; 
-  FileProfile.putFileProfileFilePath(req.url,body)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+module.exports.putFileProfileFilePath = async function putFileProfileFilePath(req, res, next, body, uuid) {
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  await FileProfile.putFileProfileFilePath(req.url, body)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putFileProfileOperation = function putFileProfileOperation (req, res, next, body, uuid) {
-  let responseCode = responseCodeEnum.code.NO_CONTENT; 
-  FileProfile.putFileProfileOperation(req.url,body)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+module.exports.putFileProfileOperation = async function putFileProfileOperation(req, res, next, body, uuid) {
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  await FileProfile.putFileProfileOperation(req.url, body)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putFileProfilePassword = function putFileProfilePassword (req, res, next, body, uuid) {
-  let responseCode = responseCodeEnum.code.NO_CONTENT; 
-  FileProfile.putFileProfilePassword(req.url,body)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+module.exports.putFileProfilePassword = async function putFileProfilePassword(req, res, next, body, uuid) {
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  await FileProfile.putFileProfilePassword(req.url, body)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putFileProfileUserName = function putFileProfileUserName (req, res, next, body, uuid) {
-  let responseCode = responseCodeEnum.code.NO_CONTENT; 
-  FileProfile.putFileProfileUserName(req.url,body)
-  .then(function (response) {
-    responseBuilder.buildResponse(res, responseCode, response);
-  })
-    .catch(function (response) {
-      responseCode = responseCodeEnum.code.INTERNAL_SERVER_ERROR;
+module.exports.putFileProfileUserName = async function putFileProfileUserName(req, res, next, body, uuid) {
+  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  await FileProfile.putFileProfileUserName(req.url, body)
+    .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
+    })
+    .catch(function (response) {
+      let sentResp = responseBuilder.buildResponse(res, undefined, response);
+      responseCode = sentResp.code;
     });
-    oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
+  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
