@@ -14,6 +14,7 @@ const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfM
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
 const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const AdministratorCredentialList = require('./individualServices/AuthorizationApplication');
+const createHttpError = require('http-errors');
 
 /**
  * Checks authentication of an OaM request
@@ -65,7 +66,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
           } else {
             reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
             if (!isFileExist) {
-              reject("ApplicationData file does not exist");
+              reject(new createHttpError.InternalServerError("ApplicationData file does not exist"));
             }
           }
         } else {
