@@ -113,7 +113,7 @@ exports.approveOamRequest = function (body, user, originator, xCorrelator, trace
  **/
 exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
   return new Promise(async function (resolve, reject) {
-   
+
     try {
 
       /****************************************************************************************
@@ -125,15 +125,15 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationAddress = body["new-application-address"];
       let applicationPort = body["new-application-port"];
 
-      
-    let newReleaseUuids =  await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease()
+
+      let newReleaseUuids = await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease()
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
        ****************************************************************************************/
       let newReleaseHttpClientLtpUuid = newReleaseUuids.httpClientUuid;
       let tcpclientUuid = newReleaseUuids.tcpClientUuid;
-      
+
       let currentNewReleaseApplicationName = await httpClientInterface.getApplicationNameAsync(newReleaseHttpClientLtpUuid);
       let currentNewReleaseNumber = await httpClientInterface.getReleaseNumberAsync(newReleaseHttpClientLtpUuid);
       let currentNewReleaseRemoteAddress = await tcpClientInterface.getRemoteAddressAsync(tcpclientUuid);
@@ -144,58 +144,62 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let logicalTerminationPointConfigurationStatus = {};
       if (newReleaseHttpClientLtpUuid != undefined) {
 
-     
-        if(releaseNumber != currentNewReleaseNumber){
-          update.isReleaseUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpClientLtpUuid, releaseNumber); }
-         if(applicationName != currentNewReleaseApplicationName) {
-           update.isApplicationNameUpdated = await httpClientInterface.setApplicationNameAsync(newReleaseHttpClientLtpUuid, applicationName);  }
+        if (releaseNumber != currentNewReleaseNumber) {
+          update.isReleaseUpdated = await httpClientInterface.setReleaseNumberAsync(newReleaseHttpClientLtpUuid, releaseNumber);
+        }
+        if (applicationName != currentNewReleaseApplicationName) {
+          update.isApplicationNameUpdated = await httpClientInterface.setApplicationNameAsync(newReleaseHttpClientLtpUuid, applicationName);
+        }
 
-           if (update.isReleaseUpdated || update.isApplicationNameUpdated) {
-            let configurationStatus = new ConfigurationStatus(
-              newReleaseHttpClientLtpUuid,
-              undefined,
-              true);
-      logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus; 
-            }  
-      // ALT should know about this change
-               
-        if(applicationProtocol != currentNewReleaseRemoteProtocol){
+        if (update.isReleaseUpdated || update.isApplicationNameUpdated) {
+          let configurationStatus = new ConfigurationStatus(
+            newReleaseHttpClientLtpUuid,
+            undefined,
+            true);
+          logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus;
+        }
+        // ALT should know about this change
+
+        if (applicationProtocol != currentNewReleaseRemoteProtocol) {
           update.isProtocolUpdated = await tcpClientInterface.setRemoteProtocolAsync(tcpclientUuid, applicationProtocol);
         }
-         if (JSON.stringify(applicationAddress) != JSON.stringify(currentNewReleaseRemoteAddress)) {
+        if (JSON.stringify(applicationAddress) != JSON.stringify(currentNewReleaseRemoteAddress)) {
           update.isAddressUpdated = await tcpClientInterface.setRemoteAddressAsync(tcpclientUuid, applicationAddress);
         }
-        if(applicationPort != currentNewReleaseRemotePort) {
+        if (applicationPort != currentNewReleaseRemotePort) {
           update.isPortUpdated = await tcpClientInterface.setRemotePortAsync(tcpclientUuid, applicationPort);
         }
 
         if (update.isProtocolUpdated || update.isAddressUpdated || update.isPortUpdated) {
           let configurationStatus = new ConfigurationStatus(
-           tcpclientUuid ,
+            tcpclientUuid,
             undefined,
             true);
-            logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus]; }
-          if (logicalTerminationPointConfigurationStatus != undefined) {
+          logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus];
+        }
+        let forwardingAutomationInputList;
+        if (logicalTerminationPointConfigurationStatus != undefined) {
 
-            /****************************************************************************************
-             * Prepare attributes to automate forwarding-construct
-             ****************************************************************************************/
-            let forwardingAutomationInputList = await prepareForwardingAutomation.bequeathYourDataAndDie(
-              logicalTerminationPointConfigurationStatus
-            );
-            ForwardingAutomationService.automateForwardingConstructAsync(
-              operationServerName,
-              forwardingAutomationInputList,
-              user,
-              xCorrelator,
-              traceIndicator,
-              customerJourney
-            );
-          }
-        
+          /****************************************************************************************
+           * Prepare attributes to automate forwarding-construct
+           ****************************************************************************************/
+          forwardingAutomationInputList = await prepareForwardingAutomation.bequeathYourDataAndDie(
+            logicalTerminationPointConfigurationStatus
+          );
+          ForwardingAutomationService.automateForwardingConstructAsync(
+            operationServerName,
+            forwardingAutomationInputList,
+            user,
+            xCorrelator,
+            traceIndicator,
+            customerJourney
+          );
+        }
+
+
+        softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, forwardingAutomationInputList.length)
+          .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
       }
-      softwareUpgrade.upgradeSoftwareVersion(user, xCorrelator, traceIndicator, customerJourney, forwardingAutomationInputList.length)
-        .catch(err => console.log(`upgradeSoftwareVersion failed with error: ${err}`));
       resolve();
     } catch (error) {
       reject(error);
