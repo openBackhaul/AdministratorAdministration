@@ -16,7 +16,7 @@ const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const AdministratorCredentialList = require('./individualServices/AuthorizationApplication');
 const createHttpError = require('http-errors');
 
-const newReleaseForwardingName = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
+const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
 
 /**
  * Checks authentication of an OaM request
@@ -238,7 +238,7 @@ exports.disregardApplication = function (body, user, originator, xCorrelator, tr
       let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.deleteApplicationInformationAsync(
         applicationName,
         applicationReleaseNumber,
-        newReleaseForwardingName
+        NEW_RELEASE_FORWARDING_NAME
       );
 
       /****************************************************************************************
@@ -366,7 +366,7 @@ exports.regardApplication = function (body, user, originator, xCorrelator, trace
         individualServicesOperationsMapping.individualServicesOperationsMapping
       );
       let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.findOrCreateApplicationInformationAsync(
-        logicalTerminatinPointConfigurationInput, newReleaseForwardingName
+        logicalTerminatinPointConfigurationInput, NEW_RELEASE_FORWARDING_NAME
       );
 
 
