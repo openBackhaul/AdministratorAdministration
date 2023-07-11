@@ -7,6 +7,7 @@ const ForwardingAutomationService = require('onf-core-model-ap/applicationPatter
 const prepareForwardingConfiguration = require('./individualServices/PrepareForwardingConfiguration');
 const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
+const LogicalTerminationPointConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationStatus');
 const individualServicesOperationsMapping = require('./individualServices/individualServicesOperationsMapping');
 const LogicalTerminationPointServiceOfUtility = require("onf-core-model-ap-bs/basicServices/utility/LogicalTerminationPoint")
 const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
@@ -153,13 +154,6 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
           update.isApplicationNameUpdated = await httpClientInterface.setApplicationNameAsync(newReleaseHttpClientLtpUuid, applicationName);
         }
 
-        if (update.isReleaseUpdated || update.isApplicationNameUpdated) {
-          let configurationStatus = new ConfigurationStatus(
-            newReleaseHttpClientLtpUuid,
-            undefined,
-            true);
-          logicalTerminationPointConfigurationStatus.httpClientConfigurationStatus = configurationStatus;
-        }
         // ALT should know about this change
 
         if (applicationProtocol != currentNewReleaseRemoteProtocol) {
@@ -172,13 +166,22 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
           update.isPortUpdated = await tcpClientInterface.setRemotePortAsync(tcpclientUuid, applicationPort);
         }
 
-        if (update.isProtocolUpdated || update.isAddressUpdated || update.isPortUpdated) {
-          let configurationStatus = new ConfigurationStatus(
-            tcpclientUuid,
-            undefined,
-            true);
-          logicalTerminationPointConfigurationStatus.tcpClientConfigurationStatusList = [configurationStatus];
-        }
+        let tcpClientConfigurationStatus = new ConfigurationStatus(
+          newReleaseHttpClientLtpUuid,
+          '',
+          (update.isProtocolUpdated ||  update.isAddressUpdated || update.isPortUpdated)
+        );
+        let httpClientConfigurationStatus = new ConfigurationStatus(
+          newReleaseHttpClientLtpUuid,
+          '',
+          (update.isReleaseUpdated || update.isApplicationNameUpdated)
+        );
+         logicalTerminationPointConfigurationStatus = new LogicalTerminationPointConfigurationStatus(
+          false,
+          httpClientConfigurationStatus,
+          [tcpClientConfigurationStatus]
+        );
+        
         let forwardingAutomationInputList;
         if (logicalTerminationPointConfigurationStatus != undefined) {
 
