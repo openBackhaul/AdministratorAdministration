@@ -169,19 +169,19 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
         let tcpClientConfigurationStatus = new ConfigurationStatus(
           newReleaseHttpClientLtpUuid,
           '',
-          (update.isProtocolUpdated ||  update.isAddressUpdated || update.isPortUpdated)
+          (update.isProtocolUpdated || update.isAddressUpdated || update.isPortUpdated)
         );
         let httpClientConfigurationStatus = new ConfigurationStatus(
           newReleaseHttpClientLtpUuid,
           '',
           (update.isReleaseUpdated || update.isApplicationNameUpdated)
         );
-         logicalTerminationPointConfigurationStatus = new LogicalTerminationPointConfigurationStatus(
+        logicalTerminationPointConfigurationStatus = new LogicalTerminationPointConfigurationStatus(
           false,
           httpClientConfigurationStatus,
           [tcpClientConfigurationStatus]
         );
-        
+
         let forwardingAutomationInputList;
         if (logicalTerminationPointConfigurationStatus != undefined) {
 
