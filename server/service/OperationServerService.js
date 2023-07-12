@@ -1,6 +1,8 @@
 'use strict';
 var fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-
+const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
+const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
+const OperationServerService = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface')
 /**
  * Returns the configured life cycle state of the operation
  *
@@ -86,14 +88,38 @@ exports.getOperationServerOperationName = function (url) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putOperationServerLifeCycleState = function (url, body) {
+exports.putOperationServerLifeCycleState = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
     try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
+      
+      let oldValue = await OperationServerService.getLifeCycleState(uuid)
+      let remoteServerLifeCycleState 
+      let remoteLifeCycleStateEnum = OperationServerService.OperationServerInterfacePac.OperationServerInterfaceConfiguration.lifeCycleStateEnum;
+      for (let remoteLifeCycleStateEnumKey in remoteLifeCycleStateEnum) {
+        if (remoteLifeCycleStateEnumKey == oldValue) {
+          remoteServerLifeCycleState = remoteLifeCycleStateEnum[remoteLifeCycleStateEnumKey];
+        }
+      }
+      let value = remoteServerLifeCycleState
+      let newValue = body["operation-server-interface-1-0:life-cycle-state"];
+      if (value !== newValue) {
+        let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
+
+        /****************************************************************************************
+         * Prepare attributes to automate forwarding-construct
+         ****************************************************************************************/
+        if (isUpdated) {
+          let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
+            uuid
+          );
+          ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
+            forwardingAutomationInputList
+          );
+        }
+      }
       resolve();
-    } catch (error) {
-      reject();
-    }
+    } catch (error) { }
+    reject();
   });
 }
 

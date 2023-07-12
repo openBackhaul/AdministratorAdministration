@@ -1,6 +1,8 @@
 'use strict';
 var fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-
+const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
+const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
+const operationClintService = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface')
 /**
  * Returns detailed logging configuration.
  *
@@ -111,6 +113,7 @@ exports.getOperationClientOperationName = function (url) {
  **/
 exports.getOperationClientOperationalState = function (url) {
   return new Promise(async function (resolve, reject) {
+
     try {
       var value = await fileOperation.readFromDatabaseAsync(url);
       var response = {};
@@ -173,13 +176,29 @@ exports.putOperationClientOperationKey = function (url, body) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putOperationClientOperationName = function (url, body) {
+exports.putOperationClientOperationName = function (url, body, uuid) {
   return new Promise(async function (resolve, reject) {
     try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
+      let oldValue = await operationClintService.getOperationNameAsync(uuid);
+      let newValue = body["operation-client-interface-1-0:operation-name"];
+      if (oldValue !== newValue) {
+        let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
+
+
+        /****************************************************************************************
+         * Prepare attributes to automate forwarding-construct
+         ****************************************************************************************/
+        if (isUpdated) {
+          let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
+            uuid
+          );
+          ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
+            forwardingAutomationInputList
+          );
+        }
+      }
       resolve();
-    } catch (error) {
-      reject();
-    }
+    } catch (error) { }
+    reject();
   });
 }

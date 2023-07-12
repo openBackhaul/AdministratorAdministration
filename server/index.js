@@ -3,7 +3,7 @@
 
 var path = require('path');
 var http = require('http');
-var oas3Tools = require('oas3-tools');
+var oas3Tools = require('openbackhaul-oas3-tools');
 var appCommons = require('onf-core-model-ap/applicationPattern/commons/AppCommons');
 var serverPort = 3004;
 
@@ -30,3 +30,5 @@ http.createServer(app).listen(serverPort, function () {
 
 //setting the path to the database 
 global.databasePath = './database/load.json'
+
+

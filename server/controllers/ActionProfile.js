@@ -1,13 +1,14 @@
 'use strict';
 
-var OperationClient = require('../service/OperationClientService');
+var utils = require('../utils/writer.js');
+var ActionProfile = require('../service/ActionProfileService');
 var responseBuilder = require('onf-core-model-ap/applicationPattern/rest/server/ResponseBuilder');
 var responseCodeEnum = require('onf-core-model-ap/applicationPattern/rest/server/ResponseCode');
 var oamLogService = require('onf-core-model-ap/applicationPattern/services/OamLogService');
 
-module.exports.getOperationClientDetailedLoggingIsOn = async function getOperationClientDetailedLoggingIsOn(req, res, next) {
+module.exports.getActionProfileConsequentOperationReference = async function getActionProfileConsequentOperationReference(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  await OperationClient.getOperationClientDetailedLoggingIsOn(req.url)
+  await ActionProfile.getActionProfileConsequentOperationReference(req.url)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
@@ -18,9 +19,10 @@ module.exports.getOperationClientDetailedLoggingIsOn = async function getOperati
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getOperationClientLifeCycleState = async function getOperationClientLifeCycleState(req, res, next, uuid) {
+
+module.exports.getActionProfileDisplayInNewBrowserWindow = async function getActionProfileDisplayInNewBrowserWindow(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  await OperationClient.getOperationClientLifeCycleState(req.url)
+  await ActionProfile.getActionProfileDisplayInNewBrowserWindow(req.url)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
@@ -31,9 +33,9 @@ module.exports.getOperationClientLifeCycleState = async function getOperationCli
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getOperationClientOperationKey = async function getOperationClientOperationKey(req, res, next, uuid) {
+module.exports.getActionProfileInputValueListt = async function getActionProfileInputValueListt(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  await OperationClient.getOperationClientOperationKey(req.url)
+  await ActionProfile.getActionProfileInputValueListt(req.url)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
@@ -44,9 +46,9 @@ module.exports.getOperationClientOperationKey = async function getOperationClien
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getOperationClientOperationName = async function getOperationClientOperationName(req, res, next, uuid) {
+module.exports.getActionProfileLabel = async function getActionProfileLabel(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  await OperationClient.getOperationClientOperationName(req.url)
+  await ActionProfile.getActionProfileLabel(req.url)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
@@ -57,9 +59,9 @@ module.exports.getOperationClientOperationName = async function getOperationClie
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.getOperationClientOperationalState = async function getOperationClientOperationalState(req, res, next, uuid) {
+module.exports.getActionProfileOperationName = async function getActionProfileOperationName(req, res, next, uuid) {
   let responseCode = responseCodeEnum.code.OK;
-  await OperationClient.getOperationClientOperationalState(req.url)
+  await ActionProfile.getActionProfileOperationName(req.url)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
@@ -70,35 +72,9 @@ module.exports.getOperationClientOperationalState = async function getOperationC
   oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
 };
 
-module.exports.putOperationClientDetailedLoggingIsOn = async function putOperationClientDetailedLoggingIsOn(req, res, next, body,uuid) {
+module.exports.putActionProfileConsequentOperationReference = async function putActionProfileConsequentOperationReference(req, res, next, body, uuid) {
   let responseCode = responseCodeEnum.code.NO_CONTENT;
-  await OperationClient.putOperationClientDetailedLoggingIsOn(req.url, body,uuid)
-    .then(function (response) {
-      responseBuilder.buildResponse(res, responseCode, response);
-    })
-    .catch(function (response) {
-      let sentResp = responseBuilder.buildResponse(res, undefined, response);
-      responseCode = sentResp.code;
-    });
-  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
-};
-
-module.exports.putOperationClientOperationKey = async function putOperationClientOperationKey(req, res, next, body, uuid) {
-  let responseCode = responseCodeEnum.code.NO_CONTENT;
-  await OperationClient.putOperationClientOperationKey(req.url, body)
-    .then(function (response) {
-      responseBuilder.buildResponse(res, responseCode, response);
-    })
-    .catch(function (response) {
-      let sentResp = responseBuilder.buildResponse(res, undefined, response);
-      responseCode = sentResp.code;
-    });
-  oamLogService.recordOamRequest(req.url, req.body, responseCode, req.headers.authorization, req.method);
-};
-
-module.exports.putOperationClientOperationName = async function putOperationClientOperationName(req, res, next, body, uuid) {
-  let responseCode = responseCodeEnum.code.NO_CONTENT;
-  await OperationClient.putOperationClientOperationName(req.url, body,uuid)
+  await ActionProfile.putActionProfileConsequentOperationReference(req.url, body)
     .then(function (response) {
       responseBuilder.buildResponse(res, responseCode, response);
     })
