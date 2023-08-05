@@ -1,19 +1,74 @@
 {
-    "administrator-credential-list":
-    [
-      {
-        "administrator-id" : "1",
-        "administrator-name" : "administrator",
-        "user-name" : "admin.user",
-        "authorization" : " *** Basic Ath Code *** ",
-        "allowed-methods" : "ALL"
-      },
-      {
-        "administrator-id" : "2",
-        "administrator-name" : "administrator",
-        "user-name" : "admin.user",
-        "authorization" : " *** Basic Ath Code *** ",
-        "allowed-methods" : "PUT"
-      }
-    ]
-  }
+  "administrator-credential-list": [
+    {
+      "administrator-id": "1",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "ALL"
+    },
+    {
+      "administrator-id": "2",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "CONNECT"
+    },
+    {
+      "administrator-id": "3",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "DELETE"
+    },
+    {
+      "administrator-id": "4",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "GET"
+    },
+    {
+      "administrator-id": "5",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "HEAD"
+    },
+    {
+      "administrator-id": "6",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "OPTIONS"
+    },
+    {
+      "administrator-id": "7",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "PATCH"
+    },
+    {
+      "administrator-id": "8",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "POST"
+    },
+    {
+      "administrator-id": "9",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "PUT"
+    },
+    {
+      "administrator-id": "10",
+      "administrator-name": "administrator",
+      "user-name": "admin.user",
+      "authorization": " *** Basic Ath Code *** ",
+      "allowed-methods": "TRACE"
+    }
+  ]
+}
