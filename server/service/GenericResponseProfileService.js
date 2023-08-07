@@ -1,133 +1,79 @@
 'use strict';
-var fileOperation = require('../node_modules/onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
-const onfPaths = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfPaths');
+
+const fileOperation = require('../node_modules/onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 
 /**
  * Returns the Datatype of the Field
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_14
  **/
-exports.getGenericResponseProfileDatatype = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "response-profile-1-0:datatype" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getGenericResponseProfileDatatype = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "response-profile-1-0:datatype": value
+  };
 }
-
 
 /**
  * Returns the Description of the Field
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_13
  **/
-exports.getGenericResponseProfileDescription = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url); 
-    response['application/json'] = {
-  "response-profile-1-0:description" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getGenericResponseProfileDescription = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "response-profile-1-0:description": value
+  };
 }
-
 
 /**
  * Returns the name of the Field
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_12
  **/
-exports.getGenericResponseProfileFieldName = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-   
-    response['application/json'] = {
-  "response-profile-1-0:field-name" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getGenericResponseProfileFieldName = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "response-profile-1-0:field-name": value
+  };
 }
-
 
 /**
  * Returns the name of the Operation
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_11
  **/
-exports.getGenericResponseProfileOperationName = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "response-profile-1-0:operation-name" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getGenericResponseProfileOperationName = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "response-profile-1-0:operation-name": value
+  };
 }
-
 
 /**
  * Returns the Value of the Field
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_15
  **/
-exports.getGenericResponseProfileValue = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "response-profile-1-0:value" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getGenericResponseProfileValue = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "response-profile-1-0:value": value
+  };
 }
-
 
 /**
  * Configures the Value of the Field
  *
  * body Responseprofileconfiguration_value_body 
- * uuid String 
+ * url String 
  * no response value expected for this operation
  **/
-exports.putGenericResponseProfileValue = function(url,body) {
-  return new Promise(async function(resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });    
-          
-  }
+exports.putGenericResponseProfileValue = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
+}
