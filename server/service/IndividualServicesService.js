@@ -23,14 +23,9 @@ const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfLis
  * Checks authentication of an OaM request
  *
  * body V1_approveoamrequest_body 
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-capability/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns inline_response_200_2
  **/
-exports.approveOamRequest = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+exports.approveOamRequest = function (body) {
   return new Promise(async function (resolve, reject) {
     try {
 
@@ -290,42 +285,16 @@ exports.disregardApplication = function (body, user, originator, xCorrelator, tr
   });
 }
 
-
 /**
  * Provides list of applications that are requested to send OaM request notifications
  *
- * user String User identifier from the system starting the service call
- * originator String 'Identification for the system consuming the API, as defined in  [/core-model-1-4:control-construct/logical-termination-point={uuid}/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-capability/application-name]' 
- * xCorrelator String UUID for the service execution flow that allows to correlate requests and responses
- * traceIndicator String Sequence of request numbers along the flow
- * customerJourney String Holds information supporting customer’s journey to which the execution applies
  * returns List
  **/
-exports.listApplications = function (user, originator, xCorrelator, traceIndicator, customerJourney) {
-  return new Promise(async function (resolve, reject) {
-    let response = {};
+exports.listApplications = async function () {
     const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
-    try {
-      /****************************************************************************************
-       * Preparing response body
-       ****************************************************************************************/
     let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
-
-      /****************************************************************************************
-       * Setting 'application/json' response body
-       ****************************************************************************************/
-      response['application/json'] = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
-    } catch (error) {
-      console.log(error);
-    }
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+    return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
 }
-
 
 /**
  * Adds to the list of applications
