@@ -9,7 +9,7 @@ const prepareForwardingAutomation = require('./individualServices/PrepareForward
 const ConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/ConfigurationStatus');
 const LogicalTerminationPointConfigurationStatus = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationStatus');
 const individualServicesOperationsMapping = require('./individualServices/individualServicesOperationsMapping');
-const LogicalTerminationPointServiceOfUtility = require("onf-core-model-ap-bs/basicServices/utility/LogicalTerminationPoint")
+const ServiceUtils = require("onf-core-model-ap-bs/basicServices/utility/LogicalTerminationPoint")
 const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpClientInterface');
@@ -125,7 +125,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
       let applicationPort = body["new-application-port"];
 
 
-      let newReleaseUuids = await LogicalTerminationPointServiceOfUtility.resolveHttpTcpAndOperationClientUuidOfNewRelease()
+      let newReleaseUuids = await ServiceUtils.resolveHttpTcpAndOperationClientUuidOfNewRelease()
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 
        * configure logical-termination-point
@@ -272,7 +272,7 @@ exports.disregardApplication = async function (body, user, originator, xCorrelat
  **/
 exports.listApplications = async function () {
     const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
-    let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
+    let applicationList = await ServiceUtils.getAllApplicationList(forwardingName);
     return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
 }
 
@@ -312,8 +312,10 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
     operationNamesByAttributes,
     individualServicesOperationsMapping.individualServicesOperationsMapping
   );
-  let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
-    ltpConfigurationInput
+  const roApplicationName = await ServiceUtils.resolveRegistryOfficeApplicationNameFromForwardingAsync();
+  const logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
+    ltpConfigurationInput,
+    roApplicationName === applicationName
   );
 
   /****************************************************************************************
