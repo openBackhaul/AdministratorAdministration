@@ -27239,7 +27239,7 @@
 															"    pm.collectionVariables.set(\"deregisterApplicationOperationClientLtp\", deregisterApplicationOperationClientLtp);\r",
 															"    pm.collectionVariables.set(\"relayOperationUpdateOperationClientLtp\", relayOperationUpdateOperationClientLtp);\r",
 															"    pm.collectionVariables.set(\"applicationsListCount\", outputFcPortListUnderNewApplicationCausesRequestForInquiringOamRequestApprovals.length);\r",
-															"    \r",
+															"    pm.collectionVariables.set(\"upgradedOperationServerListLength\", upgradedOperationServerListLength);\r",
 															"} catch (error) {\r",
 															"    console.log(\"! Collection variables could not be set.\");\r",
 															"}\r",
