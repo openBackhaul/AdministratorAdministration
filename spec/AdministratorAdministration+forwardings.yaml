@@ -81,13 +81,13 @@ forwardings:
         uuid: aa-2-0-1-op-s-bs-003
       - server-name: /v1/inform-about-release-history-in-generic-representation
         uuid: aa-2-0-1-op-s-bs-004
-      - service-name: /v1/regard-application
+      - server-name: /v1/regard-application
         uuid: aa-2-0-1-op-s-is-001
-      - service-name: /v1/disregard-application
+      - server-name: /v1/disregard-application
         uuid: aa-2-0-1-op-s-is-002
-      - service-name: /v1/list-applications
+      - server-name: /v1/list-applications
         uuid: aa-2-0-1-op-s-is-003
-      - service-name: /v1/approve-oam-request
+      - server-name: /v1/approve-oam-request
         uuid: aa-2-0-1-op-s-is-004
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
@@ -277,7 +277,7 @@ forwardings:
         uuid: aa-2-0-1-op-s-bm-011
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
-      - service-name: /v1/regard-application
+      - server-name: /v1/regard-application
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-ltp
@@ -296,7 +296,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - service-name: /v1/disregard-application
+      - server-name: /v1/disregard-application
         uuid: aa-2-0-1-op-s-is-002
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/delete-ltp-and-dependents
@@ -315,7 +315,7 @@ forwardings:
       fc-port-deletion:
       operation-client-deletion:
     initiating-requests:
-      - service-name: /v1/regard-application
+      - server-name: /v1/regard-application
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/update-fc
