@@ -1,0 +1,23 @@
+@startuml bm007_BackwardCompatibleReplacement
+skinparam responseMessageBelowArrow true
+
+title
+bm-107: PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation
+end title
+
+participant "OR://v1/bequeath-your-data-and-die" as OldRelease
+participant "RO://v1/relay-server-replacement" as RO
+participant "All://v1/update-client\nincl.\nAA://v1/update-client" as UpdateClient
+participant "RO://v1/relay-operation-update" as BackwardCompatibleReplacement
+participant "All://v1/update-operation-client" as AllApplications
+
+OldRelease -> RO
+
+RO -> UpdateClient
+activate UpdateClient
+UpdateClient -> BackwardCompatibleReplacement : { application-name: AccessAdministration \n release-number: 2.1.0 \n old-operation-name: /v1/approve-oam-request \n new-operation-name: /v1/approve-basic-auth-request }
+deactivate UpdateClient
+
+BackwardCompatibleReplacement -> AllApplications
+
+@enduml

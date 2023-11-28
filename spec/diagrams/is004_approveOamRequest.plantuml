@@ -1,0 +1,18 @@
+@startuml is004_approveOamRequest
+skinparam responseMessageBelowArrow true
+
+title
+<i> No Callback </i>
+end title
+
+participant "ApplicationPattern" as ap
+participant "AA://v1/approve-oam-request" as aa
+
+ap -> aa : {applicationName, releaseNumber, authorization, method} (apiKey)
+activate aa
+
+aa --> ap : {oam-request-is-approved, reason-of-objection}
+
+deactivate aa
+
+@enduml

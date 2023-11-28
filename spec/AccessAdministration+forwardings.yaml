@@ -69,6 +69,8 @@ forwardings:
         uuid: aa-2-0-1-op-s-bm-010
       - server-name: /v1/update-operation-client
         uuid: aa-2-0-1-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-s-bm-012
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
       - server-name: /v1/start-application-in-generic-representation
@@ -89,6 +91,8 @@ forwardings:
         uuid: aa-2-0-1-op-s-is-003
       - server-name: /v1/approve-oam-request
         uuid: aa-2-0-1-op-s-is-004
+      - server-name: /v1/approve-basic-auth-request
+        uuid: aa-2-0-1-op-s-is-005
     consequent-requests:
       - client-name: ExecutionAndTraceLog://v1/record-service-request
         uuid: aa-2-0-1-op-c-bs-eatl-1-0-0-000
@@ -129,6 +133,24 @@ forwardings:
       - client-name: AdministratorAdministration://v1/approve-oam-request
         uuid: aa-2-0-1-op-c-bs-aa-2-0-1-000
 
+  - forwarding-name: BasicAuthRequestCausesInquiryForAuthentication
+    uuid: aa-2-0-1-op-fc-bm-005
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: aa-2-0-1-op-s-bm-012
+      fc-port-update:
+        - server-name: /v1/inquire-basic-auth-approvals
+          uuid: aa-2-0-1-op-s-bm-012
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      # [all oam requests]
+    consequent-requests:
+      - client-name: AdministratorAdministration://v1/approve-oam-request
+        uuid: aa-2-0-1-op-c-bs-aa-2-0-1-000
+
   - forwarding-name: PromptForBequeathingDataCausesTransferOfListOfApplications
     uuid: aa-2-0-1-op-fc-im-110
     forwarding-type: InvariantProcessSnippet
@@ -141,7 +163,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
     consequent-requests:
-      - client-name: NewRelease:://v1/regard-application
+      - client-name: NewRelease://v1/regard-application
         uuid: aa-2-0-1-op-c-im-nr-2-0-1-000
 
   - forwarding-name: PromptForBequeathingDataCausesRObeingRequestedToNotifyApprovalsOfNewApplicationsToNewRelease
@@ -156,7 +178,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice:://v1/notify-approvals
+      - client-name: RegistryOffice://v1/notify-approvals
         uuid: aa-2-0-1-op-c-im-ro-2-0-1-000
 
   - forwarding-name: PromptForBequeathingDataCausesRObeingRequestedToNotifyWithdrawnApprovalsToNewRelease
@@ -171,7 +193,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice:://v1/notify-withdrawn-approvals
+      - client-name: RegistryOffice://v1/notify-withdrawn-approvals
         uuid: aa-2-0-1-op-c-im-ro-2-0-1-001
 
   - forwarding-name: PromptForBequeathingDataCausesRObeingRequestedToStopNotificationsToOldRelease
@@ -186,7 +208,7 @@ forwardings:
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
     consequent-requests:
-      - client-name: RegistryOffice:://v1/end-subscription
+      - client-name: RegistryOffice://v1/end-subscription
         uuid: aa-2-0-1-op-c-im-ro-2-0-1-002
 
   - forwarding-name: PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement
@@ -275,6 +297,8 @@ forwardings:
         uuid: aa-2-0-1-op-s-bm-009
       - server-name: /v1/update-operation-client
         uuid: aa-2-0-1-op-s-bm-011
+      - server-name: /v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-s-bm-012
       - server-name: /v1/bequeath-your-data-and-die
         uuid: aa-2-0-1-op-s-im-000
       - server-name: /v1/regard-application
@@ -478,3 +502,18 @@ forwardings:
         uuid: aa-2-0-1-op-c-im-okm-1-0-0-004
       - client-name: CurrentController:://v1/inquire-oam-request-approvals
         uuid: aa-2-0-1-op-c-im-cc-1-0-0-004
+
+  - forwarding-name: NewApplicationCausesRequestForInquiringBasicAuthRequestApprovals
+    uuid: aa-2-0-1-op-fc-is-001
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-application
+        uuid: aa-2-0-1-op-s-is-001
+    consequent-requests:
+      - client-name: requestBody#application-name:://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-all-1-0-0-999

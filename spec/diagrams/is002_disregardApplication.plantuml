@@ -1,0 +1,16 @@
+@startuml is002_disregardApplication
+skinparam responseMessageBelowArrow true
+
+title
+<i> No Callback </i>
+end title
+
+participant "RO" as ro
+participant "AA://v1/disregard-application" as aa
+
+ro -> aa : {newApplicationName, releaseNumber} (apiKey)
+activate aa
+
+deactivate aa
+
+@enduml

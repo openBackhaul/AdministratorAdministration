@@ -1,0 +1,18 @@
+@startuml is003_listApplications
+skinparam responseMessageBelowArrow true
+
+title
+<i> No Callback </i>
+end title
+
+participant "Requestor" as requestor
+participant "AA://v1/list-applications" as aa
+
+requestor -> aa : (apiKey)
+activate aa
+
+aa --> requestor : {list-of-(application-name, release-number, protocol, address, port)}
+
+deactivate aa
+
+@enduml

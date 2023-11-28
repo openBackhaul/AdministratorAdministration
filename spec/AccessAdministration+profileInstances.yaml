@@ -123,9 +123,7 @@ profile-instances:
     uuid: 'aa-2-0-1-file-p-000'
     capability:
       file-identifier: 'LOADfile'
-      file-description: 'Administrator name, user name, authorization and allowed methods'
+      file-description: 'Administrator name, user name, authorization and list of {application name, operation name, allowed method}'
     configuration:
-      file-path: '../application-data/application-data.json'
-      user-name: 'AdministratorAdministration'
-      password: 'Operations to add password'
-      operation: 'write'
+      file-name: 'application-data.json'
+      operation: 'read'

@@ -1,15 +1,16 @@
-# AdministratorAdministration
+# AccessAdministration
 
 ### Location
-The AdministratorAdministration is part of the TinyApplicationController.  
+The AccessAdministration is part of the TinyApplicationController.  
 The TinyApplicationController is for managing the REST microservices of the application layer.  
 
 ### Description
-Every OaM activity on any of the applications of the application layer must be approved by the AdministratorAdministration.  
-It is the central place for defining administrators and the individual administrator's access rights.  
+Every request using BasicAuth must be approved by the AccessAdministration.  
+This applies on OaM activities on any of the applications and out-of-MW-SDN-domain requests to any of the proxy applications.  
+It is the central place for defining access rights of administrators and out-of-MW-SDN-domain applications.  
 
 ### Relevance
-The AdministratorAdministration is core element of the application layer running in the live network at Telefonica Germany.  
+The AccessAdministration is core element of the application layer running in the live network at Telefonica Germany.  
 
 ### Resources
 - [Specification](./spec/)
