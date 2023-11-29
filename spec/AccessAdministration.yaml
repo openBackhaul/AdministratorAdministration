@@ -5262,31 +5262,25 @@ paths:
                           description: >
                             'Method applied in the BasicAuth request
                             from {$request.method} of the BasicAuth request that initiates the inquiry for approval'
-                      example:
-                        Authorization: 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYHduEdBBdXRoIFBhc3N3b3JkPg=='
-                        application-name: 'AutomatedLinkAcceptanceProxy'
-                        release-number: '1.0.0'
-                        operation-name: '/v1/provide-acceptance-data-of-link-endpoint'
-                        method: 'POST'
               responses:
                 '200':
                   description: 'Response on inquiry for approval of a BasicAuth request provided'
                   content:
                     application/json:
                       schema:
-                            type: object
-                            properties:
-                              basic-auth-request-is-approved:
-                                type: boolean
-                                description: 'If true, BasicAuth request can be executed'
-                              reason-of-objection:
-                                type: string
-                                description: >
-                                  'if AUTHORIZATION_CODE_UNKNOWN BasicAuth request to be aborted and 401 to be sent
-                                  else BasicAuth request to be aborted and 403 to be sent'
-                            example:
-                              basic-auth-request-is-approved: false
-                              reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
+                        type: object
+                        properties:
+                          basic-auth-request-is-approved:
+                            type: boolean
+                            description: 'If true, BasicAuth request can be executed'
+                          reason-of-objection:
+                            type: string
+                            description: >
+                              'if AUTHORIZATION_CODE_UNKNOWN BasicAuth request to be aborted and 401 to be sent
+                              else BasicAuth request to be aborted and 403 to be sent'
+                        example:
+                          basic-auth-request-is-approved: false
+                          reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
                   headers:
                     x-correlator:
                       schema:
