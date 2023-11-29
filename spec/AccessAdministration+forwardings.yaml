@@ -546,4 +546,4 @@ forwardings:
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: requestBody#application-name:://v1/inquire-basic-auth-approvals
-        uuid: aa-2-0-1-op-c-im-all-1-0-0-999
+        uuid: aa-2-0-1-op-c-im-*-*-*-*-999

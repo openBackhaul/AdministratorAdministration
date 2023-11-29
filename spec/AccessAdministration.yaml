@@ -968,9 +968,6 @@ paths:
                           - 'AA_NOT_REACHABLE'
                           - 'AA_UNKNOWN'
                         description: 'Reasons provided by ALT to be pre-fixed with AA_. If (NOT (200 OR 204)) respond AA_NOT_REACHABLE'
-                    example:
-                      successfully-connected: false
-                      reason-of-failure: 'AA_ALT_SERVING_APPLICATION_NAME_UNKNOWN'
                   - description: 'IF successfully-connected == true'
                     type: object
                     required:
@@ -979,8 +976,14 @@ paths:
                     properties:
                       successfully-connected:
                         type: boolean
-                    example:
-                      successfully-connected: true
+              examples:
+                if-unsuccessful:
+                  value:
+                    successfully-connected: false
+                    reason-of-failure: 'AA_ALT_SERVING_APPLICATION_NAME_UNKNOWN'
+                if-successful:
+                  value:
+                    successfully-connected: true
           headers:
             x-correlator:
               schema:
@@ -1170,7 +1173,7 @@ paths:
                           type: string
                           description: >
                             'Name of the operation, which is made available via the link
-                            from [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-all-1-0-0-999/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            from [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-*-*-*-*-999/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                         consuming-application-name:
                           type: string
                           description: >
@@ -1329,7 +1332,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         NewApplicationCausesRequestForInquiringBasicAuthRequestApprovals:
-          url: #[{$request.body#protocol}]://[{$request.body#address/domain-name} or {$request.body#address/ip-address/ipv-4-address}]:[{$request.body#port}][/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-all-1-0-0-999/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[{$request.body#protocol}]://[{$request.body#address/domain-name} or {$request.body#address/ip-address/ipv-4-address}]:[{$request.body#port}][/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-*-*-*-*-999/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -1834,11 +1837,6 @@ paths:
                       description: >
                         'Method that has been addressed by the OaM request
                         find in LOADfile'
-                  example:
-                    Authorization: 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYHduEdBBdXRoIFBhc3N3b3JkPg=='
-                    application-name: 'RegistryOffice'
-                    release-number: '2.0.1'
-                    method: 'PUT'
                 - description: 'new-basic-auth-format'
                   type: object
                   required:
@@ -1884,12 +1882,20 @@ paths:
                       description: >
                         'Method that has been addressed by the BasicAuth request
                         find in LOADfile'
-                  example:
-                    Authorization: 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYHduEdBBdXRoIFBhc3N3b3JkPg=='
-                    application-name: 'AutomatedLinkAcceptanceProxy'
-                    release-number: '1.0.0'
-                    operation-name: '/v1/provide-acceptance-data-of-link-endpoint'
-                    method: 'POST'
+            examples:
+              old-oam-format:
+                value:
+                  Authorization: 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYHduEdBBdXRoIFBhc3N3b3JkPg=='
+                  application-name: 'RegistryOffice'
+                  release-number: '2.0.1'
+                  method: 'PUT'
+              new-basic-auth-format:
+                value:
+                  Authorization: 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYHduEdBBdXRoIFBhc3N3b3JkPg=='
+                  application-name: 'AutomatedLinkAcceptanceProxy'
+                  release-number: '1.0.0'
+                  operation-name: '/v1/provide-acceptance-data-of-link-endpoint'
+                  method: 'POST'
       responses:
         '200':
           description: 'Response on inquiry for approval of a BasicAuth request provided'
@@ -1908,8 +1914,6 @@ paths:
                         description: >
                           'Would be true, IF
                           tuple of {$request.body#application-name, $request.body#release-number, $request.body#method} could be found for {$request.body#Authorization} in LOADfile'
-                    example:
-                      oam-request-is-approved: true
                   - description: 'IF requestBody according to old-oam-format AND {$request.response#oam-request-is-approved}==false (to be deleted with AA v3.0.0)'
                     type: object
                     required:
@@ -1933,9 +1937,6 @@ paths:
                           - 'METHOD_NOT_ALLOWED'
                           - 'UNKNOWN'
                         description: 'Reasons to be checked and indicated according to the sequence defined in the enumeration.'
-                    example:
-                      oam-request-is-approved: false
-                      reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
                   - description: 'IF requestBody according to new-basic-auth-format AND {$request.response#basic-auth-request-is-approved}==true'
                     type: object
                     required:
@@ -1947,8 +1948,6 @@ paths:
                         description: >
                           'Would be true, IF
                           tuple of {$request.body#application-name, $request.body#release-number, $request.body#operation-name, $request.body#method} could be found for {$request.body#Authorization} in LOADfile'
-                    example:
-                      basic-auth-request-is-approved: true
                   - description: 'IF requestBody according to new-basic-auth-format AND {$request.response#basic-auth-request-is-approved}==false'
                     type: object
                     required:
@@ -1971,9 +1970,21 @@ paths:
                           - 'METHOD_NOT_ALLOWED'
                           - 'UNKNOWN'
                         description: 'Reasons to be checked and indicated according to the sequence defined in the enumeration.'
-                    example:
-                      basic-auth-request-is-approved: false
-                      reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
+              examples:
+                old-oam-format-approved:
+                  value:
+                    oam-request-is-approved: true
+                old-oam-format-not-approved:
+                  value:
+                    oam-request-is-approved: false
+                    reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
+                new-basic-auth-format-approved:
+                  value:
+                    basic-auth-request-is-approved: true
+                new-basic-auth-format-not-approved:
+                  value:
+                    basic-auth-request-is-approved: false
+                    reason-of-objection: 'AUTHORIZATION_CODE_UNKNOWN'
           headers:
             x-correlator:
               schema:
