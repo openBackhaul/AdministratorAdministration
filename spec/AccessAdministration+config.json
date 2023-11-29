@@ -2132,6 +2132,11 @@
                     "logical-termination-point": "aa-2-0-1-op-s-bs-004"
                   },
                   {
+                    "local-id": "155",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                    "logical-termination-point": "xx-1-0-0-op-s-bs-005"
+                  },
+                  {
                     "local-id": "171",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                     "logical-termination-point": "aa-2-0-1-op-s-is-001"
