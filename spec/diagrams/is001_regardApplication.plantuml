@@ -3,6 +3,7 @@ skinparam responseMessageBelowArrow true
 
 title
 NewApplicationCausesRequestForInquiringOamRequestApprovals
+NewApplicationCausesAutomatedCreationOfTheLinkForRequestingForInquiringBasicAuthRequestApprovals
 NewApplicationCausesAutomatedCreationOfTheLinkForInquiringBasicAuthRequestApprovals
 NewApplicationCausesRequestForInquiringBasicAuthRequestApprovals
 end title
@@ -23,12 +24,41 @@ of OaM requests in past. (Deprecated!)
 Created OperationClient at AdministratorAdministration
 end note
 aa -> newApplicationPast : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
+newApplicationPast --> aa : 204
 
 note over aa
-Request for automatically creating the Link for the new application 
-being able to inquire BasicAuth request approvals at the AA
+Request for automatically creating the Link:
+AA => newApplicationName://v1/inquire-basic-auth-approvals
 end note
-aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-basic-auth-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber} (apiKey)
+aa -> alt : { servingApplicationName == requestBody.newApplicationName,\n servingApplicationReleaseNumber == requestBody.releaseNumber,\n operationName == /v1/inquire-basic-auth-approvals,\n consumingApplicationName == AccessAdministration,\n consumingApplicationReleaseNumber == 2.1.0 } (apiKey)
+alt --> aa : {client-successfully-added, reason-of-failure}
+
+note left aa
+IF (NOT 200) OR (client-successfully-added==false)
+end note
+aa --> ro : { successfully-connected==false, reason-of-failure}
+
+note over aa
+ELSE
+end note
+
+note over aa
+Request for automatically creating the Link:
+newApplication => AA://v1/approve-basic-auth-request
+for the new application being able to inquire BasicAuth
+request approvals at the AA
+end note
+aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-basic-auth-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber } (apiKey)
+alt --> aa : {client-successfully-added, reason-of-failure}
+
+note left aa
+IF (NOT 200) OR (client-successfully-added==false)
+end note
+aa --> ro : { successfully-connected==false, reason-of-failure}
+
+note over aa
+ELSE
+end note
 
 note over aa
 Request to pro-actively ask for approvals
@@ -37,7 +67,10 @@ of BasicAuth requests in future.
 Doesn't create OperationClient at AccessAdministration
 end note
 aa -> newApplicationFuture : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
+newApplicationFuture --> aa : 204
 
+
+aa --> ro : { successfully-connected==true }
 deactivate aa
 
 @enduml
