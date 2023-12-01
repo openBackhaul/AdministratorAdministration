@@ -2018,7 +2018,7 @@
             ]
           },
           {
-            "uuid": "aa-2-0-1-op-c-im-*-*-*-*-999",
+            "uuid": "aa-2-0-1-op-c-im-all-1-0-0-999",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
             ],

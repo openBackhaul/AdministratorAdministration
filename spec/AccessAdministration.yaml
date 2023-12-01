@@ -1178,7 +1178,7 @@ paths:
                           description: >
                             'Name of the operation, which is made available via the link
                             from [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-*-*-*-*-004/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-                            being filled with value from [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-*-*-*-*-999/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                            being filled with value from [/core-model-1-4:control-construct/logical-termination-point=aa-2-0-1-op-c-im-all-1-0-0-999/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                         consuming-application-name:
                           type: string
                           description: >
