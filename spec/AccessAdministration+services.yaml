@@ -134,6 +134,10 @@ clients:
             uuid: aa-2-0-1-op-c-im-ro-2-0-1-001
           - operation-name: /v1/end-subscription
             uuid: aa-2-0-1-op-c-im-ro-2-0-1-002
+          - operation-name: /v1/inquire-oam-request-approvals
+            uuid: aa-2-0-1-op-c-im-ro-2-0-1-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-ro-2-0-1-005
       service:
         basic:
         individual:
@@ -153,6 +157,8 @@ clients:
         individual:
           - operation-name: /v1/inquire-oam-request-approvals
             uuid: aa-2-0-1-op-c-im-tar-1-0-0-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-tar-1-0-0-005
       service:
         basic:
         individual:
@@ -172,6 +178,8 @@ clients:
         individual:
           - operation-name: /v1/inquire-oam-request-approvals
             uuid: aa-2-0-1-op-c-im-eatl-1-0-0-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-eatl-1-0-0-005
       service:
         basic:
           - operation-name: /v1/record-service-request
@@ -193,6 +201,8 @@ clients:
         individual:
           - operation-name: /v1/inquire-oam-request-approvals
             uuid: aa-2-0-1-op-c-im-ol-1-0-0-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-ol-1-0-0-005
       service:
         basic:
           - operation-name: /v1/record-oam-request
@@ -214,6 +224,8 @@ clients:
         individual:
           - operation-name: /v1/inquire-oam-request-approvals
             uuid: aa-2-0-1-op-c-im-aa-2-0-1-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-aa-2-0-1-005
       service:
         basic:
           - operation-name: /v1/approve-oam-request
@@ -247,6 +259,10 @@ clients:
         individual:
           - operation-name: /v1/add-operation-client-to-link
             uuid: aa-2-0-1-op-c-im-alt-1-0-0-000
+          - operation-name: /v1/inquire-oam-request-approvals
+            uuid: aa-2-0-1-op-c-im-alt-1-0-0-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-alt-1-0-0-005
       service:
         basic:
         individual:
@@ -266,6 +282,8 @@ clients:
         individual:
           - operation-name: /v1/inquire-oam-request-approvals
             uuid: aa-2-0-1-op-c-im-okm-1-0-0-004
+          - operation-name: /v1/inquire-basic-auth-approvals
+            uuid: aa-2-0-1-op-c-im-okm-1-0-0-005
       service:
         basic:
         individual:

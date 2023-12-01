@@ -500,8 +500,6 @@ forwardings:
         uuid: aa-2-0-1-op-c-im-alt-1-0-0-004
       - client-name: OperationKeyManagement://v1/inquire-oam-request-approvals
         uuid: aa-2-0-1-op-c-im-okm-1-0-0-004
-      - client-name: CurrentController://v1/inquire-oam-request-approvals
-        uuid: aa-2-0-1-op-c-im-cc-1-0-0-004
 
   - forwarding-name: NewApplicationCausesAutomatedCreationOfTheLinkForRequestingForInquiringBasicAuthRequestApprovals
     uuid: aa-2-0-1-op-fc-is-010
@@ -535,15 +533,35 @@ forwardings:
 
   - forwarding-name: NewApplicationCausesRequestForInquiringBasicAuthRequestApprovals
     uuid: aa-2-0-1-op-fc-is-012
-    forwarding-type: InvariantProcessSnippet
+    forwarding-type: ProcessSnippet
     management-requests:
       operation-client-update:
+        - server-name: /v1/regard-application
+          uuid: aa-2-0-1-op-s-is-001
       fc-port-update:
+        - server-name: /v1/regard-application
+          uuid: aa-2-0-1-op-s-is-001
       fc-port-deletion:
+        - server-name: /v1/disregard-application
+          uuid: aa-2-0-1-op-s-is-002
       operation-client-deletion:
+        - server-name: /v1/disregard-application
+          uuid: aa-2-0-1-op-s-is-002
     initiating-requests:
       - server-name: /v1/regard-application
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
-      - client-name: requestBody#application-name://v1/inquire-basic-auth-approvals
-        uuid: aa-2-0-1-op-c-im-*-*-*-*-999
+      - client-name: RegistryOffice://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-ro-2-0-1-005
+      - client-name: TypeApprovalRegister://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-tar-1-0-0-005
+      - client-name: ExecutionAndTraceLog://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-eatl-1-0-0-005
+      - client-name: OamLog://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-ol-1-0-0-005
+      - client-name: AdministratorAdministration://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-aa-2-0-1-005
+      - client-name: ApplicationLayerTopology://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-alt-1-0-0-005
+      - client-name: OperationKeyManagement://v1/inquire-basic-auth-approvals
+        uuid: aa-2-0-1-op-c-im-okm-1-0-0-005

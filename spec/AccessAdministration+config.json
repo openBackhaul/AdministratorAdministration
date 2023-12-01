@@ -1239,6 +1239,31 @@
             ]
           },
           {
+            "uuid": "aa-2-0-1-op-c-im-ro-2-0-1-004",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+            ],
+            "server-ltp": [
+              "aa-2-0-1-http-c-ro-2-0-1-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/v1/end-subscription",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "uuid": "aa-2-0-1-http-c-ro-2-0-1-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
@@ -1248,7 +1273,8 @@
               "aa-2-0-1-op-c-bm-ro-2-0-1-003",
               "aa-2-0-1-op-c-im-ro-2-0-1-000",
               "aa-2-0-1-op-c-im-ro-2-0-1-001",
-              "aa-2-0-1-op-c-im-ro-2-0-1-002"
+              "aa-2-0-1-op-c-im-ro-2-0-1-002",
+              "aa-2-0-1-op-c-im-ro-2-0-1-004"
             ],
             "server-ltp": [
               "aa-2-0-1-tcp-c-ro-2-0-1-000"
@@ -1306,7 +1332,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/v1/inquire-oam-request-approvals",
+                    "operation-name": "/v1/inquire-basic-auth-approvals",
                     "operation-key": "Operation key not yet provided."
                   },
                   "operation-client-interface-status": {
@@ -1379,7 +1405,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/v1/inquire-oam-request-approvals",
+                    "operation-name": "/v1/inquire-basic-auth-approvals",
                     "operation-key": "Operation key not yet provided."
                   },
                   "operation-client-interface-status": {
@@ -1479,7 +1505,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/v1/inquire-oam-request-approvals",
+                    "operation-name": "/v1/inquire-basic-auth-approvals",
                     "operation-key": "Operation key not yet provided."
                   },
                   "operation-client-interface-status": {
@@ -1578,7 +1604,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/v1/inquire-oam-request-approvals",
+                    "operation-name": "/v1/inquire-basic-auth-approvals",
                     "operation-key": "Operation key not yet provided."
                   },
                   "operation-client-interface-status": {
@@ -1814,6 +1840,56 @@
             ]
           },
           {
+            "uuid": "aa-2-0-1-op-c-im-alt-1-0-0-000",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+            ],
+            "server-ltp": [
+              "aa-2-0-1-http-c-alt-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/v1/add-operation-client-to-link",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "uuid": "aa-2-0-1-op-c-im-alt-1-0-0-004",
+            "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+            "client-ltp": [
+            ],
+            "server-ltp": [
+              "aa-2-0-1-http-c-alt-1-0-0-000"
+            ],
+            "layer-protocol": [
+              {
+                "local-id": "0",
+                "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                "operation-client-interface-1-0:operation-client-interface-pac": {
+                  "operation-client-interface-configuration": {
+                    "operation-name": "/v1/inquire-basic-auth-approvals",
+                    "operation-key": "Operation key not yet provided."
+                  },
+                  "operation-client-interface-status": {
+                    "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                    "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "uuid": "aa-2-0-1-http-c-alt-1-0-0-000",
             "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
             "client-ltp": [
@@ -1822,7 +1898,9 @@
               "aa-2-0-1-op-c-bm-alt-1-0-0-002",
               "aa-2-0-1-op-c-bm-alt-1-0-0-003",
               "aa-2-0-1-op-c-bm-alt-1-0-0-004",
-              "aa-2-0-1-op-c-bm-alt-1-0-0-005"
+              "aa-2-0-1-op-c-bm-alt-1-0-0-005",
+              "aa-2-0-1-op-c-im-alt-1-0-0-000",
+              "aa-2-0-1-op-c-im-alt-1-0-0-004"
             ],
             "server-ltp": [
               "aa-2-0-1-tcp-c-alt-1-0-0-000"
@@ -1880,7 +1958,7 @@
                 "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                 "operation-client-interface-1-0:operation-client-interface-pac": {
                   "operation-client-interface-configuration": {
-                    "operation-name": "/v1/inquire-oam-request-approvals",
+                    "operation-name": "/v1/inquire-basic-auth-approvals",
                     "operation-key": "Operation key not yet provided."
                   },
                   "operation-client-interface-status": {
@@ -2784,25 +2862,35 @@
                   {
                     "local-id": "201",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "aa-2-0-1-op-c-im-tar-1-0-0-004"
+                    "logical-termination-point": "aa-2-0-1-op-c-im-ro-2-0-1-004"
                   },
                   {
                     "local-id": "202",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "aa-2-0-1-op-c-im-eatl-1-0-0-004"
+                    "logical-termination-point": "aa-2-0-1-op-c-im-tar-1-0-0-004"
                   },
                   {
                     "local-id": "203",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "aa-2-0-1-op-c-im-ol-1-0-0-004"
+                    "logical-termination-point": "aa-2-0-1-op-c-im-eatl-1-0-0-004"
                   },
                   {
                     "local-id": "204",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-ol-1-0-0-004"
+                  },
+                  {
+                    "local-id": "205",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                     "logical-termination-point": "aa-2-0-1-op-c-im-aa-2-0-1-004"
                   },
                   {
                     "local-id": "206",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-alt-1-0-0-004"
+                  },
+                  {
+                    "local-id": "207",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                     "logical-termination-point": "aa-2-0-1-op-c-im-okm-1-0-0-004"
                   }
@@ -2863,7 +2951,7 @@
                 "name": [
                   {
                     "value-name": "ForwardingKind",
-                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                    "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
                   },
                   {
                     "value-name": "ForwardingName",
@@ -2872,14 +2960,54 @@
                 ],
                 "fc-port": [
                   {
+                    "local-id": "000",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                    "logical-termination-point": "aa-2-0-1-op-s-is-001"
+                  },
+                  {
+                    "local-id": "001",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                    "logical-termination-point": "aa-2-0-1-op-s-is-002"
+                  },
+                  {
                     "local-id": "100",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
                     "logical-termination-point": "aa-2-0-1-op-s-is-001"
                   },
                   {
-                    "local-id": "200",
+                    "local-id": "201",
                     "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                    "logical-termination-point": "aa-2-0-1-op-c-im-*-*-*-*-999"
+                    "logical-termination-point": "aa-2-0-1-op-c-im-ro-2-0-1-005"
+                  },
+                  {
+                    "local-id": "202",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-tar-1-0-0-005"
+                  },
+                  {
+                    "local-id": "203",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-eatl-1-0-0-005"
+                  },
+                  {
+                    "local-id": "204",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-ol-1-0-0-005"
+                  },
+                  {
+                    "local-id": "205",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-aa-2-0-1-005"
+                  },
+                  {
+                    "local-id": "206",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-alt-1-0-0-005"
+                  },
+                  {
+                    "local-id": "207",
+                    "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                    "logical-termination-point": "aa-2-0-1-op-c-im-okm-1-0-0-005"
                   }
                 ]
               }
