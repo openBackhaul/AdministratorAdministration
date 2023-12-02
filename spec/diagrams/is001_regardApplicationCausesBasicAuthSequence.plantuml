@@ -1,16 +1,12 @@
-@startuml is001_regardApplication
+@startuml is001_regardApplicationCausesBasicAuthSequence
 skinparam responseMessageBelowArrow true
 
 title
-NewApplicationCausesRequestForInquiringOamRequestApprovals
-NewApplicationCausesAutomatedCreationOfTheLinkForRequestingForInquiringBasicAuthRequestApprovals
-NewApplicationCausesAutomatedCreationOfTheLinkForInquiringBasicAuthRequestApprovals
-NewApplicationCausesRequestForInquiringBasicAuthRequestApprovals
+RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
 end title
 
 participant "RO" as ro
 participant "AA://v1/regard-application" as aa
-participant "newApplicationName://v1/inquire-oam-request-approvals" as newApplicationPast
 participant "ALT://v1/add-operation-client-to-link" as alt
 participant "newApplicationName://v1/inquire-basic-auth-approvals" as newApplicationFuture
 
@@ -18,15 +14,7 @@ ro -> aa : {newApplicationName, releaseNumber, protocol, address, port} (apiKey)
 activate aa
 
 note over aa
-Request to pro-actively ask for approvals
-of OaM requests in past. (Deprecated!)
-
-Created OperationClient at AdministratorAdministration
-end note
-aa -> newApplicationPast : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
-newApplicationPast --> aa : 204
-
-note over aa
+<u>CreateLinkForInquiringBasicAuthApprovals</u>
 Request for automatically creating the Link:
 AA => newApplicationName://v1/inquire-basic-auth-approvals
 end note
@@ -34,15 +22,24 @@ aa -> alt : { servingApplicationName == requestBody.newApplicationName,\n servin
 alt --> aa : {client-successfully-added, reason-of-failure}
 
 note left aa
+not yet, but starting from AA v3.0.0 :
 IF (NOT 200) OR (client-successfully-added==false)
 end note
-aa --> ro : { successfully-connected==false, reason-of-failure}
+aa --> ro : { successfully-connected==false,  reason-of-failure}
+
+note left aa
+until before AA v3.0.0 :
+IF (NOT 200) OR (client-successfully-added==false)
+terminate RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
+and start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
+end note
 
 note over aa
 ELSE
 end note
 
 note over aa
+<u>CreateLinkForApprovingBasicAuthRequests</u>
 Request for automatically creating the Link:
 newApplication => AA://v1/approve-basic-auth-request
 for the new application being able to inquire BasicAuth
@@ -52,25 +49,47 @@ aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicati
 alt --> aa : {client-successfully-added, reason-of-failure}
 
 note left aa
+not yet, but starting from AA v3.0.0 :
 IF (NOT 200) OR (client-successfully-added==false)
 end note
-aa --> ro : { successfully-connected==false, reason-of-failure}
+aa --> ro : { successfully-connected==false,  reason-of-failure}
+
+note left aa
+until before AA v3.0.0 :
+IF (NOT 200) OR (client-successfully-added==false)
+terminate RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
+and start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
+end note
 
 note over aa
 ELSE
 end note
 
 note over aa
+<u>RequestForInquiringBasicAuthApprovals</u>
 Request to pro-actively ask for approvals
 of BasicAuth requests in future.
-
-Doesn't create OperationClient at AccessAdministration
 end note
 aa -> newApplicationFuture : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
 newApplicationFuture --> aa : 204
 
-
+note left aa
+IF 204
+end note
 aa --> ro : { successfully-connected==true }
+
+note left aa
+not yet, but starting from AA v3.0.0 :
+IF (NOT 204)
+end note
+aa --> ro : { successfully-connected==false,  reason-of-failure}
+
 deactivate aa
+
+note over aa
+until before AA v3.0.0 :
+IF (NOT 204)
+start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
+end note
 
 @enduml

@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-<i> No Callback </i>
+is003_listApplications
 end title
 
 participant "Requestor" as requestor

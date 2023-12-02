@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-<i> No Callback </i>
+is005_approveBasicAuthRequest
 end title
 
 participant "ApplicationPattern" as ap

@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-<i> No Callback </i>
+is002_disregardApplication
 end title
 
 participant "RO" as ro
