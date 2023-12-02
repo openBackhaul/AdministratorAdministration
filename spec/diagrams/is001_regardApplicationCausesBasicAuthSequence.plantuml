@@ -86,7 +86,7 @@ aa --> ro : { successfully-connected==false,  reason-of-failure}
 
 deactivate aa
 
-note over aa
+note over aa #LightCyan
 until before AA v3.0.0 :
 IF (NOT 204)
 start RegardApplicationCausesSequenceForInquiringOamRequestApprovals

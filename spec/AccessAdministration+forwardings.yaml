@@ -465,7 +465,7 @@ forwardings:
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
-        uuid: aa-2-0-1-op-c-im-alt-1-0-0-000
+        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
   - forwarding-name: RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.CreateLinkForApprovingBasicAuthRequests
     uuid: aa-2-0-1-op-fc-is-011
@@ -480,7 +480,7 @@ forwardings:
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
-        uuid: aa-2-0-1-op-c-im-alt-1-0-0-000
+        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
   - forwarding-name: RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals
     uuid: aa-2-0-1-op-fc-is-012
@@ -530,7 +530,7 @@ forwardings:
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
-        uuid: aa-2-0-1-op-c-im-alt-1-0-0-000
+        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
   - forwarding-name: RegardApplicationCausesSequenceForInquiringOamRequestApprovals.CreateLinkForApprovingOamRequests
     uuid: aa-2-0-1-op-fc-is-021
@@ -545,7 +545,7 @@ forwardings:
         uuid: aa-2-0-1-op-s-is-001
     consequent-requests:
       - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
-        uuid: aa-2-0-1-op-c-im-alt-1-0-0-000
+        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
   - forwarding-name: RegardApplicationCausesSequenceForInquiringOamRequestApprovals.RequestForInquiringOamApprovals
     uuid: aa-2-0-1-op-fc-is-022

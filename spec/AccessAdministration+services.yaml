@@ -257,8 +257,6 @@ clients:
           - operation-name: /v1/delete-fc-port
             uuid: aa-2-0-1-op-c-bm-alt-1-0-0-005
         individual:
-          - operation-name: /v1/add-operation-client-to-link
-            uuid: aa-2-0-1-op-c-im-alt-1-0-0-000
           - operation-name: /v1/inquire-oam-request-approvals
             uuid: aa-2-0-1-op-c-im-alt-1-0-0-004
           - operation-name: /v1/inquire-basic-auth-approvals
@@ -266,6 +264,8 @@ clients:
       service:
         basic:
         individual:
+          - operation-name: /v1/add-operation-client-to-link
+            uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
   - http-client:
       application-name: OperationKeyManagement

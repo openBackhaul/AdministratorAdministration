@@ -14,7 +14,7 @@ ro -> aa : {newApplicationName, releaseNumber, protocol, address, port} (apiKey)
 activate aa
 deactivate aa
 
-note over aa
+note over aa #LightCyan
 until before AA v3.0.0 : 
 IF RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals terminated 
       with ( ((NOT 200) OR (client-successfully-added==false)) OR (NOT 204) )

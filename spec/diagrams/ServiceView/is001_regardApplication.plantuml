@@ -11,7 +11,7 @@ participant "AA://v1/regard-application" as aa
 ro -> aa : {newApplicationName, releaseNumber, protocol, address, port} (apiKey)
 activate aa
 
-  note over aa
+  note over aa #LightCyan
   RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
   end note
 
@@ -30,7 +30,7 @@ aa --\ aa
 
 activate aa
 
-  note over aa
+  note over aa #LightCyan
   RegardApplicationCausesSequenceForInquiringOamRequestApprovals
   end note
 
