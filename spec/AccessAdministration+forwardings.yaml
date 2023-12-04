@@ -467,23 +467,8 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
         uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
-  - forwarding-name: RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.CreateLinkForApprovingBasicAuthRequests
-    uuid: aa-2-0-1-op-fc-is-011
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/regard-application
-        uuid: aa-2-0-1-op-s-is-001
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
-        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
-
   - forwarding-name: RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals
-    uuid: aa-2-0-1-op-fc-is-012
+    uuid: aa-2-0-1-op-fc-is-011
     forwarding-type: ProcessSnippet
     management-requests:
       operation-client-update:
@@ -499,8 +484,8 @@ forwardings:
         - server-name: /v1/disregard-application
           uuid: aa-2-0-1-op-s-is-002
     initiating-requests:
-      - server-name: /v1/regard-application
-        uuid: aa-2-0-1-op-s-is-001
+      - server-name: /v1/update-operation-key
+        uuid: aa-2-0-1-op-s-bm-010
     consequent-requests:
       - client-name: RegistryOffice://v1/inquire-basic-auth-approvals
         uuid: aa-2-0-1-op-c-im-ro-2-0-1-005
@@ -517,6 +502,21 @@ forwardings:
       - client-name: OperationKeyManagement://v1/inquire-basic-auth-approvals
         uuid: aa-2-0-1-op-c-im-okm-1-0-0-005
 
+  - forwarding-name: RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.CreateLinkForApprovingBasicAuthRequests
+    uuid: aa-2-0-1-op-fc-is-012
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-application
+        uuid: aa-2-0-1-op-s-is-001
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
+        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
+
   - forwarding-name: RegardApplicationCausesSequenceForInquiringOamRequestApprovals.CreateLinkForInquiringOamApprovals
     uuid: aa-2-0-1-op-fc-is-020
     forwarding-type: InvariantProcessSnippet
@@ -532,23 +532,8 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
         uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
 
-  - forwarding-name: RegardApplicationCausesSequenceForInquiringOamRequestApprovals.CreateLinkForApprovingOamRequests
-    uuid: aa-2-0-1-op-fc-is-021
-    forwarding-type: InvariantProcessSnippet
-    management-requests:
-      operation-client-update:
-      fc-port-update:
-      fc-port-deletion:
-      operation-client-deletion:
-    initiating-requests:
-      - server-name: /v1/regard-application
-        uuid: aa-2-0-1-op-s-is-001
-    consequent-requests:
-      - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
-        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000
-
   - forwarding-name: RegardApplicationCausesSequenceForInquiringOamRequestApprovals.RequestForInquiringOamApprovals
-    uuid: aa-2-0-1-op-fc-is-022
+    uuid: aa-2-0-1-op-fc-is-021
     forwarding-type: ProcessSnippet
     management-requests:
       operation-client-update:
@@ -564,8 +549,8 @@ forwardings:
         - server-name: /v1/disregard-application
           uuid: aa-2-0-1-op-s-is-002
     initiating-requests:
-      - server-name: /v1/regard-application
-        uuid: aa-2-0-1-op-s-is-001
+      - server-name: /v1/update-operation-key
+        uuid: aa-2-0-1-op-s-bm-010
     consequent-requests:
       - client-name: RegistryOffice://v1/inquire-oam-request-approvals
         uuid: aa-2-0-1-op-c-im-ro-2-0-1-004
@@ -582,3 +567,17 @@ forwardings:
       - client-name: OperationKeyManagement://v1/inquire-oam-request-approvals
         uuid: aa-2-0-1-op-c-im-okm-1-0-0-004
 
+  - forwarding-name: RegardApplicationCausesSequenceForInquiringOamRequestApprovals.CreateLinkForApprovingOamRequests
+    uuid: aa-2-0-1-op-fc-is-022
+    forwarding-type: InvariantProcessSnippet
+    management-requests:
+      operation-client-update:
+      fc-port-update:
+      fc-port-deletion:
+      operation-client-deletion:
+    initiating-requests:
+      - server-name: /v1/regard-application
+        uuid: aa-2-0-1-op-s-is-001
+    consequent-requests:
+      - client-name: ApplicationLayerTopology://v1/add-operation-client-to-link
+        uuid: aa-2-0-1-op-c-is-alt-1-0-0-000

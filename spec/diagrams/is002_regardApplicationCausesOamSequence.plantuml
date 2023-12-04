@@ -29,13 +29,29 @@ Request for automatically creating the Link:
 AA => newApplicationName://v1/inquire-oam-request-approvals
 end note
 aa -> alt : { servingApplicationName == requestBody.newApplicationName,\n servingApplicationReleaseNumber == requestBody.releaseNumber,\n operationName == /v1/inquire-oam-request-approvals,\n consumingApplicationName == AccessAdministration,\n consumingApplicationReleaseNumber == 2.1.0 } (apiKey)
-alt --> aa : {client-successfully-added, reason-of-failure}
+aa <-- alt : {client-successfully-added, reason-of-failure}
 
 note left aa
 IF (NOT 200) OR (client-successfully-added==false)
 end note
-aa --> ro : { successfully-connected==false,  reason-of-failure}
+ro <-- aa : { successfully-connected==false, reason-of-failure}
 
+note over aa
+ELSE
+end note
+
+note over aa
+<u>RequestForInquiringOamApprovals</u>
+Request to pro-actively ask for approvals
+of OaM requests.
+end note
+aa -> newApplicationOam : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
+aa <-- newApplicationOam : 204
+
+note left aa
+IF (NOT 204)
+end note
+ro <-- aa : { successfully-connected==false, reason-of-failure}
 note over aa
 ELSE
 end note
@@ -48,34 +64,17 @@ for the new application being able to inquire OaM
 request approvals at the AA
 end note
 aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-oam-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber } (apiKey)
-alt --> aa : {client-successfully-added, reason-of-failure}
+aa <-- alt : {client-successfully-added, reason-of-failure}
 
 note left aa
 IF (NOT 200) OR (client-successfully-added==false)
 end note
-aa --> ro : { successfully-connected==false,  reason-of-failure}
+ro <-- aa : { successfully-connected==false, reason-of-failure}
 
 note over aa
 ELSE
 end note
-
-note over aa
-<u>RequestForInquiringOamApprovals</u>
-Request to pro-actively ask for approvals
-of OaM requests.
-end note
-aa -> newApplicationOam : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
-newApplicationOam --> aa : 204
-
-note left aa
-IF 204
-end note
-aa --> ro : { successfully-connected==true }
-
-note over aa
-IF (NOT 204)
-end note
-aa --> ro : { successfully-connected==false, reason-of-failure}
+ro <-- aa : { successfully-connected==true }
 
 deactivate aa
 
