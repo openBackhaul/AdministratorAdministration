@@ -1,0 +1,96 @@
+@startuml is001_regardApplicationCausesBasicAuthSequence
+skinparam responseMessageBelowArrow true
+
+title
+RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
+end title
+
+participant "RO" as ro
+participant "AA://v1/regard-application" as aa
+participant "ALT://v1/add-operation-client-to-link" as alt
+participant "newApplicationName://v1/inquire-basic-auth-approvals" as newApplicationFuture
+
+ro -> aa : {newApplicationName, releaseNumber, protocol, address, port} (apiKey)
+activate aa
+
+note over aa
+<u>CreateLinkForInquiringBasicAuthApprovals</u>
+Request for automatically creating the Link:
+AA => newApplicationName://v1/inquire-basic-auth-approvals
+end note
+aa -> alt : { servingApplicationName == requestBody.newApplicationName,\n servingApplicationReleaseNumber == requestBody.releaseNumber,\n operationName == /v1/inquire-basic-auth-approvals,\n consumingApplicationName == AccessAdministration,\n consumingApplicationReleaseNumber == 2.1.0 } (apiKey)
+aa <-- alt : {client-successfully-added, reason-of-failure}
+
+note left aa
+not yet, but starting from AA v3.0.0 :
+IF (NOT 200) OR (client-successfully-added==false)
+end note
+ro <-- aa : { successfully-connected==false, reason-of-failure}
+
+note left aa #LightCyan
+until before AA v3.0.0 :
+IF (NOT 200) OR (client-successfully-added==false)
+terminate RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
+and start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
+end note
+
+note over aa
+ELSE
+end note
+
+note over aa
+<u>RequestForInquiringBasicAuthApprovals</u>
+Request to pro-actively ask for approvals
+of BasicAuth requests in future.
+end note
+aa -> newApplicationFuture : {approvalApplication, releaseNumber, approvalService, protocol, address, port} (apiKey)
+aa <-- newApplicationFuture : 204
+
+note left aa
+not yet, but starting from AA v3.0.0 :
+IF (NOT 204)
+end note
+ro <-- aa : { successfully-connected==false, reason-of-failure}
+
+note left aa #LightCyan
+until before AA v3.0.0 :
+IF (NOT 204)
+terminate RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
+and start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
+end note
+
+note over aa
+ELSE
+end note
+
+note over aa
+<u>CreateLinkForApprovingBasicAuthRequests</u>
+Request for automatically creating the Link:
+newApplication => AA://v1/approve-basic-auth-request
+for the new application being able to inquire BasicAuth
+request approvals at the AA
+end note
+aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-basic-auth-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber } (apiKey)
+aa <-- alt : {client-successfully-added, reason-of-failure}
+
+note left aa
+not yet, but starting from AA v3.0.0 :
+IF (NOT 200) OR (client-successfully-added==false)
+end note
+ro <-- aa : { successfully-connected==false, reason-of-failure}
+
+note left aa #LightCyan
+until before AA v3.0.0 :
+IF (NOT 200) OR (client-successfully-added==false)
+terminate RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals
+and start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
+end note
+
+note over aa
+ELSE
+end note
+ro <-- aa : { successfully-connected==true }
+
+deactivate aa
+
+@enduml
