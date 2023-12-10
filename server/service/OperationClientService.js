@@ -1,58 +1,35 @@
 'use strict';
-var fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
+
+const fileOperation = require('onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 const prepareForwardingAutomation = require('./individualServices/PrepareForwardingAutomation');
 const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
 const operationClintService = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface')
+
 /**
  * Returns detailed logging configuration.
  *
+ * url String
  * returns inline_response_200_25
  **/
-exports.getOperationClientDetailedLoggingIsOn = function (url) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "operation-client-interface-1-0:detailed-logging-is-on": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
-    }
-  });
+exports.getOperationClientDetailedLoggingIsOn = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "operation-client-interface-1-0:detailed-logging-is-on": value
+  };
 }
-
 
 /**
  * Returns life cycle state of the operation
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_24
  **/
-exports.getOperationClientLifeCycleState = function (url) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "operation-client-interface-1-0:life-cycle-state": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
-    }
-  });
+exports.getOperationClientLifeCycleState = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "operation-client-interface-1-0:life-cycle-state": value
+  };
 }
-
 
 /**
  * Returns key used for connecting to server.
@@ -60,145 +37,81 @@ exports.getOperationClientLifeCycleState = function (url) {
  * uuid String 
  * returns inline_response_200_22
  **/
-exports.getOperationClientOperationKey = function (url) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "operation-client-interface-1-0:operation-key": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
-    }
-  });
+exports.getOperationClientOperationKey = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "operation-client-interface-1-0:operation-key": value
+  };
 }
 
 /**
  * Returns operation name
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_21
  **/
-exports.getOperationClientOperationName = function (url) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "operation-client-interface-1-0:operation-name": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
-    }
-  });
+exports.getOperationClientOperationName = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "operation-client-interface-1-0:operation-name": value
+  };
 }
-
 
 /**
  * Returns operational state of the operation
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_23
  **/
-exports.getOperationClientOperationalState = function (url) {
-  return new Promise(async function (resolve, reject) {
-
-    try {
-      var value = await fileOperation.readFromDatabaseAsync(url);
-      var response = {};
-      response['application/json'] = {
-        "operation-client-interface-1-0:operational-state": value
-      };
-      if (Object.keys(response).length > 0) {
-        resolve(response[Object.keys(response)[0]]);
-      } else {
-        resolve();
-      }
-    } catch (error) {
-      reject();
-    }
-  });
+exports.getOperationClientOperationalState = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "operation-client-interface-1-0:operational-state": value
+  };
 }
-
 
 /**
  * Configures detailed logging on/off.
  *
+ * url String 
  * body Operationclientinterfaceconfiguration_detailedloggingison_body 
  * no response value expected for this operation
  **/
-exports.putOperationClientDetailedLoggingIsOn = function (url, body) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });
+exports.putOperationClientDetailedLoggingIsOn = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-
 
 /**
  * Configures key used for connecting to server.
  *
  * body Operationclientinterfaceconfiguration_operationkey_body 
- * uuid String 
+ * url String 
  * no response value expected for this operation
  **/
-exports.putOperationClientOperationKey = function (url, body) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });
+exports.putOperationClientOperationKey = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-
 
 /**
  * Configures operation name
  *
- * body Operationclientinterfaceconfiguration_operationname_body 
+ * body Operationclientinterfaceconfiguration_operationname_body
+ * url String 
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putOperationClientOperationName = function (url, body, uuid) {
-  return new Promise(async function (resolve, reject) {
-    try {
-      let oldValue = await operationClintService.getOperationNameAsync(uuid);
-      let newValue = body["operation-client-interface-1-0:operation-name"];
-      if (oldValue !== newValue) {
-        let isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
-
-
-        /****************************************************************************************
-         * Prepare attributes to automate forwarding-construct
-         ****************************************************************************************/
-        if (isUpdated) {
-          let forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
-            uuid
-          );
-          ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
-            forwardingAutomationInputList
-          );
-        }
-      }
-      resolve();
-    } catch (error) { }
-    reject();
-  });
+exports.putOperationClientOperationName = async function (url, body, uuid) {
+  const oldValue = await operationClintService.getOperationNameAsync(uuid);
+  const newValue = body["operation-client-interface-1-0:operation-name"];
+  if (oldValue !== newValue) {
+    const isUpdated = await fileOperation.writeToDatabaseAsync(url, body, false);
+    if (isUpdated) {
+      const forwardingAutomationInputList = await prepareForwardingAutomation.OAMLayerRequest(
+        uuid
+      );
+      ForwardingAutomationService.automateForwardingConstructWithoutInputAsync(
+        forwardingAutomationInputList
+      );
+    }
+  }
 }

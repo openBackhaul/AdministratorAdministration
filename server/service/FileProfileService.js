@@ -1,73 +1,45 @@
 'use strict';
-var fileOperation = require('../node_modules/onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 
-
+const fileOperation = require('../node_modules/onf-core-model-ap/applicationPattern/databaseDriver/JSONDriver');
 
 /**
  * Returns the description of the file
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_17
  **/
-exports.getFileProfileFileDescription = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "file-profile-1-0:file-description" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getFileProfileFileDescription = async function (url) {
+  var value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "file-profile-1-0:file-description": value
+  };
 }
-
 
 /**
  * Returns the identifier of the file
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_16
  **/
-exports.getFileProfileFileIdentifier = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "file-profile-1-0:file-identifier" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getFileProfileFileIdentifier = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "file-profile-1-0:file-identifier": value
+  };
 }
-
 
 /**
  * Returns the path of the file
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_18
  **/
-exports.getFileProfileFilePath = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "file-profile-1-0:file-path" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getFileProfileFilePath = async function (url) {
+  var value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "file-profile-1-0:file-path": value
+  };
 }
-
 
 /**
  * Returns the allowed operation on the file
@@ -75,138 +47,79 @@ exports.getFileProfileFilePath = function(url) {
  * uuid String 
  * returns inline_response_200_21
  **/
-exports.getFileProfileOperation = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "file-profile-1-0:operation" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getFileProfileOperation = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "file-profile-1-0:operation": value
+  };
 }
-
 
 /**
  * Returns the password for acccessing the file
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_20
  **/
-exports.getFileProfilePassword = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "file-profile-1-0:password" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getFileProfilePassword = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "file-profile-1-0:password": value
+  };
 }
-
 
 /**
  * Returns the user name for acccessing the file
  *
- * uuid String 
+ * url String 
  * returns inline_response_200_19
  **/
-exports.getFileProfileUserName = function(url) {
-  return new Promise(async function(resolve, reject) {
-    var response = {};
-    var value = await fileOperation.readFromDatabaseAsync(url);
-    response['application/json'] = {
-  "file-profile-1-0:user-name" : value
-};
-    if (Object.keys(response).length > 0) {
-      resolve(response[Object.keys(response)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getFileProfileUserName = async function (url) {
+  const value = await fileOperation.readFromDatabaseAsync(url);
+  return {
+    "file-profile-1-0:user-name": value
+  };
 }
-
 
 /**
  * Configures path of the file
  *
  * body Fileprofileconfiguration_filepath_body 
- * uuid String 
+ * url String 
  * no response value expected for this operation
  **/
-exports.putFileProfileFilePath = function(url,body) {
-  return new Promise(async function(resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });
+exports.putFileProfileFilePath = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-
 
 /**
  * Configures the allowed operation on the file
  *
  * body Fileprofileconfiguration_operation_body 
- * uuid String 
+ * url String 
  * no response value expected for this operation
  **/
-exports.putFileProfileOperation = function(url,body) {
-  return new Promise(async function(resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });
+exports.putFileProfileOperation = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-
 
 /**
  * Configures the password for acccessing the file
  *
  * body Fileprofileconfiguration_password_body 
- * uuid String 
+ * url String 
  * no response value expected for this operation
  **/
-exports.putFileProfilePassword = function(url,body) {
-  return new Promise(async function(resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });
+exports.putFileProfilePassword = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-
 
 /**
  * Configures the user name for acccessing the file
  *
  * body Fileprofileconfiguration_username_body 
- * uuid String 
+ * url String 
  * no response value expected for this operation
  **/
-exports.putFileProfileUserName = function(url,body) {
-  return new Promise(async function(resolve, reject) {
-    try {
-      await fileOperation.writeToDatabaseAsync(url, body, false);
-      resolve();
-    } catch (error) {
-      reject();
-    }
-  });
+exports.putFileProfileUserName = async function (url, body) {
+  await fileOperation.writeToDatabaseAsync(url, body, false);
 }
-
