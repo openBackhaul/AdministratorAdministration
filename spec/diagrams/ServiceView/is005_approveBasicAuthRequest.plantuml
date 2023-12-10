@@ -1,0 +1,18 @@
+@startuml is005_approveBasicAuthRequest
+skinparam responseMessageBelowArrow true
+
+title
+is005_approveBasicAuthRequest
+end title
+
+participant "ApplicationPattern" as ap
+participant "AA://v1/approve-basic-auth-request" as aa
+
+ap -> aa : {applicationName, releaseNumber, path, method, authorization} (apiKey)
+activate aa
+
+aa --> ap : {request-is-approved, reason-of-objection}
+
+deactivate aa
+
+@enduml
