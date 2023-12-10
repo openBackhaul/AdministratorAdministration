@@ -47,10 +47,10 @@ end note
 OldRelease -> RoStopNotifying
 
 note over OldRelease
-OldRelease requests RegistryOffice to broadcast 
+OldRelease requests RegistryOffice to broadcast
 that NewRelease is replacing OldRelease
 end note
-OldRelease -> RelayServerReplacement : { current-application-name: AdministratorAdministration \n current-release-number: 2.0.1 \n future-application-name: AccessAdministration \n future-release-number: 2.1.0 \n future-protocol: http \n future-address: 127.0.0.1 \n future-port: 3028 }
+OldRelease -> RelayServerReplacement : { current-application-name: AccessAdministration \n current-release-number: 2.0.1 \n future-application-name: AccessAdministration \n future-release-number: 2.1.0 \n future-protocol: http \n future-address: 127.0.0.1 \n future-port: 3028 }
 
 note over OldRelease
 OldRelease is de-registering at RegistryOffice

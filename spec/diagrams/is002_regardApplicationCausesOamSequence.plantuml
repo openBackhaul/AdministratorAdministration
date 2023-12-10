@@ -15,8 +15,8 @@ activate aa
 deactivate aa
 
 note over aa #LightCyan
-until before AA v3.0.0 : 
-IF RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals terminated 
+until before AA v3.0.0 :
+IF RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals terminated
       with ( ((NOT 200) OR (client-successfully-added==false)) OR (NOT 204) )
   THEN start RegardApplicationCausesSequenceForInquiringOamRequestApprovals
 end note
@@ -59,11 +59,11 @@ end note
 note over aa
 <u>CreateLinkForApprovingOamRequests</u>
 Request for automatically creating the Link:
-newApplication => AA://v1/approve-oam-request
+newApplication => AA://v1/approve-basic-auth-request
 for the new application being able to inquire OaM
 request approvals at the AA
 end note
-aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-oam-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber } (apiKey)
+aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-basic-auth-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber } (apiKey)
 aa <-- alt : {client-successfully-added, reason-of-failure}
 
 note left aa

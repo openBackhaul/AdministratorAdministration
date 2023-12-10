@@ -6,7 +6,7 @@ is004_approveOamRequest
 end title
 
 participant "ApplicationPattern" as ap
-participant "AA://v1/approve-oam-request" as aa
+participant "AA://v1/approve-basic-auth-request" as aa
 
 ap -> aa : {applicationName, releaseNumber, authorization, method} (apiKey)
 activate aa

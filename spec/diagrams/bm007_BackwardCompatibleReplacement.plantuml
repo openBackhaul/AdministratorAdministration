@@ -15,7 +15,7 @@ OldRelease -> RO
 
 RO -> UpdateClient
 activate UpdateClient
-UpdateClient -> BackwardCompatibleReplacement : { application-name: AccessAdministration \n release-number: 2.1.0 \n old-operation-name: /v1/approve-oam-request \n new-operation-name: /v1/approve-basic-auth-request }
+UpdateClient -> BackwardCompatibleReplacement : { application-name: AccessAdministration \n release-number: 2.1.0 \n old-operation-name: /v1/approve-basic-auth-request \n new-operation-name: /v1/approve-basic-auth-request }
 deactivate UpdateClient
 
 BackwardCompatibleReplacement -> AllApplications
