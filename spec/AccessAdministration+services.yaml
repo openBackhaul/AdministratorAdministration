@@ -63,7 +63,7 @@ servers:
           uuid: aa-2-1-0-op-s-is-005
   http-server:
     own-application-name: AccessAdministration
-    own-release-number: 2.1.0
+    own-release-number: 2.1.1
     uuid: aa-2-1-0-http-s-000
   tcp-server:
     - description: Without TLS layer
