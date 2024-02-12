@@ -38,7 +38,22 @@ note over aa
 ELSE
 end note
 
+note left aa #Orange
+OKM addressing AA://v1/update-operation-key
+is indicating successful creation of the Link
+IF waiting > maximumWaitTimeToReceiveOperationKey
+end note
+ro <-- aa : { successfully-connected==false,  reason-of-failure}
+
 note over aa
+ELSE
+end note
+
+note over aa
+After receiving an updated operation-key
+for the operation-client
+NewApp://v1/redirect-oam-request-information
+
 <u>RequestForInquiringBasicAuthApprovals</u>
 Request to pro-actively ask for approvals
 of BasicAuth requests in future.
@@ -63,6 +78,23 @@ note over aa
 ELSE
 end note
 
+note over aa #LightCoral
+AA does not know, whether ALT already 
+contains an updated AA client at NewApp
+end note
+
+note over aa #Orange
+attempts = 0 
+end note
+
+note over aa #Orange
+mark#1
+end note
+
+note over aa #Orange
+attempts = attempts + 1 
+end note
+
 note over aa
 <u>CreateLinkForApprovingBasicAuthRequests</u>
 Request for automatically creating the Link:
@@ -72,6 +104,21 @@ request approvals at the AA
 end note
 aa -> alt : { servingApplicationName == AccessAdministration,\n servingApplicationReleaseNumber == 2.1.0,\n operationName == /v1/approve-basic-auth-request,\n consumingApplicationName == requestBody.newApplicationName,\n consumingApplicationReleaseNumber == requestBody.releaseNumber } (apiKey)
 aa <-- alt : {client-successfully-added, reason-of-failure}
+
+note left aa #Orange
+IF ( (attempts<=maximumNumberOfAttemptsToCreateLink)
+      AND 
+      (client-successfully-added==false)
+      AND
+      ( (reason-of-failure==ALT_SERVING_APPLICATION_NAME_UNKNOWN)
+        OR (reason-of-failure==ALT_SERVING_APPLICATION_RELEASE_NUMBER_UNKNOWN)
+  Return to mark#1
+)
+end note
+
+note over aa
+ELSE
+end note
 
 note left aa
 not yet, but starting from AA v3.0.0 :
@@ -89,6 +136,24 @@ end note
 note over aa
 ELSE
 end note
+
+note left aa #Orange
+OKM addressing AA://v1/update-operation-key
+is indicating successful creation of the Link
+IF waiting > maximumWaitTimeToReceiveOperationKey
+end note
+ro <-- aa : { successfully-connected==false,  reason-of-failure}
+
+note left aa
+ELSE
+end note
+
+note over aa
+After receiving an updated operation-key
+for the operation-server
+AA://v1/approve-basic-auth-request
+end note
+
 ro <-- aa : { successfully-connected==true }
 
 deactivate aa

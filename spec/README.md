@@ -1,5 +1,8 @@
 # AccessAdministration Specification
 
+### Diagrams  
+- [Collection of Diagrams](./diagrams)
+
 ### ServiceList
 - [AccessAdministration+services](./AccessAdministration+services.yaml)
 
