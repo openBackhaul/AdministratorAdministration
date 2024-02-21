@@ -146,6 +146,6 @@ exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, a
         return { isApplicationNameExit, isReleaseNumberExit }
     }
     catch (err) {
-
+        console.log(error);
     }
 }
