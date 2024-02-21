@@ -179,7 +179,7 @@ exports.getIntegerProfileUnit = function(url) {
  * uuid String 
  * no response value expected for this operation
  **/
-exports.putIntegerProfileIntegerValue = function(url,body,uuid) {
+exports.putIntegerProfileIntegerValue = function(url,body) {
   return new Promise(async function(resolve, reject) {
     try {
         await fileOperation.writeToDatabaseAsync(url, body, false);
