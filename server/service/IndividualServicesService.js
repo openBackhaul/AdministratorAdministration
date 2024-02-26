@@ -373,9 +373,11 @@ exports.disregardApplication = async function (body, user, originator, xCorrelat
  * returns List
  **/
 exports.listApplications = async function () {
-  const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
-  let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
-  return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
+
+    const forwardingName = 'RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals';
+    let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
+    return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
+
 }
 
 /**
