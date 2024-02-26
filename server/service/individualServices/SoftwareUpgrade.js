@@ -70,7 +70,7 @@ async function PromptForBequeathingDataCausesTransferOfListOfApplications(user, 
              * Preparing requestBody and transfering the data one by one
              ************************************************************************************/
 
-            let inquiryForApplicationTypeApprovalFCName = "NewApplicationCausesRequestForInquiringOamRequestApprovals";
+            let inquiryForApplicationTypeApprovalFCName = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals";
             let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(inquiryForApplicationTypeApprovalFCName);
             let operationClientUuidList = getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance);
 
