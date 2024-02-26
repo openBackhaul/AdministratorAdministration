@@ -46,33 +46,34 @@ exports.approveOamRequest = function (body) {
        ****************************************************************************************/
       let oamRequestIsApproved = false;
       let reasonOfObjection = "UNKNOWN";
-      let isApplicationExists = await httpClientInterface.isApplicationExists(applicationName);
-      if (isApplicationExists) {
-        let isReleaseExists = await httpClientInterface.isApplicationExists(applicationName, applicationReleaseNumber);
-        if (isReleaseExists) {
+      let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
+      let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
+      let isFileExist = isAuthorizationExists.isFileExit;
+      if (isAuthorizationExistValue && isFileExist) {
 
-          let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
-          let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
-          let isFileExist = isAuthorizationExists.isFileExit;
-          if (isAuthorizationExistValue && isFileExist) {
-
+        let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
+        if (isApplicationExists.isApplicationNameExit) {
+          let isReleaseExists = isApplicationExists.isReleaseNumberExit
+          if (isReleaseExists) {
             let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
             if (isAuthorized) {
               oamRequestIsApproved = true;
-            } else {
+            }
+
+            else {
               reasonOfObjection = "METHOD_NOT_ALLOWED";
             }
           } else {
-            reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
+            reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
             if (!isFileExist) {
               reject(new createHttpError.InternalServerError("ApplicationData file does not exist"));
             }
           }
         } else {
-          reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
+          reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
         }
       } else {
-        reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
+        reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
       }
 
       var response = {};
@@ -80,12 +81,113 @@ exports.approveOamRequest = function (body) {
         response['application/json'] = {
           "oam-request-is-approved": oamRequestIsApproved
         };
-      } else {
+      }
+      else {
         response['application/json'] = {
           "reason-of-objection": reasonOfObjection,
           "oam-request-is-approved": oamRequestIsApproved
         };
       }
+
+
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+/**
+ * Checks authentication of an OaM and basic service request
+ *
+ * body V1_approvebasicauthrequest_body 
+ * returns inline_response_200_2
+ **/
+exports.approveBasicAuthRequest = function (body) {
+  return new Promise(async function (resolve, reject) {
+    try {
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let applicationName = body["application-name"];
+      let applicationReleaseNumber = body["release-number"];
+      let authorization = body["Authorization"];
+      let method = body["method"];
+      let Operationname = body["operation-name"];
+
+
+
+      /****************************************************************************************
+       * Prepare logicalTerminatinPointConfigurationInput object to 
+       * configure logical-termination-point
+       ****************************************************************************************/
+      let oamRequestIsApproved = false;
+      let basicauthIsapproved = false;
+      let reasonOfObjection = "UNKNOWN";
+      let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
+      let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
+      let isFileExist = isAuthorizationExists.isFileExit;
+      if (isAuthorizationExistValue && isFileExist) {
+
+        let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
+        if (isApplicationExists.isApplicationNameExit) {
+          let isReleaseExists = isApplicationExists.isReleaseNumberExit
+          if (isReleaseExists) {
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
+            if (isAuthorized) {
+              if (Operationname) {
+                let isOperaionExit = await AdministratorCredentialList.isOpeartionisExistAsync(Operationname, authorization)
+                if (isOperaionExit) {
+                  basicauthIsapproved = true
+                }
+                else {
+                  reasonOfObjection = "OPERATION_NAME_UNKNOWN"
+                }
+              } else {
+                oamRequestIsApproved = true;
+              }
+
+            }
+
+            else {
+              reasonOfObjection = "METHOD_NOT_ALLOWED";
+            }
+          } else {
+            reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
+            if (!isFileExist) {
+              reject(new createHttpError.InternalServerError("ApplicationData file does not exist"));
+            }
+          }
+        } else {
+          reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
+        }
+      } else {
+        reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
+      }
+
+      var response = {};
+      if (oamRequestIsApproved) {
+        response['application/json'] = {
+          "oam-request-is-approved": oamRequestIsApproved
+        };
+      }
+      else if (basicauthIsapproved) {
+        response['application/json'] = {
+          "oam-request-is-approved": basicauthIsapproved
+        };
+      }
+      else {
+        response['application/json'] = {
+          "reason-of-objection": reasonOfObjection,
+          "oam-request-is-approved": oamRequestIsApproved
+        };
+      }
+
 
       if (Object.keys(response).length > 0) {
         resolve(response[Object.keys(response)[0]]);
@@ -225,7 +327,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
  **/
 exports.disregardApplication = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
   let applicationName = body["application-name"];
-  let applicationReleaseNumber =  body["release-number"];
+  let applicationReleaseNumber = body["release-number"];
 
   let httpClientUuid = await httpClientInterface.getHttpClientUuidExcludingOldReleaseAndNewRelease(
     applicationName,
@@ -271,9 +373,11 @@ exports.disregardApplication = async function (body, user, originator, xCorrelat
  * returns List
  **/
 exports.listApplications = async function () {
+
     const forwardingName = 'RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals';
     let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
     return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
+
 }
 
 /**
