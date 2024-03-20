@@ -7,7 +7,6 @@ const fs = require('fs');
 const administratorList = 'administrator-credential-list';
 const allowedSccess = "allowed-access";
 const authorizationValue = 'auth-code';
-const allowedMethodsValue = 'allowed-methods';
 const FileprofileOperation = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/FileProfile')
 
 /**
@@ -29,7 +28,6 @@ exports.isAuthorizationExistAsync = async function (authorization) {
                 for (let i = 0; i < registeredApplicationList.length; i++) {
                     let registeredApplication = registeredApplicationList[i];
                     let _authorization = registeredApplication[authorizationValue];
-
                     if (_authorization == authorization) {
                         isAuthorizationExist = true;
 
@@ -42,7 +40,6 @@ exports.isAuthorizationExistAsync = async function (authorization) {
         console.log(error);
     }
 }
-
 
 /**
  * @description This function returns the approval status for the provided application .
@@ -79,7 +76,6 @@ exports.isAuthorizedAsync = async function (applicationName, applicationReleaseN
     }
     return false;
 }
-
 
 exports.isOpeartionisExistAsync = async function (applicationName, applicationReleaseNumber, operationName, authorization) {
     let isoperationExit = false;
@@ -140,10 +136,8 @@ exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, a
                             isApplicationNameExit = true
                             if (_authorization == authorization && (_releaseNumber == ReleaseNumber || _releaseNumber == "*")) {
                                 isReleaseNumberExit = true
-
                             }
                         }
-
                     }
 
                 }
@@ -152,7 +146,7 @@ exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, a
         return { isApplicationNameExit, isReleaseNumberExit }
     }
     catch (err) {
-
+        console.log(error);
     }
 }
 
