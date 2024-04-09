@@ -25,10 +25,6 @@ exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationNa
             InquiringOamRequestCreateLinkRequestBody.consumingApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
 
             InquiringOamRequestCreateLinkRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkRequestBody);
-            result = {
-                "client-successfully-added": true,
-                "reason-of-failure": "",
-            }
 
             result = await forwardRequest(
                 InquiringOamRequestCreateLinkForwardingName,
@@ -55,9 +51,6 @@ exports.RequestForInquiringBasicAuthApprovals = async function (applicationName,
         try {
             let result;
             let InquiringOamRequestCreateLinkForwardingName = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals";
-
-
-
             let RequestForInquiringBasicAuthCreateLinkForApproveRequestBody = {};
             RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.applicationName = await HttpServerInterface.getApplicationNameAsync();
             RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.releaseNumber = await HttpServerInterface.getReleaseNumberAsync();
@@ -66,17 +59,14 @@ exports.RequestForInquiringBasicAuthApprovals = async function (applicationName,
             RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.port = await tcpServerInterface.getLocalPort();
             RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.protocol = await tcpServerInterface.getLocalProtocol();
             RequestForInquiringBasicAuthCreateLinkForApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(RequestForInquiringBasicAuthCreateLinkForApproveRequestBody);
-            /*   result = await forwardRequest(
-                   InquiringOamRequestCreateLinkForwardingName,
-                   RequestForInquiringBasicAuthCreateLinkForApproveRequestBody,
-                   user,
-                   xCorrelator,
-                   traceIndicator,
-                   customerJourney
-               );*/
-
-            result = true;
-            resolve(result)
+            result = await forwardRequest(
+                InquiringOamRequestCreateLinkForwardingName,
+                RequestForInquiringBasicAuthCreateLinkForApproveRequestBody,
+                user,
+                xCorrelator,
+                traceIndicator,
+                customerJourney
+            );
 
 
         }
@@ -99,19 +89,15 @@ exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationNam
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody.consumingApplicationName = applicationName
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody.consumingApplicationReleaseNumber = releaseNumber
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(CreateLinkForApprovingBasicAuthRequestsApproveRequestBody);
-            /* result = await forwardRequest(
-                 CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                 CreateLinkForApprovingBasicAuthRequestsApproveRequestBody,
-                 user,
-                 xCorrelator,
-                 traceIndicator,
-                 customerJourney
-             );
- */
-            result = {
-                "client-successfully-added": false,
-                "reason-of-failure": "AA_ALT_SERVING_APPLICATION_RELEASE_NUMBER_UNKNOWN",
-            }
+            result = await forwardRequest(
+                CreateLinkForApprovingBasicAuthRequestsForwardingName,
+                CreateLinkForApprovingBasicAuthRequestsApproveRequestBody,
+                user,
+                xCorrelator,
+                traceIndicator,
+                customerJourney
+            );
+
             resolve(result)
 
 
@@ -136,18 +122,14 @@ exports.CreateLinkForInquiringOamApprovals = async function (applicationName, re
             InquiringOamRequestCreateLinkRequestBody.consumingApplicationName = await HttpServerInterface.getApplicationNameAsync();
             InquiringOamRequestCreateLinkRequestBody.consumingApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
             InquiringOamRequestCreateLinkRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkRequestBody);
-            /*    result = await forwardRequest(
-                    CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                    InquiringOamRequestCreateLinkRequestBody,
-                    user,
-                    xCorrelator,
-                    traceIndicator,
-                    customerJourney
-                );*/
-            result = {
-                "client-successfully-added": true,
-                "reason-of-failure": "",
-            }
+            result = await forwardRequest(
+                CreateLinkForApprovingBasicAuthRequestsForwardingName,
+                InquiringOamRequestCreateLinkRequestBody,
+                user,
+                xCorrelator,
+                traceIndicator,
+                customerJourney
+            );
             resolve(result)
 
 
@@ -173,15 +155,14 @@ exports.RequestForInquiringOamApprovals = async function (applicationName, relea
             InquiringOamRequestRequestBody.oamApprovalPort = await tcpServerInterface.getLocalPort();
             InquiringOamRequestRequestBody.oamApprovalProtocol = await tcpServerInterface.getLocalProtocol();
             InquiringOamRequestRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestRequestBody);
-            /*    result = await forwardRequest(
-                    CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                    InquiringOamRequestRequestBody,
-                    user,
-                    xCorrelator,
-                    traceIndicator,
-                    customerJourney
-                );*/
-            result = false
+            result = await forwardRequest(
+                CreateLinkForApprovingBasicAuthRequestsForwardingName,
+                InquiringOamRequestRequestBody,
+                user,
+                xCorrelator,
+                traceIndicator,
+                customerJourney
+            );
             resolve(result)
 
 
@@ -207,18 +188,14 @@ exports.CreateLinkForApprovingOamRequests = async function (applicationName, rel
             InquiringOamRequestCreateLinkForApproveRequestBody.consumingApplicationName = applicationName
             InquiringOamRequestCreateLinkForApproveRequestBody.consumingApplicationReleaseNumber = releaseNumber
             InquiringOamRequestCreateLinkForApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkForApproveRequestBody);
-            /*  result = await forwardRequest(
-                  CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                  InquiringOamRequestCreateLinkForApproveRequestBody,
-                  user,
-                  xCorrelator,
-                  traceIndicator,
-                  customerJourney
-              );*/
-            result = {
-                "client-successfully-added": true,
-                "reason-of-failure": "",
-            }
+            result = await forwardRequest(
+                CreateLinkForApprovingBasicAuthRequestsForwardingName,
+                InquiringOamRequestCreateLinkForApproveRequestBody,
+                user,
+                xCorrelator,
+                traceIndicator,
+                customerJourney
+            );
             resolve(result)
 
 

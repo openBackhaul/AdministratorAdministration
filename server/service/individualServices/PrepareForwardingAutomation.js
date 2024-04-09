@@ -10,26 +10,6 @@ exports.regardApplication = function (logicalTerminationPointconfigurationStatus
         let forwardingConstructAutomationList = [];
         try {
             /***********************************************************************************
-             * NewApplicationCausesRequestForInquiringOamRequestApprovals /v1/inquire-oam-request-approvals
-             ************************************************************************************/
-            let InquiringOamRequestForwardingName = "NewApplicationCausesRequestForInquiringOamRequestApprovals";
-            let InquiringOamRequestContext = applicationName + releaseNumber;
-            let InquiringOamRequestRequestBody = {};
-            InquiringOamRequestRequestBody.oamApprovalApplication = await HttpServerInterface.getApplicationNameAsync();
-            InquiringOamRequestRequestBody.oamApprovalApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
-            InquiringOamRequestRequestBody.oamApprovalOperation = await operationServerInterface.getOperationNameAsync("aa-2-0-1-op-s-is-004");
-            InquiringOamRequestRequestBody.oamApprovalAddress = await tcpServerInterface.getLocalAddressForForwarding();
-            InquiringOamRequestRequestBody.oamApprovalPort = await tcpServerInterface.getLocalPort();
-            InquiringOamRequestRequestBody.oamApprovalProtocol = await tcpServerInterface.getLocalProtocol();
-            InquiringOamRequestRequestBody = onfFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestRequestBody);
-            let forwardingAutomation = new forwardingConstructAutomationInput(
-                InquiringOamRequestForwardingName,
-                InquiringOamRequestRequestBody,
-                InquiringOamRequestContext
-            );
-            forwardingConstructAutomationList.push(forwardingAutomation);
-
-            /***********************************************************************************
              * forwardings for application layer topology
              ************************************************************************************/
             let applicationLayerTopologyForwardingInputList = await prepareALTForwardingAutomation.getALTForwardingAutomationInputAsync(
