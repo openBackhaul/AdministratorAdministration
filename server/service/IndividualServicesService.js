@@ -1,5 +1,6 @@
 'use strict';
 
+const RegardApplication = require('./individualServices/RegardApplication')
 const LogicalTerminationPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInput');
 const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointServices');
 const ForwardingConfigurationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructConfigurationServices');
@@ -133,15 +134,15 @@ exports.approveBasicAuthRequest = function (body) {
       let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
       let isFileExist = isAuthorizationExists.isFileExit;
       if (isAuthorizationExistValue && isFileExist) {
-
         let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
         if (isApplicationExists.isApplicationNameExit) {
           let isReleaseExists = isApplicationExists.isReleaseNumberExit
           if (isReleaseExists) {
-            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
             if (isAuthorized) {
               if (Operationname) {
-                let isOperaionExit = await AdministratorCredentialList.isOpeartionisExistAsync(Operationname, authorization)
+
+                let isOperaionExit = await AdministratorCredentialList.isOpeartionisExistAsync(applicationName, applicationReleaseNumber, Operationname, authorization)
                 if (isOperaionExit) {
                   basicauthIsapproved = true
                 }
@@ -153,7 +154,6 @@ exports.approveBasicAuthRequest = function (body) {
               }
 
             }
-
             else {
               reasonOfObjection = "METHOD_NOT_ALLOWED";
             }
@@ -442,18 +442,22 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
             forwardingConfigurationInputList
           );
       }
+      
+      
+
       let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney
       );
       /****************************************************************************************
        * Prepare attributes to automate forwarding-construct
        ****************************************************************************************/
+      
       let forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
         logicalTerminationPointconfigurationStatus,
         forwardingConstructConfigurationStatus,
         applicationName,
         releaseNumber
       );
- 
+      
       ForwardingAutomationService.automateForwardingConstructAsync(
         operationServerName,
         forwardingAutomationInputList,
@@ -472,8 +476,7 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
       else {
         response['application/json'] = {
           "successfully-connected": false,
-          "reason-of-failure": Result.reasonforFaliure
-          
+          "reason-of-failure": "AA_ALT_SERVING_APPLICATION_NAME_UNKNOWN"          
         };
       }
  

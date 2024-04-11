@@ -21614,7 +21614,7 @@ components:
       type: object
       properties:
         file-profile-1-0:file-name:
-          pattern: "^([A-Za-z0-9-_,\\s]{3,})\\.([A-Za-z]{3})$"
+          pattern: "^([A-Za-z0-9-_,\\s]{3,})\\.([A-Za-z]{3,})$"
           type: string
           example: application-data.json
     inline_response_200_25:
