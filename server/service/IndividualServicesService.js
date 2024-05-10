@@ -1,6 +1,5 @@
 'use strict';
 
-const RegardApplication = require('./individualServices/RegardApplication')
 const LogicalTerminationPointConfigurationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/logicalTerminationPoint/ConfigurationInput');
 const LogicalTerminationPointService = require('onf-core-model-ap/applicationPattern/onfModel/services/LogicalTerminationPointServices');
 const ForwardingConfigurationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructConfigurationServices');
@@ -18,6 +17,7 @@ const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const AdministratorCredentialList = require('./individualServices/AuthorizationApplication');
 const createHttpError = require('http-errors');
 const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/services/models/TcpObject');
+const RegardApplication = require('./individualServices/RegardApplication')
 
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
 
@@ -56,7 +56,8 @@ exports.approveOamRequest = function (body) {
         if (isApplicationExists.isApplicationNameExit) {
           let isReleaseExists = isApplicationExists.isReleaseNumberExit
           if (isReleaseExists) {
-            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
+
             if (isAuthorized) {
               oamRequestIsApproved = true;
             }
@@ -108,7 +109,7 @@ exports.approveOamRequest = function (body) {
  * body V1_approvebasicauthrequest_body 
  * returns inline_response_200_2
  **/
-exports.approveBasicAuthRequest = function (body) {
+exports.approveBasicAuthRequest = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   return new Promise(async function (resolve, reject) {
     try {
 
@@ -134,10 +135,12 @@ exports.approveBasicAuthRequest = function (body) {
       let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
       let isFileExist = isAuthorizationExists.isFileExit;
       if (isAuthorizationExistValue && isFileExist) {
+
         let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
         if (isApplicationExists.isApplicationNameExit) {
           let isReleaseExists = isApplicationExists.isReleaseNumberExit
           if (isReleaseExists) {
+
             let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
             if (isAuthorized) {
               if (Operationname) {
@@ -154,6 +157,7 @@ exports.approveBasicAuthRequest = function (body) {
               }
 
             }
+
             else {
               reasonOfObjection = "METHOD_NOT_ALLOWED";
             }
@@ -374,9 +378,9 @@ exports.disregardApplication = async function (body, user, originator, xCorrelat
  **/
 exports.listApplications = async function () {
 
-    const forwardingName = 'RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals';
-    let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
-    return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
+  const forwardingName = 'RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals';
+  let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
+  return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
 
 }
 
@@ -422,11 +426,11 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
       let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
         ltpConfigurationInput
       );
- 
+
       /****************************************************************************************
        * Prepare attributes to configure forwarding-construct
        ****************************************************************************************/
- 
+
       let forwardingConfigurationInputList = [];
       let forwardingConstructConfigurationStatus;
       let operationClientConfigurationStatusList = logicalTerminationPointconfigurationStatus.operationClientConfigurationStatusList;
@@ -442,23 +446,19 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
             forwardingConfigurationInputList
           );
       }
-      
-      
 
-      let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney
-      );
       /****************************************************************************************
-       * Prepare attributes to automate forwarding-construct
-       ****************************************************************************************/
-      
+         * Prepare attributes to automate forwarding-construct
+         ****************************************************************************************/
+
       let forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
         logicalTerminationPointconfigurationStatus,
         forwardingConstructConfigurationStatus,
         applicationName,
         releaseNumber
       );
-      
-      ForwardingAutomationService.automateForwardingConstructAsync(
+
+      await ForwardingAutomationService.automateForwardingConstructAsync(
         operationServerName,
         forwardingAutomationInputList,
         user,
@@ -466,7 +466,8 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
         traceIndicator,
         customerJourney
       );
- 
+      let headers = { user, xCorrelator, traceIndicator, customerJourney }
+      let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, headers);
       var response = {};
       if (Result.sucess) {
         response['application/json'] = {
@@ -476,10 +477,10 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
       else {
         response['application/json'] = {
           "successfully-connected": false,
-          "reason-of-failure": "AA_ALT_SERVING_APPLICATION_NAME_UNKNOWN"          
+          "reason-of-failure": Result.reasonforFaliure
         };
       }
- 
+
       if (Object.keys(response).length > 0) {
         console.log(response[Object.keys(response)])
         resolve(response[Object.keys(response)[0]]);
