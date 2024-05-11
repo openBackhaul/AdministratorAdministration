@@ -1,4 +1,6 @@
+const ForwardingProcessingInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/forwardingConstruct/ForwardingProcessingInput');
 
+const ForwardingConstructProcessingService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructProcessingServices');
 const tcpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/TcpServerInterface');
 const operationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
 const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpServerInterface');
@@ -8,10 +10,14 @@ const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/clien
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
 const HttpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
+const forwardingConstructAutomationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/forwardingConstruct/AutomationInput');
+const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
+const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
+
+const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
 
 
-
-exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney) {
+exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
             let result;
@@ -25,16 +31,62 @@ exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationNa
             InquiringOamRequestCreateLinkRequestBody.consumingApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
 
             InquiringOamRequestCreateLinkRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkRequestBody);
-
-            result = await forwardRequest(
+            let forwardingAutomation = new ForwardingProcessingInput(
                 InquiringOamRequestCreateLinkForwardingName,
-                InquiringOamRequestCreateLinkRequestBody,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
+                InquiringOamRequestCreateLinkRequestBody
             );
 
+            let response = await ForwardingConstructProcessingService.processForwardingConstructAsync(
+                forwardingAutomation,
+                reqheaders.user,
+                reqheaders.xCorrelator,
+                reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
+                reqheaders.customerJourney
+
+            )
+
+            resolve(response.data)
+
+        }
+
+        catch (error) {
+            reject(error);
+        }
+    });
+}
+
+exports.RequestForInquiringBasicAuthApprovals = async function (applicationName, releaseNumber, reqheaders) {
+    return new Promise(async function (resolve, reject) {
+        try {
+            let result;
+            let InquiringOamRequestCreateLinkForwardingName = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals";
+            let InquiringOamRequestContext = applicationName + releaseNumber;
+            let RequestForInquiringBasicAuthCreateLinkForApproveRequestBody = {};
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.applicationName = await HttpServerInterface.getApplicationNameAsync();
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.releaseNumber = await HttpServerInterface.getReleaseNumberAsync();
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.operationName = await operationServerInterface.getOperationNameAsync("aa-2-1-0-op-s-is-005");
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.address = await tcpServerInterface.getLocalAddressForForwarding();
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.port = await tcpServerInterface.getLocalPort();
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.protocol = await tcpServerInterface.getLocalProtocol();
+            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(RequestForInquiringBasicAuthCreateLinkForApproveRequestBody);
+
+            let forwardingAutomation = new forwardingConstructAutomationInput(
+                InquiringOamRequestCreateLinkForwardingName,
+                RequestForInquiringBasicAuthCreateLinkForApproveRequestBody,
+                InquiringOamRequestContext
+            );
+
+            let forwardingConstructAutomationList = []
+            forwardingConstructAutomationList.push(forwardingAutomation);
+            let operationClientUuid = await operationuuid(forwardingConstructAutomationList, InquiringOamRequestContext)
+            result = await eventDispatcher.dispatchEvent(
+                operationClientUuid,
+                RequestForInquiringBasicAuthCreateLinkForApproveRequestBody,
+                reqheaders.user,
+                reqheaders.xCorrelator,
+                reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
+                reqheaders.customerJourney
+            );
             resolve(result)
 
 
@@ -46,38 +98,7 @@ exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationNa
     });
 }
 
-exports.RequestForInquiringBasicAuthApprovals = async function (applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney) {
-    return new Promise(async function (resolve, reject) {
-        try {
-            let result;
-            let InquiringOamRequestCreateLinkForwardingName = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals";
-            let RequestForInquiringBasicAuthCreateLinkForApproveRequestBody = {};
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.applicationName = await HttpServerInterface.getApplicationNameAsync();
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.releaseNumber = await HttpServerInterface.getReleaseNumberAsync();
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.operationName = await operationServerInterface.getOperationNameAsync("aa-2-1-0-op-s-is-005");
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.address = await tcpServerInterface.getLocalAddressForForwarding();
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.port = await tcpServerInterface.getLocalPort();
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody.protocol = await tcpServerInterface.getLocalProtocol();
-            RequestForInquiringBasicAuthCreateLinkForApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(RequestForInquiringBasicAuthCreateLinkForApproveRequestBody);
-            result = await forwardRequest(
-                InquiringOamRequestCreateLinkForwardingName,
-                RequestForInquiringBasicAuthCreateLinkForApproveRequestBody,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
-            );
-
-
-        }
-
-        catch (error) {
-            reject(error);
-        }
-    });
-}
-
-exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney) {
+exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
             let result;
@@ -89,16 +110,22 @@ exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationNam
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody.consumingApplicationName = applicationName
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody.consumingApplicationReleaseNumber = releaseNumber
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(CreateLinkForApprovingBasicAuthRequestsApproveRequestBody);
-            result = await forwardRequest(
+
+            let forwardingAutomation = new ForwardingProcessingInput(
                 CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                CreateLinkForApprovingBasicAuthRequestsApproveRequestBody,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
+                CreateLinkForApprovingBasicAuthRequestsApproveRequestBody
             );
 
-            resolve(result)
+            let response = await ForwardingConstructProcessingService.processForwardingConstructAsync(
+                forwardingAutomation,
+                reqheaders.user,
+                reqheaders.xCorrelator,
+                reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
+                reqheaders.customerJourney
+
+            )
+
+            resolve(response.data)
 
 
         }
@@ -109,28 +136,35 @@ exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationNam
     });
 }
 
-exports.CreateLinkForInquiringOamApprovals = async function (applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney) {
+exports.CreateLinkForInquiringOamApprovals = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
-            let result;
+
             let CreateLinkForApprovingBasicAuthRequestsForwardingName = "RegardApplicationCausesSequenceForInquiringOamRequestApprovals.CreateLinkForInquiringOamApprovals";
 
             let InquiringOamRequestCreateLinkRequestBody = {};
             InquiringOamRequestCreateLinkRequestBody.servingApplicationName = applicationName;
             InquiringOamRequestCreateLinkRequestBody.servingApplicationReleaseNumber = releaseNumber;
-            InquiringOamRequestCreateLinkRequestBody.operationName = operationServerInterface.getOperationNameAsync("aa-2-1-0-op-s-bm-005");
+            InquiringOamRequestCreateLinkRequestBody.operationName = await operationServerInterface.getOperationNameAsync("aa-2-1-0-op-s-bm-005");
             InquiringOamRequestCreateLinkRequestBody.consumingApplicationName = await HttpServerInterface.getApplicationNameAsync();
             InquiringOamRequestCreateLinkRequestBody.consumingApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
             InquiringOamRequestCreateLinkRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkRequestBody);
-            result = await forwardRequest(
+            let forwardingAutomation = new ForwardingProcessingInput(
                 CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                InquiringOamRequestCreateLinkRequestBody,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
+                InquiringOamRequestCreateLinkRequestBody
             );
-            resolve(result)
+
+            let response = await ForwardingConstructProcessingService.processForwardingConstructAsync(
+                forwardingAutomation,
+                reqheaders.user,
+                reqheaders.xCorrelator,
+                reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
+                reqheaders.customerJourney
+
+            )
+
+
+            resolve(response.data)
 
 
         }
@@ -141,12 +175,12 @@ exports.CreateLinkForInquiringOamApprovals = async function (applicationName, re
     });
 }
 
-exports.RequestForInquiringOamApprovals = async function (applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney) {
+exports.RequestForInquiringOamApprovals = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
             let result;
             let CreateLinkForApprovingBasicAuthRequestsForwardingName = "RegardApplicationCausesSequenceForInquiringOamRequestApprovals.RequestForInquiringOamApprovals";
-
+            let InquiringOamRequestContext = applicationName + releaseNumber;
             let InquiringOamRequestRequestBody = {};
             InquiringOamRequestRequestBody.oamApprovalApplication = await HttpServerInterface.getApplicationNameAsync();
             InquiringOamRequestRequestBody.oamApprovalApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
@@ -155,15 +189,30 @@ exports.RequestForInquiringOamApprovals = async function (applicationName, relea
             InquiringOamRequestRequestBody.oamApprovalPort = await tcpServerInterface.getLocalPort();
             InquiringOamRequestRequestBody.oamApprovalProtocol = await tcpServerInterface.getLocalProtocol();
             InquiringOamRequestRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestRequestBody);
-            result = await forwardRequest(
+
+            let forwardingAutomation = new forwardingConstructAutomationInput(
                 CreateLinkForApprovingBasicAuthRequestsForwardingName,
                 InquiringOamRequestRequestBody,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
+                InquiringOamRequestContext
             );
-            resolve(result)
+
+            let forwardingConstructAutomationList = []
+            forwardingConstructAutomationList.push(forwardingAutomation);
+            let operationClientUuid = await operationuuid(forwardingConstructAutomationList, InquiringOamRequestContext)
+
+            response = await eventDispatcher.dispatchEvent(
+                operationClientUuid,
+                InquiringOamRequestRequestBody,
+                reqheaders.user,
+                reqheaders.xCorrelator,
+                reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
+                reqheaders.customerJourney,
+                undefined,
+                undefined,
+                true
+            );
+
+            resolve(response)
 
 
         }
@@ -174,13 +223,10 @@ exports.RequestForInquiringOamApprovals = async function (applicationName, relea
     });
 }
 
-exports.CreateLinkForApprovingOamRequests = async function (applicationName, releaseNumber, user, xCorrelator, traceIndicator, customerJourney) {
+exports.CreateLinkForApprovingOamRequests = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
-            let result;
             let CreateLinkForApprovingBasicAuthRequestsForwardingName = "RegardApplicationCausesSequenceForInquiringOamRequestApprovals.CreateLinkForApprovingOamRequests";
-
-
             let InquiringOamRequestCreateLinkForApproveRequestBody = {};
             InquiringOamRequestCreateLinkForApproveRequestBody.servingApplicationName = await HttpServerInterface.getApplicationNameAsync();
             InquiringOamRequestCreateLinkForApproveRequestBody.servingApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
@@ -188,15 +234,21 @@ exports.CreateLinkForApprovingOamRequests = async function (applicationName, rel
             InquiringOamRequestCreateLinkForApproveRequestBody.consumingApplicationName = applicationName
             InquiringOamRequestCreateLinkForApproveRequestBody.consumingApplicationReleaseNumber = releaseNumber
             InquiringOamRequestCreateLinkForApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkForApproveRequestBody);
-            result = await forwardRequest(
+            let forwardingAutomation = new ForwardingProcessingInput(
                 CreateLinkForApprovingBasicAuthRequestsForwardingName,
-                InquiringOamRequestCreateLinkForApproveRequestBody,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
+                InquiringOamRequestCreateLinkForApproveRequestBody
             );
-            resolve(result)
+
+            let response = await ForwardingConstructProcessingService.processForwardingConstructAsync(
+                forwardingAutomation,
+                reqheaders.user,
+                reqheaders.xCorrelator,
+                reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
+                reqheaders.customerJourney
+
+            )
+
+            resolve(response.data)
 
 
         }
@@ -208,40 +260,31 @@ exports.CreateLinkForApprovingOamRequests = async function (applicationName, rel
 }
 
 
+async function operationuuid(forwardingConstructAutomationList, InquiringOamRequestContext) {
+    let forwardingName = forwardingConstructAutomationList[0].forwardingName;
+    let forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(
+        forwardingName);
+    let operationClientUuid;
+    let fcPortList = forwardingConstruct["fc-port"];
+    for (let fcPort of fcPortList) {
+        let fcPortDirection = fcPort["port-direction"];
+        if (fcPortDirection == FcPort.portDirectionEnum.OUTPUT) {
+            let isOutputMatchesContext = await isOutputMatchesContextAsync(fcPort, InquiringOamRequestContext);
+            if (isOutputMatchesContext) {
+                operationClientUuid = fcPort["logical-termination-point"];
+                break;
+            }
 
-function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney) {
-    return new Promise(async function (resolve, reject) {
-        try {
-            let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindName);
-            let operationClientUuid = (getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance))[0];
-            let result = await eventDispatcher.dispatchEvent(
-                operationClientUuid,
-                attributeList,
-                user,
-                xCorrelator,
-                traceIndicator,
-                customerJourney
-            );
-
-
-            resolve(result);
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
-
-function getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance) {
-    let fcPortOutputLogicalTerminationPointList = [];
-    let fcPortList = forwardingConstructInstance[
-        onfAttributes.FORWARDING_CONSTRUCT.FC_PORT];
-    for (let i = 0; i < fcPortList.length; i++) {
-        let fcPort = fcPortList[i];
-        let fcPortPortDirection = fcPort[onfAttributes.FC_PORT.PORT_DIRECTION];
-        if (fcPortPortDirection == FcPort.portDirectionEnum.OUTPUT) {
-            let fclogicalTerminationPoint = fcPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT];
-            fcPortOutputLogicalTerminationPointList.push(fclogicalTerminationPoint);
         }
     }
-    return fcPortOutputLogicalTerminationPointList;
+    return operationClientUuid;
 }
+async function isOutputMatchesContextAsync(fcPort, context) {
+    let fcLogicalTerminationPoint = fcPort["logical-termination-point"];
+    let serverLtpList = await logicalTerminationPoint.getServerLtpListAsync(fcLogicalTerminationPoint);
+    let httpClientUuid = serverLtpList[0];
+    let applicationName = await httpClientInterface.getApplicationNameAsync(httpClientUuid);
+    let releaseNumber = await httpClientInterface.getReleaseNumberAsync(httpClientUuid);
+    return (context == (applicationName + releaseNumber));
+}
+

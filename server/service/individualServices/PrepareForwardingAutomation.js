@@ -8,7 +8,7 @@ const HttpServerInterface = require('onf-core-model-ap/applicationPattern/onfMod
 exports.regardApplication = function (logicalTerminationPointconfigurationStatus, forwardingConstructConfigurationStatus, applicationName, releaseNumber) {
     return new Promise(async function (resolve, reject) {
         let forwardingConstructAutomationList = [];
-        try {
+        try {      
             /***********************************************************************************
              * forwardings for application layer topology
              ************************************************************************************/
