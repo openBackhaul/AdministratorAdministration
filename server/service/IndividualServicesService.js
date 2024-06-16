@@ -20,6 +20,8 @@ const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/service
 const RegardApplication = require('./individualServices/RegardApplication')
 
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
+const AsyncLock = require('async-lock');
+const lock = new AsyncLock();
 
 /**
  * Checks authentication of an OaM request
@@ -410,62 +412,64 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
        * Prepare logicalTerminatinPointConfigurationInput object to
        * configure logical-termination-point
        ****************************************************************************************/
-      let httpClientUuid = await httpClientInterface.getHttpClientUuidExcludingOldReleaseAndNewRelease(
-        applicationName,
-        releaseNumber,
-        NEW_RELEASE_FORWARDING_NAME);
-      let ltpConfigurationInput = new LogicalTerminationPointConfigurationInput(
-        httpClientUuid,
-        applicationName,
-        releaseNumber,
-        tcpServerList,
-        operationServerName,
-        operationNamesByAttributes,
-        individualServicesOperationsMapping.individualServicesOperationsMapping
-      );
-      let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
-        ltpConfigurationInput
-      );
-
-      /****************************************************************************************
-       * Prepare attributes to configure forwarding-construct
-       ****************************************************************************************/
-
-      let forwardingConfigurationInputList = [];
-      let forwardingConstructConfigurationStatus;
-      let operationClientConfigurationStatusList = logicalTerminationPointconfigurationStatus.operationClientConfigurationStatusList;
-      if (operationClientConfigurationStatusList) {
-        forwardingConfigurationInputList = await prepareForwardingConfiguration.regardApplication(
-          operationClientConfigurationStatusList,
-          inquireOamRequestOperation,
-          inquireBasicAuthRequestOperation
+      await lock.acquire("regard application", async () => {
+        let httpClientUuid = await httpClientInterface.getHttpClientUuidExcludingOldReleaseAndNewRelease(
+          applicationName,
+          releaseNumber,
+          NEW_RELEASE_FORWARDING_NAME);
+        let ltpConfigurationInput = new LogicalTerminationPointConfigurationInput(
+          httpClientUuid,
+          applicationName,
+          releaseNumber,
+          tcpServerList,
+          operationServerName,
+          operationNamesByAttributes,
+          individualServicesOperationsMapping.individualServicesOperationsMapping
         );
-        forwardingConstructConfigurationStatus = await ForwardingConfigurationService.
-          configureForwardingConstructAsync(
-            operationServerName,
-            forwardingConfigurationInputList
-          );
-      }
+        let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
+          ltpConfigurationInput
+        );
 
-      /****************************************************************************************
-         * Prepare attributes to automate forwarding-construct
+        /****************************************************************************************
+         * Prepare attributes to configure forwarding-construct
          ****************************************************************************************/
 
-      let forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
-        logicalTerminationPointconfigurationStatus,
-        forwardingConstructConfigurationStatus,
-        applicationName,
-        releaseNumber
-      );
+        let forwardingConfigurationInputList = [];
+        let forwardingConstructConfigurationStatus;
+        let operationClientConfigurationStatusList = logicalTerminationPointconfigurationStatus.operationClientConfigurationStatusList;
+        if (operationClientConfigurationStatusList) {
+          forwardingConfigurationInputList = await prepareForwardingConfiguration.regardApplication(
+            operationClientConfigurationStatusList,
+            inquireOamRequestOperation,
+            inquireBasicAuthRequestOperation
+          );
+          forwardingConstructConfigurationStatus = await ForwardingConfigurationService.
+            configureForwardingConstructAsync(
+              operationServerName,
+              forwardingConfigurationInputList
+            );
+        }
 
-      await ForwardingAutomationService.automateForwardingConstructAsync(
-        operationServerName,
-        forwardingAutomationInputList,
-        user,
-        xCorrelator,
-        traceIndicator,
-        customerJourney
-      );
+        /****************************************************************************************
+           * Prepare attributes to automate forwarding-construct
+           ****************************************************************************************/
+
+        let forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
+          logicalTerminationPointconfigurationStatus,
+          forwardingConstructConfigurationStatus,
+          applicationName,
+          releaseNumber
+        );
+
+        await ForwardingAutomationService.automateForwardingConstructAsync(
+          operationServerName,
+          forwardingAutomationInputList,
+          user,
+          xCorrelator,
+          traceIndicator,
+          customerJourney
+        );
+      });
       let headers = { user, xCorrelator, traceIndicator, customerJourney }
       let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, headers);
       var response = {};
