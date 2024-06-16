@@ -13,7 +13,7 @@ module.exports.disposeRemaindersOfDeregisteredApplication = function disposeRema
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  BasicServices.disposeRemaindersOfDeregisteredApplication(body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  BasicServices.disposeRemaindersOfDeregisteredApplication(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -327,7 +327,7 @@ module.exports.UpdateClientOfSubsequentRelease = function UpdateClientOfSubseque
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  BasicServices.updateClientOfSubsequentRelease(body, user, xCorrelator, traceIndicator, customerJourney, req.url,NEW_RELEASE_FORWARDING_NAME)
+  BasicServices.updateClientOfSubsequentRelease(body, user, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
