@@ -28,14 +28,16 @@ var traceIncrementer = 1;
  * @param {String} customerJourney Holds information supporting customer’s journey to which the execution applies
  * @returns {Promise} Promise is resolved if the operation succeeded else the Promise is rejected
  * **/
+
 exports.upgradeSoftwareVersion = async function (user, xCorrelator, traceIndicator, customerJourney, _traceIncrementer) {
-    if (_traceIncrementer !== 0) {
-        traceIncrementer = _traceIncrementer;
+    if (traceIndicator == 0) {
+        traceIndicator = 1;
+    }else{
+        traceIndicator =_traceIncrementer
     }
     await PromptForBequeathingDataCausesTransferOfListOfApplications(user, xCorrelator, traceIndicator, customerJourney);
     await replaceOldReleaseWithNewRelease(user, xCorrelator, traceIndicator, customerJourney);
 }
-
 
 /**
  * This method performs the set of procedure to replace the old release with the new release
