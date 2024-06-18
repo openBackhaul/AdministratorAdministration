@@ -14,11 +14,11 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
 
     return new Promise(async function (resolve, reject) {
         try {
-            if(reqheaders.traceIndicator !== 0){
-                reqheaders.traceIndicatorIncrementer = reqheaders.traceIndicator;
-            }else{
-            reqheaders.traceIndicatorIncrementer = traceIndicatorIncrementer;
+            if(reqheaders.traceIndicator == 0){
+                reqheaders.traceIndicator = 1;
             }
+            reqheaders.traceIndicatorIncrementer = traceIndicatorIncrementer;
+            
             let maxwaitingperiod = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumWaitTimeToReceiveOperationKey")
             const opclinetUuid = await GetOperationClient(INQUIRE_FORWARDING_NAME, applicationName, releaseNumber)
             const CreateLinkForInquiringBasicAuthApprovalsrequest = await Regardapplicationcallback.CreateLinkForInquiringBasicAuthApprovals(applicationName, releaseNumber, reqheaders);
