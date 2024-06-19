@@ -8,7 +8,6 @@ var RestResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/ser
 var ExecutionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
-const OLD_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
 
 module.exports.embedYourself = async function embedYourself(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
@@ -53,25 +52,6 @@ module.exports.startApplicationInGenericRepresentation = async function startApp
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
   await BasicServices.startApplicationInGenericRepresentation(req.url)
-    .then(async function (responseBody) {
-      responseBodyToDocument = responseBody;
-      let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-      RestResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
-    })
-    .catch(async function (responseBody) {
-      let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
-      let sentResp = RestResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
-      responseCode = sentResp.code;
-      responseBodyToDocument = sentResp.body;
-    });
-  ExecutionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
-};
-
-module.exports.informAboutPrecedingRelease = async function informAboutPrecedingRelease (req, res, next, user, originator, xCorrelator, traceIndicator, customerJourney) {
-  let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.OK;
-  let responseBodyToDocument = {};
-  await BasicServices.informAboutPrecedingRelease(OLD_RELEASE_FORWARDING_NAME)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
