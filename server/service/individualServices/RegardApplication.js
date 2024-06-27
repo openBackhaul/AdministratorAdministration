@@ -32,7 +32,6 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
             else {
                 
                 let waitUntilOperationKeyIsUpdatedValue = await operationKeyUpdateNotificationService.waitUntilOperationKeyIsUpdated(opclinetUuid, time, maxwaitingperiod);
-                
                 if (!waitUntilOperationKeyIsUpdatedValue) {
                     result["client-successfully-added"] = false
                     result["reason-of-failure"] = "MAXIMUM_WAIT_TIME_TO_RECEIVE_OPERATION_KEY_EXCEEDED"
@@ -45,14 +44,15 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
                     else {
                         let attempt = 1;
                         let maximumattemp = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumNumberOfAttemptsToCreateLink")
-                        let FunctionRsult = async function (applicationName, releaseNumber, reqheaders) {
-                            let isLinkCreatedDetails = await Regardapplicationcallback.CreateLinkForApprovingBasicAuthRequests(applicationName, releaseNumber, reqheaders)
+                        let FunctionResult = async function (applicationName, releaseNumber, reqheaders) {                            
+                            let isLinkCreatedDetails = await Regardapplicationcallback.CreateLinkForApprovingBasicAuthRequests(
+                                applicationName, 
+                                releaseNumber, 
+                                reqheaders)
                             if ((attempt <= maximumattemp)
-                                && (isLinkCreatedDetails["client-successfully-added"] == false)
-                                && ((isLinkCreatedDetails["reason-of-failure"] == "ALT_SERVING_APPLICATION_RELEASE_NUMBER_UNKNOWN")
-                                    || (isLinkCreatedDetails["reason-of-failure"] == "ALT_SERVING_APPLICATION_NAME_UNKNOWN"))) {
+                                && (isLinkCreatedDetails["client-successfully-added"] == false)) {
                                 attempt++
-                                await FunctionRsult(applicationName, releaseNumber, reqheaders)
+                                await FunctionResult(applicationName, releaseNumber, reqheaders)
                             }
                             else if (isLinkCreatedDetails["client-successfully-added"] == false) {
                                 result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
@@ -69,7 +69,7 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
                             }
                             return result
                         }
-                        result = await FunctionRsult(applicationName, releaseNumber, reqheaders)
+                        result = await FunctionResult(applicationName, releaseNumber, reqheaders)
                     }
                 }
             }
@@ -77,7 +77,7 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
         } catch (error) {
             console.log(error);
             result["client-successfully-added"] = false;
-            result["reason-of-failure"] = 'AA_UNKNOWN';
+            result["reason-of-failure"] = 'UNKNOWN';
         }
         responseList = await FinalResult(result)
         resolve(responseList)
