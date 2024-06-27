@@ -6,6 +6,25 @@ var restResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/ser
 var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 var IndividualServices = require('../service/IndividualServicesService');
 
+module.exports.approveBasicAuthRequest = function approveBasicAuthRequest (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+  let startTime = process.hrtime();
+  let responseCode = responseCodeEnum.code.OK;
+  let responseBodyToDocument = {};
+  IndividualServices.approveBasicAuthRequest(body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  .then(async function (responseBody) {
+    responseBodyToDocument = responseBody;
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    restResponseBuilder.buildResponse(res, responseCode, responseBody, responseHeader);
+  })
+  .catch(async function (responseBody) {
+    let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
+    let sentResp = restResponseBuilder.buildResponse(res, undefined, responseBody, responseHeader);
+    responseCode = sentResp.code;
+    responseBodyToDocument = sentResp.body;
+  });
+executionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
+};
+
 module.exports.approveOamRequest = async function approveOamRequest(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
@@ -84,7 +103,7 @@ module.exports.listApplications = async function listApplications(req, res, next
 
 module.exports.regardApplication = async function regardApplication(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
-  let responseCode = responseCodeEnum.code.NO_CONTENT;
+  let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
   await IndividualServices.regardApplication(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url)
     .then(async function (responseBody) {
