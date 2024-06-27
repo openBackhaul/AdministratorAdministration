@@ -88,8 +88,6 @@ exports.RequestForInquiringBasicAuthApprovals = async function (applicationName,
                 reqheaders.customerJourney
             );
             resolve(result)
-
-
         }
 
         catch (error) {
@@ -124,10 +122,7 @@ exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationNam
                 reqheaders.customerJourney
 
             )
-
             resolve(response.data)
-
-
         }
 
         catch (error) {
