@@ -10,11 +10,11 @@ var ExecutionAndTraceService = require('onf-core-model-ap/applicationPattern/ser
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
 const OLD_RELEASE_FORWARDING_NAME = 'PromptForEmbeddingCausesRequestForBequeathingData';
 
-module.exports.disposeRemaindersOfDeregisteredApplication = function disposeRemaindersOfDeregisteredApplication (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.disposeRemaindersOfDeregisteredApplication = async function disposeRemaindersOfDeregisteredApplication (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  BasicServices.disposeRemaindersOfDeregisteredApplication(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
+  await BasicServices.disposeRemaindersOfDeregisteredApplication(body, user, originator, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -183,11 +183,11 @@ module.exports.informAboutReleaseHistoryInGenericRepresentation = async function
   ExecutionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.inquireBasicAuthRequestApprovals = function inquireBasicAuthRequestApprovals (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.inquireBasicAuthRequestApprovals = async function inquireBasicAuthRequestApprovals (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.NO_CONTENT;
   let responseBodyToDocument = {};
-  BasicServices.inquireBasicAuthRequestApprovals(body, user, xCorrelator, traceIndicator, customerJourney, req.url,NEW_RELEASE_FORWARDING_NAME)
+  await BasicServices.inquireBasicAuthRequestApprovals(body, user, xCorrelator, traceIndicator, customerJourney, req.url,NEW_RELEASE_FORWARDING_NAME)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
@@ -325,11 +325,11 @@ module.exports.registerYourself = async function registerYourself(req, res, next
   ExecutionAndTraceService.recordServiceRequest(xCorrelator, traceIndicator, user, originator, req.url, responseCode, req.body, responseBodyToDocument);
 };
 
-module.exports.UpdateClientOfSubsequentRelease = function UpdateClientOfSubsequentRelease (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.UpdateClientOfSubsequentRelease = async function UpdateClientOfSubsequentRelease (req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  BasicServices.updateClientOfSubsequentRelease(body, user, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
+  await BasicServices.updateClientOfSubsequentRelease(body, user, xCorrelator, traceIndicator, customerJourney, req.url, NEW_RELEASE_FORWARDING_NAME)
   .then(async function (responseBody) {
     responseBodyToDocument = responseBody;
     let responseHeader = await RestResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
