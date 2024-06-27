@@ -5,6 +5,8 @@ const Regardapplicationcallback = require('./regardapplicationcallback');
 const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const Integerprofile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/IntegerProfile')
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
+const operationKeyUpdateNotificationService = require('onf-core-model-ap/applicationPattern/onfModel/services/OperationKeyUpdateNotificationService');
+
 const INQUIRE_FORWARDING_NAME = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals"
 
 exports.RegardapplicationUpdate = async function (applicationName, releaseNumber, reqheaders) {
@@ -13,6 +15,8 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
     var traceIndicatorIncrementer = '1';
 
     return new Promise(async function (resolve, reject) {
+        let time = new Date()
+        operationKeyUpdateNotificationService.turnONNotificationChannel(time)
         try {
             if(reqheaders.traceIndicator == 0){
                 reqheaders.traceIndicator = 1;
@@ -26,60 +30,50 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
                 result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
             }
             else {
-                let time = new Date()
-                await OperationClientInterface.turnONNotificationChannel(time)
-                let waitUntilOperationKeyIsUpdatedValue = await OperationClientInterface.waitUntilOperationKeyIsUpdated(opclinetUuid, time, maxwaitingperiod);
-                await OperationClientInterface.turnOFFNotificationChannel(time)
+                
+                let waitUntilOperationKeyIsUpdatedValue = await operationKeyUpdateNotificationService.waitUntilOperationKeyIsUpdated(opclinetUuid, time, maxwaitingperiod);
+                
                 if (!waitUntilOperationKeyIsUpdatedValue) {
                     result["client-successfully-added"] = false
                     result["reason-of-failure"] = "MAXIMUM_WAIT_TIME_TO_RECEIVE_OPERATION_KEY_EXCEEDED"
                 }
                 else {
-
                     const RequestForInquiringBasicAuthApprovalsreq = await Regardapplicationcallback.RequestForInquiringBasicAuthApprovals(applicationName, releaseNumber, reqheaders)
                     if (!RequestForInquiringBasicAuthApprovalsreq) {
                         result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
                     }
                     else {
-                        let attempt = 1
+                        let attempt = 1;
+                        let maximumattemp = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumNumberOfAttemptsToCreateLink")
                         let FunctionRsult = async function (applicationName, releaseNumber, reqheaders) {
                             let isLinkCreatedDetails = await Regardapplicationcallback.CreateLinkForApprovingBasicAuthRequests(applicationName, releaseNumber, reqheaders)
-                            let maximumattemp = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumNumberOfAttemptsToCreateLink")
-
                             if ((attempt <= maximumattemp)
                                 && (isLinkCreatedDetails["client-successfully-added"] == false)
                                 && ((isLinkCreatedDetails["reason-of-failure"] == "ALT_SERVING_APPLICATION_RELEASE_NUMBER_UNKNOWN")
                                     || (isLinkCreatedDetails["reason-of-failure"] == "ALT_SERVING_APPLICATION_NAME_UNKNOWN"))) {
                                 attempt++
                                 await FunctionRsult(applicationName, releaseNumber, reqheaders)
-
                             }
                             else if (isLinkCreatedDetails["client-successfully-added"] == false) {
                                 result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
                             }
                             else {
-                                let time = new Date()
-                                const opclinetUuid = await GetOperationClient(INQUIRE_FORWARDING_NAME, applicationName, releaseNumber)
-                                await OperationClientInterface.turnONNotificationChannel(time)
-                                let waitUntilOperationKeyIsUpdatedValue = await OperationClientInterface.waitUntilOperationKeyIsUpdated(opclinetUuid, time, maxwaitingperiod);
-                                await OperationClientInterface.turnOFFNotificationChannel(time)
+                                const operationServerUuidOfApproveBasicAuthRequest = "aa-2-1-0-op-s-is-005";
+                                let waitUntilOperationKeyIsUpdatedValue = await operationKeyUpdateNotificationService.waitUntilOperationKeyIsUpdated(operationServerUuidOfApproveBasicAuthRequest, time, maxwaitingperiod);
                                 if (!waitUntilOperationKeyIsUpdatedValue) {
                                     result['client-successfully-added'] = false
                                     result["reason-of-failure"] = "MAXIMUM_WAIT_TIME_TO_RECEIVE_OPERATION_KEY_EXCEEDED"
-
                                 } else {
                                     result['client-successfully-added'] = true
                                 }
                             }
                             return result
                         }
-
                         result = await FunctionRsult(applicationName, releaseNumber, reqheaders)
-
                     }
                 }
             }
-
+            operationKeyUpdateNotificationService.turnOFFNotificationChannel(time)
         } catch (error) {
             console.log(error);
             result["client-successfully-added"] = false;
