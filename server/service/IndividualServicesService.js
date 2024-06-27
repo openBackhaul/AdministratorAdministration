@@ -399,6 +399,7 @@ exports.listApplications = async function () {
  **/
 exports.regardApplication = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
   return new Promise(async function (resolve, reject) {
+    let forwardingAutomationInputList = [];
     try {
       let applicationName = body["application-name"];
       let releaseNumber = body["release-number"];
@@ -454,7 +455,7 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
            * Prepare attributes to automate forwarding-construct
            ****************************************************************************************/
 
-        let forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
+        forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
           logicalTerminationPointconfigurationStatus,
           forwardingConstructConfigurationStatus,
           applicationName,
