@@ -6,7 +6,7 @@ var restResponseBuilder = require('onf-core-model-ap/applicationPattern/rest/ser
 var executionAndTraceService = require('onf-core-model-ap/applicationPattern/services/ExecutionAndTraceService');
 var IndividualServices = require('../service/IndividualServicesService');
 
-module.exports.approveBasicAuthRequest = function approveBasicAuthRequest(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+module.exports.approveBasicAuthRequest = async function approveBasicAuthRequest(req, res, next, body, user, originator, xCorrelator, traceIndicator, customerJourney) {
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
