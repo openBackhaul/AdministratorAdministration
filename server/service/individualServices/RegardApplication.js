@@ -12,15 +12,12 @@ const INQUIRE_FORWARDING_NAME = "RegardApplicationCausesSequenceForInquiringBasi
 exports.RegardapplicationUpdate = async function (applicationName, releaseNumber, reqheaders) {
     let result = {}
     let responseList;
-    var traceIndicatorIncrementer = '1';
+    var traceIndicatorIncrementer = reqheaders.lengthOftheForwarding +1;
 
     return new Promise(async function (resolve, reject) {
         let time = new Date()
         operationKeyUpdateNotificationService.turnONNotificationChannel(time)
         try {
-            if(reqheaders.traceIndicator == 0){
-                reqheaders.traceIndicator = 1;
-            }
             reqheaders.traceIndicatorIncrementer = traceIndicatorIncrementer;
             
             let maxwaitingperiod = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumWaitTimeToReceiveOperationKey")

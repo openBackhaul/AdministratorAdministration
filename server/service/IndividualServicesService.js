@@ -472,8 +472,8 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
         );
       });
       
-       traceIndicator= forwardingAutomationInputList.length
-      let headers = { user, xCorrelator, traceIndicator, customerJourney }
+       let lengthOftheForwarding = forwardingAutomationInputList.length
+      let headers = { user, xCorrelator, traceIndicator, customerJourney ,lengthOftheForwarding}
       let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, headers);
       var response = {};
       if (Result.sucess) {
