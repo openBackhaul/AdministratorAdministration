@@ -18,9 +18,7 @@ exports.RegardapplicationUpdate = async function (applicationName, releaseNumber
         let time = new Date()
         operationKeyUpdateNotificationService.turnONNotificationChannel(time)
         try {
-            if(reqheaders.traceIndicator == 0){
-                reqheaders.traceIndicator = 1;
-            }
+           
             reqheaders.traceIndicatorIncrementer = traceIndicatorIncrementer;
             
             let maxwaitingperiod = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumWaitTimeToReceiveOperationKey")
