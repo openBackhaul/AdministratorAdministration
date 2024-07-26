@@ -12,7 +12,6 @@ const tcpClientInterface = require('onf-core-model-ap/applicationPattern/onfMode
 const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const OperationServerInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationServerInterface');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/client/eventDispatcher');
 const ForwardingConstruct = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingConstruct');
@@ -294,15 +293,4 @@ function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, tr
             reject(error);
         }
     });
-}
-
-async function getOperationNamesOutOfForwardingKindNameAsync(forwardingKindNameOfTheBequeathOperation) {
-    let operationNamesList = [];
-    let forwardingConstruct = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindNameOfTheBequeathOperation);
-    let filteredFcPorts = await ForwardingConstruct.getOutputFcPortsAsync(forwardingConstruct.uuid);
-    for (let fcOutputPort of filteredFcPorts) {
-        let operationName = await operationClientInterface.getOperationNameAsync(fcOutputPort[onfAttributes.FC_PORT.LOGICAL_TERMINATION_POINT]);
-        operationNamesList.push(operationName);
-    }
-    return operationNamesList;
 }
