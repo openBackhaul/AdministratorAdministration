@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:18
 
 # Create app directory
 WORKDIR /home/openbackhaul/administratorAdministration
@@ -13,7 +13,7 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
-EXPOSE 3004
+EXPOSE 3028
 
 #Command to start the application
 CMD [ "node", "index.js" ]

@@ -17,8 +17,11 @@ const softwareUpgrade = require('./individualServices/SoftwareUpgrade');
 const AdministratorCredentialList = require('./individualServices/AuthorizationApplication');
 const createHttpError = require('http-errors');
 const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/services/models/TcpObject');
+const RegardApplication = require('./individualServices/RegardApplication')
 
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
+const AsyncLock = require('async-lock');
+const lock = new AsyncLock();
 
 /**
  * Checks authentication of an OaM request
@@ -46,33 +49,35 @@ exports.approveOamRequest = function (body) {
        ****************************************************************************************/
       let oamRequestIsApproved = false;
       let reasonOfObjection = "UNKNOWN";
-      let isApplicationExists = await httpClientInterface.isApplicationExists(applicationName);
-      if (isApplicationExists) {
-        let isReleaseExists = await httpClientInterface.isApplicationExists(applicationName, applicationReleaseNumber);
-        if (isReleaseExists) {
+      let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
+      let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
+      let isFileExist = isAuthorizationExists.isFileExit;
+      if (isAuthorizationExistValue && isFileExist) {
 
-          let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
-          let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
-          let isFileExist = isAuthorizationExists.isFileExit;
-          if (isAuthorizationExistValue && isFileExist) {
+        let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
+        if (isApplicationExists.isApplicationNameExit) {
+          let isReleaseExists = isApplicationExists.isReleaseNumberExit
+          if (isReleaseExists) {
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
 
-            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(authorization, method)
             if (isAuthorized) {
               oamRequestIsApproved = true;
-            } else {
+            }
+
+            else {
               reasonOfObjection = "METHOD_NOT_ALLOWED";
             }
           } else {
-            reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
+            reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
             if (!isFileExist) {
               reject(new createHttpError.InternalServerError("ApplicationData file does not exist"));
             }
           }
         } else {
-          reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
+          reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
         }
       } else {
-        reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
+        reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
       }
 
       var response = {};
@@ -80,12 +85,113 @@ exports.approveOamRequest = function (body) {
         response['application/json'] = {
           "oam-request-is-approved": oamRequestIsApproved
         };
-      } else {
+      }
+      else {
         response['application/json'] = {
           "reason-of-objection": reasonOfObjection,
           "oam-request-is-approved": oamRequestIsApproved
         };
       }
+
+
+      if (Object.keys(response).length > 0) {
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+/**
+ * Checks authentication of an OaM and basic service request
+ *
+ * body V1_approvebasicauthrequest_body 
+ * returns inline_response_200_2
+ **/
+exports.approveBasicAuthRequest = function (body) {
+  return new Promise(async function (resolve, reject) {
+    try {
+
+      /****************************************************************************************
+       * Setting up required local variables from the request body
+       ****************************************************************************************/
+      let applicationName = body["application-name"];
+      let applicationReleaseNumber = body["release-number"];
+      let authorization = body["Authorization"];
+      let method = body["method"];
+      let Operationname = body["operation-name"];
+
+      /****************************************************************************************
+       * Prepare logicalTerminatinPointConfigurationInput object to 
+       * configure logical-termination-point
+       ****************************************************************************************/
+      let oamRequestIsApproved = false;
+      let basicauthIsapproved = false;
+      let reasonOfObjection = "UNKNOWN";
+      let isAuthorizationExists = await AdministratorCredentialList.isAuthorizationExistAsync(authorization)
+      let isAuthorizationExistValue = isAuthorizationExists.isAuthorizationExist;
+      let isFileExist = isAuthorizationExists.isFileExit;
+      if (isAuthorizationExistValue && isFileExist) {
+
+        let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
+        if (isApplicationExists.isApplicationNameExit) {
+          let isReleaseExists = isApplicationExists.isReleaseNumberExit
+          if (isReleaseExists) {
+
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
+            if (isAuthorized) {
+              if (Operationname) {
+
+                let isOperaionExit = await AdministratorCredentialList.isOpeartionisExistAsync(applicationName, applicationReleaseNumber, Operationname, authorization)
+                if (isOperaionExit) {
+                  basicauthIsapproved = true
+                }
+                else {
+                  reasonOfObjection = "OPERATION_NAME_UNKNOWN"
+                }
+              } else {
+                oamRequestIsApproved = true;
+              }
+
+            }
+
+            else {
+              reasonOfObjection = "METHOD_NOT_ALLOWED";
+            }
+          } else {
+            reasonOfObjection = "RELEASE_NUMBER_UNKNOWN";
+            if (!isFileExist) {
+              reject(new createHttpError.InternalServerError("ApplicationData file does not exist"));
+            }
+          }
+        } else {
+          reasonOfObjection = "APPLICATION_NAME_UNKNOWN";
+        }
+      } else {
+        reasonOfObjection = "AUTHORIZATION_CODE_UNKNOWN";
+      }
+
+      var response = {};
+      if (oamRequestIsApproved) {
+        response['application/json'] = {
+          "oam-request-is-approved": oamRequestIsApproved
+        };
+      }
+      else if (basicauthIsapproved) {
+        response['application/json'] = {
+          "oam-request-is-approved": basicauthIsapproved
+        };
+      }
+      else {
+        response['application/json'] = {
+          "reason-of-objection": reasonOfObjection,
+          "oam-request-is-approved": oamRequestIsApproved
+        };
+      }
+
 
       if (Object.keys(response).length > 0) {
         resolve(response[Object.keys(response)[0]]);
@@ -225,7 +331,7 @@ exports.bequeathYourDataAndDie = function (body, user, originator, xCorrelator, 
  **/
 exports.disregardApplication = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
   let applicationName = body["application-name"];
-  let applicationReleaseNumber =  body["release-number"];
+  let applicationReleaseNumber = body["release-number"];
 
   let httpClientUuid = await httpClientInterface.getHttpClientUuidExcludingOldReleaseAndNewRelease(
     applicationName,
@@ -271,9 +377,11 @@ exports.disregardApplication = async function (body, user, originator, xCorrelat
  * returns List
  **/
 exports.listApplications = async function () {
-    const forwardingName = 'NewApplicationCausesRequestForInquiringOamRequestApprovals';
-    let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
-    return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
+
+  const forwardingName = 'RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals';
+  let applicationList = await LogicalTerminationPointServiceOfUtility.getAllApplicationList(forwardingName);
+  return onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(applicationList);
+
 }
 
 /**
@@ -288,71 +396,107 @@ exports.listApplications = async function () {
  * no response value expected for this operation
  **/
 exports.regardApplication = async function (body, user, originator, xCorrelator, traceIndicator, customerJourney, operationServerName) {
-  let applicationName = body["application-name"];
-  let releaseNumber = body["release-number"];
-  let tcpServerList = [new TcpObject(body["protocol"], body["address"], body["port"])];
-  let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
-  let operationNamesByAttributes = new Map();
-  operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
+  return new Promise(async function (resolve, reject) {
+    let forwardingAutomationInputList = [];
+    try {
+      let applicationName = body["application-name"];
+      let releaseNumber = body["release-number"];
+      let tcpServerList = [new TcpObject(body["protocol"], body["address"], body["port"])];
+      let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
+      let inquireBasicAuthRequestOperation = "/v1/inquire-basic-auth-approvals";
+      let operationNamesByAttributes = new Map();
+      operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
+      operationNamesByAttributes.set("inquire-basic-auth-approvals", inquireBasicAuthRequestOperation);
+      /****************************************************************************************
+       * Prepare logicalTerminatinPointConfigurationInput object to
+       * configure logical-termination-point
+       ****************************************************************************************/
+      await lock.acquire("regard application", async () => {
+        let httpClientUuid = await httpClientInterface.getHttpClientUuidExcludingOldReleaseAndNewRelease(
+          applicationName,
+          releaseNumber,
+          NEW_RELEASE_FORWARDING_NAME);
+        let ltpConfigurationInput = new LogicalTerminationPointConfigurationInput(
+          httpClientUuid,
+          applicationName,
+          releaseNumber,
+          tcpServerList,
+          operationServerName,
+          operationNamesByAttributes,
+          individualServicesOperationsMapping.individualServicesOperationsMapping
+        );
+        let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
+          ltpConfigurationInput
+        );
 
-  /****************************************************************************************
-   * Prepare logicalTerminatinPointConfigurationInput object to 
-   * configure logical-termination-point
-   ****************************************************************************************/
-  let httpClientUuid = await httpClientInterface.getHttpClientUuidExcludingOldReleaseAndNewRelease(
-    applicationName,
-    releaseNumber,
-    NEW_RELEASE_FORWARDING_NAME);
-  let ltpConfigurationInput = new LogicalTerminationPointConfigurationInput(
-    httpClientUuid,
-    applicationName,
-    releaseNumber,
-    tcpServerList,
-    operationServerName,
-    operationNamesByAttributes,
-    individualServicesOperationsMapping.individualServicesOperationsMapping
-  );
-  let logicalTerminationPointconfigurationStatus = await LogicalTerminationPointService.createOrUpdateApplicationLtpsAsync(
-    ltpConfigurationInput
-  );
+        /****************************************************************************************
+         * Prepare attributes to configure forwarding-construct
+         ****************************************************************************************/
 
-  /****************************************************************************************
-   * Prepare attributes to configure forwarding-construct
-   ****************************************************************************************/
+        let forwardingConfigurationInputList = [];
+        let forwardingConstructConfigurationStatus;
+        let operationClientConfigurationStatusList = logicalTerminationPointconfigurationStatus.operationClientConfigurationStatusList;
+        if (operationClientConfigurationStatusList) {
+          forwardingConfigurationInputList = await prepareForwardingConfiguration.regardApplication(
+            operationClientConfigurationStatusList,
+            inquireOamRequestOperation,
+            inquireBasicAuthRequestOperation
+          );
+          forwardingConstructConfigurationStatus = await ForwardingConfigurationService.
+            configureForwardingConstructAsync(
+              operationServerName,
+              forwardingConfigurationInputList
+            );
+        }
 
-  let forwardingConfigurationInputList = [];
-  let forwardingConstructConfigurationStatus;
-  let operationClientConfigurationStatusList = logicalTerminationPointconfigurationStatus.operationClientConfigurationStatusList;
+        /****************************************************************************************
+           * Prepare attributes to automate forwarding-construct
+           ****************************************************************************************/
 
-  if (operationClientConfigurationStatusList) {
-    forwardingConfigurationInputList = await prepareForwardingConfiguration.regardApplication(
-      operationClientConfigurationStatusList,
-      inquireOamRequestOperation
-    );
-    forwardingConstructConfigurationStatus = await ForwardingConfigurationService.
-      configureForwardingConstructAsync(
-        operationServerName,
-        forwardingConfigurationInputList
-      );
-  }
+        forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
+          logicalTerminationPointconfigurationStatus,
+          forwardingConstructConfigurationStatus,
+          applicationName,
+          releaseNumber
+        );
 
-  /****************************************************************************************
-   * Prepare attributes to automate forwarding-construct
-   ****************************************************************************************/
-  let forwardingAutomationInputList = await prepareForwardingAutomation.regardApplication(
-    logicalTerminationPointconfigurationStatus,
-    forwardingConstructConfigurationStatus,
-    applicationName,
-    releaseNumber
-  );
-  ForwardingAutomationService.automateForwardingConstructAsync(
-    operationServerName,
-    forwardingAutomationInputList,
-    user,
-    xCorrelator,
-    traceIndicator,
-    customerJourney
-  );
+        await ForwardingAutomationService.automateForwardingConstructAsync(
+          operationServerName,
+          forwardingAutomationInputList,
+          user,
+          xCorrelator,
+          traceIndicator,
+          customerJourney
+        );
+      });
+      
+       let lengthOftheForwarding = forwardingAutomationInputList.length
+      let headers = { user, xCorrelator, traceIndicator, customerJourney ,lengthOftheForwarding}
+      let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, headers);
+      var response = {};
+      if (Result.sucess) {
+        response['application/json'] = {
+          "successfully-connected": true
+        };
+      }
+      else {
+        response['application/json'] = {
+          "successfully-connected": false,
+          "reason-of-failure": Result.reasonforFaliure
+        };
+      }
+
+      if (Object.keys(response).length > 0) {
+        console.log(response[Object.keys(response)])
+        resolve(response[Object.keys(response)[0]]);
+      } else {
+        resolve();
+      }
+    }
+    catch (error) {
+      reject(error);
+    }
+  });
 }
 
 /****************************************************************************************
