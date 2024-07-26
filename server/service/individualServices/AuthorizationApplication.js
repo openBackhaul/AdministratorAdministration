@@ -218,11 +218,6 @@ exports.isOpeartionisExistAsync = async function (applicationName, applicationRe
     }
 }
 
-
-
-
-
-
 exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, authorization) {
     let isApplicationNameExit = false
     let isReleaseNumberExit = false
@@ -246,12 +241,7 @@ exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, a
 
                             }
                         }
-
-
-
                     }
-
-
                 }
             }
         }
@@ -260,7 +250,7 @@ exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, a
             isReleaseNumberExit
         }
     } catch (err) {
-
+        console.log(err);
     }
 }
 
