@@ -2,7 +2,6 @@ const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 let logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint')
 const HttpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
 const Regardapplicationcallback = require('./regardapplicationcallback');
-const OperationClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/OperationClientInterface');
 const Integerprofile = require('onf-core-model-ap/applicationPattern/onfModel/models/profile/IntegerProfile')
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const operationKeyUpdateNotificationService = require('onf-core-model-ap/applicationPattern/onfModel/services/OperationKeyUpdateNotificationService');
@@ -12,49 +11,44 @@ const INQUIRE_FORWARDING_NAME = "RegardApplicationCausesSequenceForInquiringBasi
 exports.RegardapplicationUpdate = async function (applicationName, releaseNumber, reqheaders) {
     let result = {}
     let responseList;
-    var traceIndicatorIncrementer = reqheaders.lengthOftheForwarding +1;
+    var traceIndicatorIncrementer = reqheaders.lengthOftheForwarding + 1;
 
-    return new Promise(async function (resolve, reject) {
+    return new Promise(async function (resolve) {
         let time = new Date()
         operationKeyUpdateNotificationService.turnONNotificationChannel(time)
         try {
             reqheaders.traceIndicatorIncrementer = traceIndicatorIncrementer;
-            
+
             let maxwaitingperiod = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumWaitTimeToReceiveOperationKey")
             const opclinetUuid = await GetOperationClient(INQUIRE_FORWARDING_NAME, applicationName, releaseNumber)
             const CreateLinkForInquiringBasicAuthApprovalsrequest = await Regardapplicationcallback.CreateLinkForInquiringBasicAuthApprovals(applicationName, releaseNumber, reqheaders);
             if (CreateLinkForInquiringBasicAuthApprovalsrequest["client-successfully-added"] == false) {
                 result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
-            }
-            else {
-                
+            } else {
+
                 let waitUntilOperationKeyIsUpdatedValue = await operationKeyUpdateNotificationService.waitUntilOperationKeyIsUpdated(opclinetUuid, time, maxwaitingperiod);
                 if (!waitUntilOperationKeyIsUpdatedValue) {
                     result["client-successfully-added"] = false
                     result["reason-of-failure"] = "MAXIMUM_WAIT_TIME_TO_RECEIVE_OPERATION_KEY_EXCEEDED"
-                }
-                else {
+                } else {
                     const RequestForInquiringBasicAuthApprovalsreq = await Regardapplicationcallback.RequestForInquiringBasicAuthApprovals(applicationName, releaseNumber, reqheaders)
                     if (!RequestForInquiringBasicAuthApprovalsreq) {
                         result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
-                    }
-                    else {
+                    } else {
                         let attempt = 1;
                         let maximumattemp = await Integerprofile.getIntegerValueForTheIntegerProfileNameAsync("maximumNumberOfAttemptsToCreateLink")
-                        let FunctionResult = async function (applicationName, releaseNumber, reqheaders) {                            
+                        let FunctionResult = async function (applicationName, releaseNumber, reqheaders) {
                             let isLinkCreatedDetails = await Regardapplicationcallback.CreateLinkForApprovingBasicAuthRequests(
-                                applicationName, 
-                                releaseNumber, 
+                                applicationName,
+                                releaseNumber,
                                 reqheaders)
-                            if ((attempt <= maximumattemp)
-                                && (isLinkCreatedDetails["client-successfully-added"] == false)) {
+                            if ((attempt <= maximumattemp) &&
+                                (isLinkCreatedDetails["client-successfully-added"] == false)) {
                                 attempt++
                                 await FunctionResult(applicationName, releaseNumber, reqheaders)
-                            }
-                            else if (isLinkCreatedDetails["client-successfully-added"] == false) {
+                            } else if (isLinkCreatedDetails["client-successfully-added"] == false) {
                                 result = await InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
-                            }
-                            else {
+                            } else {
                                 const operationServerUuidOfApproveBasicAuthRequest = "aa-2-1-0-op-s-is-005";
                                 let waitUntilOperationKeyIsUpdatedValue = await operationKeyUpdateNotificationService.waitUntilOperationKeyIsUpdated(operationServerUuidOfApproveBasicAuthRequest, time, maxwaitingperiod);
                                 if (!waitUntilOperationKeyIsUpdatedValue) {
@@ -95,8 +89,7 @@ async function InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
         } else {
             return (CreateLinkForInquiringOamApprovalsrequest)
         }
-    }
-    else {
+    } else {
         return CreateLinkForInquiringOamApprovalsrequest
     }
 }
@@ -104,14 +97,10 @@ async function InquiringOamApprovals(applicationName, releaseNumber, reqheaders)
 
 
 async function FinalResult(Response) {
-
-
     let RegardSuccessful = {}
-
     if (Response['client-successfully-added'] == true) {
         RegardSuccessful.sucess = true
-    }
-    else {
+    } else {
         RegardSuccessful.sucess = false
         RegardSuccessful.reasonforFaliure = `AA_${Response['reason-of-failure']}`
     }
@@ -119,13 +108,11 @@ async function FinalResult(Response) {
         if (Response.status.toString().startsWith("5")) {
             RegardSuccessful.success = false,
                 RegardSuccessful.reasonforFaliure = "AA_UNKNOWN";
-        }
-        else if (Response.status.toString().startsWith("4")) {
+        } else if (Response.status.toString().startsWith("4")) {
             RegardSuccessful.success = false,
                 RegardSuccessful.reasonforFaliure = "AA_NOT_REACHABLE";
         }
     }
-
     return RegardSuccessful;
 }
 
@@ -149,6 +136,3 @@ async function GetOperationClient(forwardingName, applicationName, releaseNumber
     }
     return undefined;
 }
-
-
-

@@ -111,7 +111,7 @@ exports.approveOamRequest = function (body) {
  * body V1_approvebasicauthrequest_body 
  * returns inline_response_200_2
  **/
-exports.approveBasicAuthRequest = function (body, user, originator, xCorrelator, traceIndicator, customerJourney) {
+exports.approveBasicAuthRequest = function (body) {
   return new Promise(async function (resolve, reject) {
     try {
 
@@ -123,8 +123,6 @@ exports.approveBasicAuthRequest = function (body, user, originator, xCorrelator,
       let authorization = body["Authorization"];
       let method = body["method"];
       let Operationname = body["operation-name"];
-
-
 
       /****************************************************************************************
        * Prepare logicalTerminatinPointConfigurationInput object to 

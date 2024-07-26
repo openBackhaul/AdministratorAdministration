@@ -2,7 +2,6 @@
  * @file This module provides functionality to  check  Authorization Status 
  * @module AuthorizationApplication
  **/
-const { error, profile } = require('console');
 const fs = require('fs');
 const administratorList = 'administrator-credential-list';
 const allowedSccess = "allowed-access";
@@ -13,7 +12,7 @@ const FileprofileOperation = require('onf-core-model-ap/applicationPattern/onfMo
  * @description This function returns the approval status for the provided application .
  * @param {String} authorization : authorization code of the user , value should be Bse64 Encoding of username and password 
  * @returns {promise} string {approvalStatus}
-**/
+ **/
 exports.isAuthorizationExistAsync = async function (authorization) {
     let isAuthorizationExist = false;
     let isFileExit = false;
@@ -38,7 +37,10 @@ exports.isAuthorizationExistAsync = async function (authorization) {
                 }
             }
         }
-        return { isAuthorizationExist, isFileExit }
+        return {
+            isAuthorizationExist,
+            isFileExit
+        }
     } catch (error) {
         console.log(error);
     }
@@ -50,7 +52,7 @@ exports.isAuthorizationExistAsync = async function (authorization) {
  * @param {String} authorization : authorization code of the user , value should be Bse64 Encoding of username and password 
  * @param {String} allowedMethodsValue: allowedMethodsValue allowed methods as per the allowedMethodsEnum.
  * @returns string {approvalStatus}
-**/
+ **/
 exports.isAuthorizedAsync = async function (applicationName, applicationReleaseNumber, authorization, allowedMethods) {
     try {
         let applicationDataFile = await FileprofileOperation.getApplicationDataFileContent()
@@ -103,14 +105,14 @@ exports.isOpeartionisExistAsync = async function (applicationName, applicationRe
                             let isOperationNameStartswithcore = _allowedOperation.match(/(:control-construct)+/g)
                             if (isOperationNameStartswithnewtwork && isallowedOperationNameStartswithnewtwork) {
                                 let stringarray = []
-                                let mountname = operationName.match(/(?<=construct=)(\w)+/g)
+                                let mountname = operationName.match(/(?<=construct=)(\w)+/g);
                                 if (mountname) {
                                     stringarray.push(mountname[0])
                                 }
-                                let regFormatchingequal = operationName.match(/(?<==)[a-zA-Z0-9\-]+/g)
+                                let regFormatchingequal = operationName.match(/(?<==)[a-zA-Z0-9\-]+/g);
                                 if (regFormatchingequal) {
                                     for (let i = 0; i <= regFormatchingequal.length - 1; i++) {
-                                        let values = regFormatchingequal[i].match(/[a-zA-Z0-9]+(-[a-zA-Z0-9]+)+/g)
+                                        let values = regFormatchingequal[i].match(/[a-zA-Z0-9]+(-[a-zA-Z0-9]+)+/g);
                                         if (values) {
                                             stringarray.push(values)
                                         }
@@ -121,13 +123,11 @@ exports.isOpeartionisExistAsync = async function (applicationName, applicationRe
                                 for (let i = 0; i < pathParamMatches.length; i++) {
                                     _allowedOperation = _allowedOperation.replace(pathParamMatches[i], stringarray[i])
                                 }
-                                let starval = _allowedOperation.match(/([*])/g)
+                                let starval = _allowedOperation.match(/([*])/g);
                                 if (operationName == _allowedOperation) {
                                     isoperationExit = true;
                                     break;
-                                }
-
-                                else if (starval) {
+                                } else if (starval) {
                                     let newval = _allowedOperation.split(starval[0])
                                     let lengthofval = newval[0].length
                                     let finalstr = operationName.substring(0, lengthofval)
@@ -137,21 +137,18 @@ exports.isOpeartionisExistAsync = async function (applicationName, applicationRe
                                     } else {
                                         isoperationExit = false;
                                     }
-                                }
-                                else {
+                                } else {
                                     isoperationExit = false;
                                 }
-                            }
-                            else if (isOperationNameStartswithcore && isallowedOperationNameStartswithCore) {
+                            } else if (isOperationNameStartswithcore && isallowedOperationNameStartswithCore) {
                                 let uuid = []
                                 let uuidList;
-                                uuidList = operationName.match(/(?<=profile=)[a-zA-Z0-9\-]+/g)
+                                uuidList = operationName.match(/(?<=profile=)[a-zA-Z0-9\-]+/g);
                                 if (!uuidList) {
-                                    uuidList = operationName.match(/(?<=point=)[a-zA-Z0-9\-]+/g)
+                                    uuidList = operationName.match(/(?<=point=)[a-zA-Z0-9\-]+/g);
                                 }
-
-                                uuid.push(uuidList)
-                                uuid.flat(1)
+                                uuid.push(uuidList);
+                                uuid.flat(1);
 
                                 let allowedoperation = _allowedOperation.match(/(:control-construct)+/g)
 
@@ -167,9 +164,7 @@ exports.isOpeartionisExistAsync = async function (applicationName, applicationRe
                                     if (operationName == _allowedOperation) {
                                         isoperationExit = true;
                                         break;
-                                    }
-
-                                    else if (starval) {
+                                    } else if (starval) {
                                         let newval = _allowedOperation.split(starval[0])
                                         let lengthofval = newval[0].length
                                         let finalstr = operationName.substring(0, lengthofval)
@@ -182,22 +177,19 @@ exports.isOpeartionisExistAsync = async function (applicationName, applicationRe
 
                                         }
 
-                                    }
-                                    else {
+                                    } else {
                                         isoperationExit = false;
                                     }
 
                                 }
 
-                            }
-                            else {
+                            } else {
 
                                 let starval = _allowedOperation.match(/([*])/g)
                                 if (operationName == _allowedOperation) {
                                     isoperationExit = true;
                                     break;
-                                }
-                                else if (starval) {
+                                } else if (starval) {
                                     let newval = _allowedOperation.split(starval[0])
                                     let lengthofval = newval[0].length
                                     let finalstr = operationName.substring(0, lengthofval)
@@ -263,18 +255,19 @@ exports.IsApplicationExists = async function (applicationaName, ReleaseNumber, a
                 }
             }
         }
-        return { isApplicationNameExit, isReleaseNumberExit }
-    }
-    catch (err) {
+        return {
+            isApplicationNameExit,
+            isReleaseNumberExit
+        }
+    } catch (err) {
 
     }
 }
 
 async function ApplicationandReleaseNumber(applicationaName, ReleaseNumber, authorization) {
-    let isApplicationNameExit = {}
-
+    let isApplicationNameExit = {};
     try {
-        let applicationDataFile = await FileprofileOperation.getApplicationDataFileContent()
+        let applicationDataFile = await FileprofileOperation.getApplicationDataFileContent();
         if (applicationDataFile !== undefined) {
             let applicationData = JSON.parse(fs.readFileSync(applicationDataFile, 'utf8'));
             if (applicationData[administratorList]) {
@@ -287,19 +280,14 @@ async function ApplicationandReleaseNumber(applicationaName, ReleaseNumber, auth
                         let _applicationName = ApplicationNameandreleaseList["application-name"]
                         let _releaseNumber = ApplicationNameandreleaseList["release-number"]
                         if (_authorization == authorization && (_applicationName == applicationaName || _applicationName == "*" || _applicationName == "ALL") && (_releaseNumber == ReleaseNumber || _releaseNumber == "*" || _releaseNumber == "ALL")) {
-                            isApplicationNameExit = ApplicationNameandreleaseList
+                            isApplicationNameExit = ApplicationNameandreleaseList;
                         }
-
                     }
-
-
                 }
             }
         }
-        return isApplicationNameExit
-    }
-    catch (err) {
-
-    }
+    } catch (err) {
+        console.log(err);
+    }    
+    return isApplicationNameExit;
 }
-6
