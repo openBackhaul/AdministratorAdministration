@@ -8,19 +8,13 @@ const ForwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/
 const onfAttributeFormatter = require('onf-core-model-ap/applicationPattern/onfModel/utility/OnfAttributeFormatter');
 const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/client/eventDispatcher');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
-const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/constants/OnfAttributes');
-const HttpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
 const forwardingConstructAutomationInput = require('onf-core-model-ap/applicationPattern/onfModel/services/models/forwardingConstruct/AutomationInput');
 const httpClientInterface = require('onf-core-model-ap/applicationPattern/onfModel/models/layerProtocols/HttpClientInterface');
 const logicalTerminationPoint = require('onf-core-model-ap/applicationPattern/onfModel/models/LogicalTerminationPoint');
 
-const ForwardingAutomationService = require('onf-core-model-ap/applicationPattern/onfModel/services/ForwardingConstructAutomationServices');
-
-
 exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
-            let result;
             let InquiringOamRequestCreateLinkForwardingName = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.CreateLinkForInquiringBasicAuthApprovals";
             let InquiringOamRequestCreateLinkRequestBody = {};
 
@@ -44,11 +38,8 @@ exports.CreateLinkForInquiringBasicAuthApprovals = async function (applicationNa
                 reqheaders.customerJourney
 
             )
-
             resolve(response.data)
-
         }
-
         catch (error) {
             reject(error);
         }
@@ -99,7 +90,6 @@ exports.RequestForInquiringBasicAuthApprovals = async function (applicationName,
 exports.CreateLinkForApprovingBasicAuthRequests = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
-            let result;
             let CreateLinkForApprovingBasicAuthRequestsForwardingName = "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.CreateLinkForApprovingBasicAuthRequests";
             let CreateLinkForApprovingBasicAuthRequestsApproveRequestBody = {};
             CreateLinkForApprovingBasicAuthRequestsApproveRequestBody.servingApplicationName = await HttpServerInterface.getApplicationNameAsync();
@@ -155,13 +145,8 @@ exports.CreateLinkForInquiringOamApprovals = async function (applicationName, re
                 reqheaders.xCorrelator,
                 reqheaders.traceIndicator + "." + reqheaders.traceIndicatorIncrementer++,
                 reqheaders.customerJourney
-
             )
-
-
             resolve(response.data)
-
-
         }
 
         catch (error) {
@@ -173,7 +158,6 @@ exports.CreateLinkForInquiringOamApprovals = async function (applicationName, re
 exports.RequestForInquiringOamApprovals = async function (applicationName, releaseNumber, reqheaders) {
     return new Promise(async function (resolve, reject) {
         try {
-            let result;
             let CreateLinkForApprovingBasicAuthRequestsForwardingName = "RegardApplicationCausesSequenceForInquiringOamRequestApprovals.RequestForInquiringOamApprovals";
             let InquiringOamRequestContext = applicationName + releaseNumber;
             let InquiringOamRequestRequestBody = {};
@@ -195,7 +179,7 @@ exports.RequestForInquiringOamApprovals = async function (applicationName, relea
             forwardingConstructAutomationList.push(forwardingAutomation);
             let operationClientUuid = await operationuuid(forwardingConstructAutomationList, InquiringOamRequestContext)
 
-            response = await eventDispatcher.dispatchEvent(
+            let response = await eventDispatcher.dispatchEvent(
                 operationClientUuid,
                 InquiringOamRequestRequestBody,
                 reqheaders.user,
@@ -206,12 +190,8 @@ exports.RequestForInquiringOamApprovals = async function (applicationName, relea
                 undefined,
                 true
             );
-
             resolve(response)
-
-
         }
-
         catch (error) {
             reject(error);
         }
@@ -225,7 +205,7 @@ exports.CreateLinkForApprovingOamRequests = async function (applicationName, rel
             let InquiringOamRequestCreateLinkForApproveRequestBody = {};
             InquiringOamRequestCreateLinkForApproveRequestBody.servingApplicationName = await HttpServerInterface.getApplicationNameAsync();
             InquiringOamRequestCreateLinkForApproveRequestBody.servingApplicationReleaseNumber = await HttpServerInterface.getReleaseNumberAsync();
-            InquiringOamRequestCreateLinkForApproveRequestBody.operationName = await operationServerInterface.getOperationNameAsync("aa-2-1-0-op-s-is-004");;
+            InquiringOamRequestCreateLinkForApproveRequestBody.operationName = await operationServerInterface.getOperationNameAsync("aa-2-1-0-op-s-is-004");
             InquiringOamRequestCreateLinkForApproveRequestBody.consumingApplicationName = applicationName
             InquiringOamRequestCreateLinkForApproveRequestBody.consumingApplicationReleaseNumber = releaseNumber
             InquiringOamRequestCreateLinkForApproveRequestBody = onfAttributeFormatter.modifyJsonObjectKeysToKebabCase(InquiringOamRequestCreateLinkForApproveRequestBody);
@@ -242,12 +222,8 @@ exports.CreateLinkForApprovingOamRequests = async function (applicationName, rel
                 reqheaders.customerJourney
 
             )
-
             resolve(response.data)
-
-
         }
-
         catch (error) {
             reject(error);
         }

@@ -10,7 +10,7 @@ module.exports.approveBasicAuthRequest = async function approveBasicAuthRequest(
   let startTime = process.hrtime();
   let responseCode = responseCodeEnum.code.OK;
   let responseBodyToDocument = {};
-  IndividualServices.approveBasicAuthRequest(body, user, originator, xCorrelator, traceIndicator, customerJourney)
+  IndividualServices.approveBasicAuthRequest(body)
     .then(async function (responseBody) {
       responseBodyToDocument = responseBody;
       let responseHeader = await restResponseHeader.createResponseHeader(xCorrelator, startTime, req.url);
