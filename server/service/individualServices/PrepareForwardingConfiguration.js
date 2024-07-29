@@ -3,7 +3,7 @@ const operationClientInterface = require('onf-core-model-ap/applicationPattern/o
 const forwardingDomain = require('onf-core-model-ap/applicationPattern/onfModel/models/ForwardingDomain');
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 
-exports.regardApplication = function (operationClientConfigurationStatusList, inquireOamRequestOperation) {
+exports.regardApplication = function (operationClientConfigurationStatusList, inquireOamRequestOperation,inquireBasicAuthRequestOperation) {
     return new Promise(async function (resolve, reject) {
         let forwardingConfigurationInputList = [];
         try {
@@ -16,7 +16,7 @@ exports.regardApplication = function (operationClientConfigurationStatusList, in
                 let forwardingName;
                 if (operationClientName == inquireOamRequestOperation) {
                     forwardingName =
-                        "NewApplicationCausesRequestForInquiringOamRequestApprovals";
+                        "RegardApplicationCausesSequenceForInquiringOamRequestApprovals.RequestForInquiringOamApprovals";
                     forwardingConfigurationInput = new forwardingConstructConfigurationInput(
                         forwardingName,
                         operationClientUuid
@@ -25,7 +25,20 @@ exports.regardApplication = function (operationClientConfigurationStatusList, in
                         forwardingConfigurationInput
                     );
                 }
-            }
+                 if (operationClientName == inquireBasicAuthRequestOperation) {
+                    forwardingName =
+                        "RegardApplicationCausesSequenceForInquiringBasicAuthRequestApprovals.RequestForInquiringBasicAuthApprovals";
+                    forwardingConfigurationInput = new forwardingConstructConfigurationInput(
+                        forwardingName,
+                        operationClientUuid
+                    );
+                    forwardingConfigurationInputList.push(
+                        forwardingConfigurationInput
+                    );
+                }
+            
+        }
+
             resolve(forwardingConfigurationInputList);
         } catch (error) {
             reject(error);
