@@ -27,10 +27,8 @@ var traceIncrementer = 1;
  * **/
 
 exports.upgradeSoftwareVersion = async function (user, xCorrelator, traceIndicator, customerJourney, _traceIncrementer) {
-    if (traceIndicator == 0) {
-        traceIndicator = 1;
-    }else{
-        traceIndicator =_traceIncrementer
+    if (_traceIncrementer !== 0) {
+        traceIncrementer = _traceIncrementer;
     }
     await PromptForBequeathingDataCausesTransferOfListOfApplications(user, xCorrelator, traceIndicator, customerJourney);
     await replaceOldReleaseWithNewRelease(user, xCorrelator, traceIndicator, customerJourney);
