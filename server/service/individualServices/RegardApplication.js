@@ -180,7 +180,6 @@ exports.getStringValueAndPattern = async function (stringProfilename) {
         let stringProfilePac = profile[onfAttributes.STRING_PROFILE.PAC]
         let stringProfileCapability = stringProfilePac[onfAttributes.STRING_PROFILE.CAPABILITY]
         let stringName = stringProfileCapability[onfAttributes.STRING_PROFILE.STRING_NAME]
-        let stringProfilePattern = stringProfileCapability[onfAttributes.STRING_PROFILE.PATTERN]
         let StringProfileConfiguration = stringProfilePac[onfAttributes.STRING_PROFILE.CONFIGURATION]
         stringValue = StringProfileConfiguration[onfAttributes.STRING_PROFILE.STRING_VALUE]
         if (stringName == stringProfilename) {

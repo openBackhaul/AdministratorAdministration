@@ -107,7 +107,7 @@ exports.isOpeartionisExistAsync = async function (applicationName, operationName
                                 if (mountname) {
                                     stringarray.push(mountname[0])
                                 }
-                                let regFormatchingequal = operationName.match(/(?<==)[a-zA-Z0-9\-]+/g);
+                                let regFormatchingequal = operationName.match(/(?<==)[a-zA-Z0-9-]+/g);
                                 if (regFormatchingequal) {
                                     for (let i = 0; i <= regFormatchingequal.length - 1; i++) {
                                         let values = regFormatchingequal[i].match(/[a-zA-Z0-9]+(-[a-zA-Z0-9]+)+/g);
@@ -141,9 +141,9 @@ exports.isOpeartionisExistAsync = async function (applicationName, operationName
                             } else if (isOperationNameStartswithcore && isallowedOperationNameStartswithCore) {
                                 let uuid = []
                                 let uuidList;
-                                uuidList = operationName.match(/(?<=profile=)[a-zA-Z0-9\-\{\}]+/g);
+                                uuidList = operationName.match(/(?<=profile=)[a-zA-Z0-9-{}]+/g);
                                 if (!uuidList) {
-                                    uuidList = operationName.match(/(?<=point=)[a-zA-Z0-9\-\{\}]+/g);
+                                    uuidList = operationName.match(/(?<=point=)[a-zA-Z0-9-{}]+/g);
                                 }
                                 uuid.push(uuidList);
                                 uuid.flat(1);
