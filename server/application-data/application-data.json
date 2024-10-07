@@ -7,7 +7,6 @@
   "allowed-access": [
     {
       "application-name": "ApplicationName",
-      "release-number": "1.0.0",
       "allowed-operations": [
           "/core-model-1-4:network-control-domain=cache/control-construct={mountName}*",
           "/core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-capability",
@@ -19,7 +18,6 @@
   },
   {
     "application-name": "ApplicationName",
-    "release-number": "1.0.0",
     "allowed-operations": [
         "/core-model-1-4:network-control-domain=live/control-construct={mount-name}/alarms-1-0:alarm-pac/alarm-capability={uuid}"
     ],
@@ -35,7 +33,6 @@
   "allowed-access": [
       {
           "application-name": "ApplicationName",
-          "release-number": "1.0.0",
           "allowed-operations": [
               "/core-model-1-4:network-control-domain=cache/control-construct={mountName}*",
               "/core-model-1-4:network-control-domain=live/control-construct={mountName}/alarms-1-0:alarm-pac/alarm-capability",
