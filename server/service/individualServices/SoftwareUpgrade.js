@@ -14,6 +14,7 @@ const onfAttributes = require('onf-core-model-ap/applicationPattern/onfModel/con
 const FcPort = require('onf-core-model-ap/applicationPattern/onfModel/models/FcPort');
 const eventDispatcher = require('onf-core-model-ap/applicationPattern/rest/client/eventDispatcher');
 var traceIncrementer = 1;
+var isResponseRequired = false;
 
 /**
  * This method performs the set of procedure to transfer the data from this version to next version 
@@ -27,11 +28,9 @@ var traceIncrementer = 1;
  * **/
 
 exports.upgradeSoftwareVersion = async function (user, xCorrelator, traceIndicator, customerJourney, _traceIncrementer) {
-    if (traceIndicator == 0) {
-        traceIndicator = 1;
-    }else{
-        traceIndicator =_traceIncrementer
-    }
+        if (_traceIncrementer !== 0) {
+            traceIncrementer = _traceIncrementer;
+        }
     await PromptForBequeathingDataCausesTransferOfListOfApplications(user, xCorrelator, traceIndicator, customerJourney);
     await replaceOldReleaseWithNewRelease(user, xCorrelator, traceIndicator, customerJourney);
 }
@@ -90,6 +89,7 @@ async function PromptForBequeathingDataCausesTransferOfListOfApplications(user, 
                      *   /v1/regard-application
                      ************************************************************************************/
                     let requestBody = {};
+                    isResponseRequired = true;
                     requestBody.applicationName = applicationName;
                     requestBody.releaseNumber = releaseNumber;
                     requestBody.Address = applicationAddress;
@@ -102,9 +102,10 @@ async function PromptForBequeathingDataCausesTransferOfListOfApplications(user, 
                         user,
                         xCorrelator,
                         traceIndicator + "." + traceIncrementer++,
-                        customerJourney
+                        customerJourney,
+                        isResponseRequired 
                     );
-                    if (!result) {
+                    if ((result.data && result.data["successfully-connected"] == false) || (!result.statusCode.toString().startsWith("2") )) {
                         throw forwardingKindNameOfTheBequeathOperation + "forwarding is not success for the input" + JSON.stringify(requestBody);
                     }
 
@@ -273,7 +274,7 @@ function getFcPortOutputLogicalTerminationPointList(forwardingConstructInstance)
  * @param {string} traceIndicator trace indicator of the request
  * @param {string} customerJourney customer journey of the request
  **/
-function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney) {
+function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, traceIndicator, customerJourney,isResponseRequired) {
     return new Promise(async function (resolve, reject) {
         try {
             let forwardingConstructInstance = await ForwardingDomain.getForwardingConstructForTheForwardingNameAsync(forwardingKindName);
@@ -284,7 +285,10 @@ function forwardRequest(forwardingKindName, attributeList, user, xCorrelator, tr
                 user,
                 xCorrelator,
                 traceIndicator,
-                customerJourney
+                customerJourney,
+                "POST",
+                undefined,
+                isResponseRequired
             );
             resolve(result);
         } catch (error) {

@@ -18,7 +18,6 @@ const AdministratorCredentialList = require('./individualServices/AuthorizationA
 const createHttpError = require('http-errors');
 const TcpObject = require('onf-core-model-ap/applicationPattern/onfModel/services/models/TcpObject');
 const RegardApplication = require('./individualServices/RegardApplication')
-
 const NEW_RELEASE_FORWARDING_NAME = 'PromptForBequeathingDataCausesTransferOfListOfApplications';
 const AsyncLock = require('async-lock');
 const lock = new AsyncLock();
@@ -54,11 +53,11 @@ exports.approveOamRequest = function (body) {
       let isFileExist = isAuthorizationExists.isFileExit;
       if (isAuthorizationExistValue && isFileExist) {
 
-        let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
-        if (isApplicationExists.isApplicationNameExit) {
-          let isReleaseExists = isApplicationExists.isReleaseNumberExit
+        let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName,applicationReleaseNumber, authorization)
+        if (isApplicationExists.isApplicationNameExist) {
+          let isReleaseExists = isApplicationExists.isReleaseNumberExist
           if (isReleaseExists) {
-            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, authorization, method)
 
             if (isAuthorized) {
               oamRequestIsApproved = true;
@@ -137,15 +136,15 @@ exports.approveBasicAuthRequest = function (body) {
       if (isAuthorizationExistValue && isFileExist) {
 
         let isApplicationExists = await AdministratorCredentialList.IsApplicationExists(applicationName, applicationReleaseNumber, authorization)
-        if (isApplicationExists.isApplicationNameExit) {
-          let isReleaseExists = isApplicationExists.isReleaseNumberExit
+        if (isApplicationExists.isApplicationNameExist) {
+          let isReleaseExists = isApplicationExists.isReleaseNumberExist
           if (isReleaseExists) {
 
-            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, applicationReleaseNumber, authorization, method)
+            let isAuthorized = await AdministratorCredentialList.isAuthorizedAsync(applicationName, authorization, method)
             if (isAuthorized) {
               if (Operationname) {
 
-                let isOperaionExit = await AdministratorCredentialList.isOpeartionisExistAsync(applicationName, applicationReleaseNumber, Operationname, authorization)
+                let isOperaionExit = await AdministratorCredentialList.isOpeartionisExistAsync(applicationName, Operationname, authorization)
                 if (isOperaionExit) {
                   basicauthIsapproved = true
                 }
@@ -403,7 +402,8 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
       let releaseNumber = body["release-number"];
       let tcpServerList = [new TcpObject(body["protocol"], body["address"], body["port"])];
       let inquireOamRequestOperation = "/v1/inquire-oam-request-approvals";
-      let inquireBasicAuthRequestOperation = "/v1/inquire-basic-auth-approvals";
+      let stringProfile = await RegardApplication.getStringValueAndPattern('NameOfOperationForInquiringApprovals')
+      let inquireBasicAuthRequestOperation = stringProfile.stringValue
       let operationNamesByAttributes = new Map();
       operationNamesByAttributes.set("inquire-oam-request-approvals", inquireOamRequestOperation);
       operationNamesByAttributes.set("inquire-basic-auth-approvals", inquireBasicAuthRequestOperation);
@@ -469,12 +469,12 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
           customerJourney
         );
       });
-      
-       let lengthOftheForwarding = forwardingAutomationInputList.length
-      let headers = { user, xCorrelator, traceIndicator, customerJourney ,lengthOftheForwarding}
+
+      let lengthOftheForwarding = forwardingAutomationInputList.length
+      let headers = { user, xCorrelator, traceIndicator, customerJourney, lengthOftheForwarding }
       let Result = await RegardApplication.RegardapplicationUpdate(applicationName, releaseNumber, headers);
       var response = {};
-      if (Result.sucess) {
+      if (Result.successfullyConnected) {
         response['application/json'] = {
           "successfully-connected": true
         };
@@ -482,23 +482,22 @@ exports.regardApplication = async function (body, user, originator, xCorrelator,
       else {
         response['application/json'] = {
           "successfully-connected": false,
-          "reason-of-failure": Result.reasonforFaliure
+          "reason-of-failure": Result.reasonForFailure
         };
       }
 
       if (Object.keys(response).length > 0) {
-        console.log(response[Object.keys(response)])
         resolve(response[Object.keys(response)[0]]);
       } else {
         resolve();
       }
     }
+
     catch (error) {
       reject(error);
     }
   });
 }
-
 /****************************************************************************************
  * Functions utilized by individual services
  ****************************************************************************************/
